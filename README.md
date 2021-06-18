@@ -118,14 +118,17 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/CityRoute/Web-App-CityRoute.git
    ```
 3. Install NPM packages
    ```sh
-   npm install
+   yarn install
+   ```
+4. Install pip requirements & activate shell
+   ```sh
+   pipenv install --dev && pipenv shell
    ```
 4. Enter your API in `config.js`
    ```JS
