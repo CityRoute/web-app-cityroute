@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VueDemo from '@/components/VueDemo'
-import Messages from '@/components/Messages'
+import VueDemo from "@/views/VueDemo";
+import Messages from '@/views/Messages'
 
 Vue.use(Router)
 
