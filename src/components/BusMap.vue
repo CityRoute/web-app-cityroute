@@ -1,6 +1,8 @@
 <template>
   <div class="map-container">
+
     <div id="map"></div>
+
     <v-card id="MapOptions">
       <v-tabs>
         <v-tab>
@@ -21,16 +23,16 @@
           </v-icon>
           Stop Finder
         </v-tab>
+        <v-tab>
+          <v-icon left>
+            mdi-eye-off
+          </v-icon>
+        </v-tab>
 
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <input
-                id="locationInput"
-                class="controls"
-                type="text"
-                placeholder="Search Box"
-              />
+
               <v-text-field
                 v-model="origin"
                 label="Origin"
@@ -50,53 +52,53 @@
                 @click:append="toggleMarker"
               ></v-text-field>
               <date-picker v-model="time2" type="datetime"></date-picker>
-              <v-btn block>
+              <v-btn   @click="showRoute();">
                 Get Directions
               </v-btn>
+                  <v-bottom-sheet
+      v-model="sheet"
+      inset
+         hide-overlay
+    no-click-animation
+    scrollable
+    persistent
+    
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="orange"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Show Directions
+        </v-btn>
+
+      </template>
+                    <v-card>
+        <v-card-text style="height: 300px;">
+
+        <v-btn
+          class="mt-6"
+          text
+          color="error"
+          @click="sheet = !sheet"
+        >
+          close
+        </v-btn>
+          <div id="card"></div>
+                  </v-card-text >
+
+      </v-card>
+    </v-bottom-sheet>
+
             </v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <p>
-                Morbi nec metus. Suspendisse faucibus, nunc et pellentesque
-                egestas, lacus ante convallis tellus, vitae iaculis lacus elit
-                id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum
-                aliquam libero, non adipiscing dolor urna a orci. Curabitur
-                ligula sapien, tincidunt non, euismod vitae, posuere imperdiet,
-                leo. Nunc sed turpis.
-              </p>
-
-              <p>
-                Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque
-                egestas, lacus ante convallis tellus, vitae iaculis lacus elit
-                id tortor. Proin viverra, ligula sit amet ultrices semper,
-                ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In
-                hac habitasse platea dictumst. Fusce ac felis sit amet ligula
-                pharetra condimentum.
-              </p>
-
-              <p>
-                Sed consequat, leo eget bibendum sodales, augue velit cursus
-                nunc, quis gravida magna mi a libero. Nam commodo suscipit quam.
-                In consectetuer turpis ut velit. Sed cursus turpis vitae tortor.
-                Aliquam eu nunc.
-              </p>
-
-              <p>
-                Etiam ut purus mattis mauris sodales aliquam. Ut varius
-                tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce
-                fermentum odio nec arcu.
-              </p>
-
-              <p class="mb-0">
-                Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In
-                dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed,
-                iaculis a, condimentum nec, nisi.
-              </p>
-            </v-card-text>
+            <!-- <div   class="card">
+            </div> -->
           </v-card>
         </v-tab-item>
         <v-tab-item>
@@ -119,11 +121,15 @@
           </v-card>
         </v-tab-item>
       </v-tabs>
+
     </v-card>
+
   </div>
 </template>
 
 <script>
+import $ from "jquery";
+
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import InfoWindowComponent from "./InfoWindow.vue";
@@ -136,6 +142,82 @@ var InfoWindow = Vue.extend(InfoWindowComponent);
 //   },
 // });
 import stops from "../assets/stops.json";
+function offsetMap() {
+  if (routeBounds !== false) {
+    // Clear listener defined in directions results
+    google.maps.event.clearListeners(map, "idle");
+
+    // Top right corner
+    var topRightCorner = new google.maps.LatLng(
+      map
+        .getBounds()
+        .getNorthEast()
+        .lat(),
+      map
+        .getBounds()
+        .getNorthEast()
+        .lng()
+    );
+
+    // Top right point
+    var topRightPoint = fromLatLngToPoint(topRightCorner).x;
+
+    // Get pixel position of leftmost and rightmost points
+    var leftCoords = routeBounds.getSouthWest();
+    var leftMost = fromLatLngToPoint(leftCoords).x;
+    var rightMost = fromLatLngToPoint(routeBounds.getNorthEast()).x;
+
+    // Calculate left and right offsets
+    var leftOffset = overlayWidth - leftMost;
+    var rightOffset = topRightPoint - rightMargin - rightMost;
+
+    // Only if left offset is needed
+    if (leftOffset >= 0) {
+      if (leftOffset < rightOffset) {
+        var mapOffset = Math.round((rightOffset - leftOffset) / 2);
+
+        // Pan the map by the offset calculated on the x axis
+        map.panBy(-mapOffset, 0);
+
+        // Get the new left point after pan
+        var newLeftPoint = fromLatLngToPoint(leftCoords).x;
+
+        if (newLeftPoint <= overlayWidth) {
+          // Leftmost point is still under the overlay
+          // Offset map again
+          offsetMap();
+        }
+      } else {
+        // Cannot offset map at this zoom level otherwise both leftmost and rightmost points will not fit
+        // Zoom out and offset map again
+        map.setZoom(map.getZoom() - 1);
+        offsetMap();
+      }
+    }
+  }
+}
+
+function fromLatLngToPoint(latLng) {
+  var scale = Math.pow(2, map.getZoom());
+  var nw = new google.maps.LatLng(
+    map
+      .getBounds()
+      .getNorthEast()
+      .lat(),
+    map
+      .getBounds()
+      .getSouthWest()
+      .lng()
+  );
+  var worldCoordinateNW = map.getProjection().fromLatLngToPoint(nw);
+  var worldCoordinate = map.getProjection().fromLatLngToPoint(latLng);
+
+  return new google.maps.Point(
+    Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+    Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+  );
+}
+
 function bindInfoWindow(marker, map, infowindow, html) {
   marker.addListener("click", function() {
     infowindow.setContent(html);
@@ -143,87 +225,187 @@ function bindInfoWindow(marker, map, infowindow, html) {
   });
 }
 
+let directionsService = new google.maps.DirectionsService();
+let routeBounds = false;
+let overlayWidth = 200;
+var leftMargin = 30; // Grace margin to avoid too close fits on the edge of the overlay
+var rightMargin = 80;
 export default {
   name: "BusMap",
   computed: {},
   data: () => ({
-    map: null,
     mapCenter: (0, 0),
     origin: "",
     destination: "",
     time2: null,
+    sheet: false,
   }),
   methods: {
-    initMap() {
-      this.map = new google.maps.Map(document.getElementById("map"), {
-        center: new google.maps.LatLng(53.3498, -6.2603),
-        zoom: 14,
-        mapTypeId: "roadmap",
-      });
+    toggleMarker() {},
+    showRoute() {
+      this.sheet = true;
+      let locationOrigin = $("#locationOrigin").val();
+      let locationDestination = $("#locationDestination").val();
+      console.log(locationOrigin);
+      console.log(locationDestination);
 
-      var icon = {
-        url: require("@/assets/busstop.png"), // url
-        scaledSize: new google.maps.Size(12.5, 25), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0), // anchor
-      };
-      var markers = [];
-      var new_infowindows = [];
-      var instances = [];
-      for (var key of Object.keys(stops)) {
-        var myLatLng = {
-          lat: parseFloat(stops[key].stop_lat),
-          lng: parseFloat(stops[key].stop_lon),
-        };
-        console.log(stops[key].stop_lon);
-        markers[key] = new google.maps.Marker({
-          position: new google.maps.LatLng(
-            parseFloat(stops[key].stop_lat),
-            parseFloat(stops[key].stop_lon)
-          ),
-          map: this.map,
-          title: stops[key].stop_name,
-          icon: icon,
-          id: key,
-        });
-        // instances[key] = new InfoWindow({
-        //   propsData: {
-        //     content: "This displays as info-window content!",
-        //   },
-        // });
-
-        new_infowindows[key] = new google.maps.InfoWindow({
-          // content: ,
-        });
-        bindInfoWindow(
-          markers[key],
-          this.map,
-          new_infowindows[key],
-          "<h1>" + stops[key].stop_name + "</h1>"
-        );
-
-        google.maps.event.addListener(markers[key], "click", function() {
-          new_infowindows[key].open(map, markers[key]);
-        });
-        EventBus.$emit("map", this.map);
-        // instances[key].$mount();
+      this.calcRoute(locationOrigin, locationDestination);
+    },
+    calcRoute(start, end) {
+      if (Array.isArray(start)) {
+        start = new google.maps.LatLng(start[0], start[1]);
+      }
+      if (Array.isArray(end)) {
+        end = new google.maps.LatLng(end[0], end[1]);
       }
 
-      // new_infowindow.open(this.map, marker);
+      // console.log(start);
+      let after_directions_latlng = end;
+      let travel_mode = "DRIVING";
+      var request = {
+        origin: start,
+        destination: end,
+        travelMode: travel_mode,
+        drivingOptions: {
+          departureTime: new Date(),
+          trafficModel: "pessimistic",
+        },
+      };
 
-      // let element = this.$refs["locationOrigin"].$el;
-      // element = element.querySelector("input");
-      let element = document.getElementById("locationInput");
-      console.log(element);
-      this.autocomplete = new google.maps.places.SearchBox(element);
+      directionsService.route(request, function(response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+          directionsDisplay.setMap(map);
+          console.log($("#card").length);
+
+          $("#card").append(
+            "" +
+              "            <div class='card' id=\"overlay\">\n" +
+              "                <span id='close'\n" +
+              "                      onClick='this.parentNode.parentNode.removeChild(this.parentNode);  return false;'>x</span>\n" +
+              '                <div id="overlayContent"></div>\n' +
+              "            </div>\n"
+          );
+          $("#close").on("click", function() {
+            directionsDisplay.setMap(null);
+            directionsDisplay.setPanel(null);
+            map.setZoom(15);
+            map.setCenter(after_directions_latlng);
+          });
+
+          directionsDisplay.setPanel(document.getElementById("overlayContent"));
+
+          // Define route bounds for use in offsetMap function
+          routeBounds = response.routes[0].bounds;
+
+          // Write directions steps
+
+          // Wait for map to be idle before calling offsetMap function
+          google.maps.event.addListener(map, "idle", function() {
+            // Offset map
+            offsetMap();
+          });
+
+          // Listen for directions changes to update bounds and reapply offset
+          google.maps.event.addListener(
+            directionsDisplay,
+            "directions_changed",
+            function() {
+              // Get the updated route directions response
+              var updatedResponse = directionsDisplay.getDirections();
+
+              // Update route bounds
+              routeBounds = updatedResponse.routes[0].bounds;
+              // console.log(routeBounds);
+              // Fit updated bounds
+              map.fitBounds(routeBounds);
+
+              // Write directions steps
+
+              // Offset map
+              offsetMap();
+            }
+          );
+        }
+      });
     },
-    toggleMarker() {},
   },
   mounted() {
-    this.initMap();
+    initMap();
   },
   components: { DatePicker },
 };
+let directionsDisplay;
+let map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: new google.maps.LatLng(53.3498, -6.2603),
+    zoom: 14,
+    mapTypeId: "roadmap",
+  });
+  directionsDisplay = new google.maps.DirectionsRenderer({
+    draggable: true,
+    map,
+    panel: document.getElementById("card"),
+  });
+  directionsDisplay.setMap(map);
+
+  var icon = {
+    url: require("@/assets/busstop.png"), // url
+    scaledSize: new google.maps.Size(12.5, 25), // scaled size
+    origin: new google.maps.Point(0, 0), // origin
+    anchor: new google.maps.Point(0, 0), // anchor
+  };
+  var markers = [];
+  var new_infowindows = [];
+  var instances = [];
+  for (var key of Object.keys(stops)) {
+    var myLatLng = {
+      lat: parseFloat(stops[key].stop_lat),
+      lng: parseFloat(stops[key].stop_lon),
+    };
+    // console.log(stops[key].stop_lon);
+    markers[key] = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        parseFloat(stops[key].stop_lat),
+        parseFloat(stops[key].stop_lon)
+      ),
+      map: map,
+      title: stops[key].stop_name,
+      icon: icon,
+      id: key,
+    });
+    // instances[key] = new InfoWindow({
+    //   propsData: {
+    //     content: "This displays as info-window content!",
+    //   },
+    // });
+
+    // new_infowindows[key] = new google.maps.InfoWindow({
+    // content: ,
+    // });
+    // bindInfoWindow(
+    //   markers[key],
+    //   map,
+    //   new_infowindows[key],
+    //   "<h1>" + stops[key].stop_name + "</h1>"
+    // );
+
+    // google.maps.event.addListener(markers[key], "click", function() {
+    //   new_infowindows[key].open(map, markers[key]);
+    // });
+    // EventBus.$emit("map", map);
+    // instances[key].$mount();
+  }
+
+  // new_infowindow.open(this.map, marker);
+
+  // let element = this.$refs["locationOrigin"].$el;
+  // element = element.querySelector("input");
+  // let element = document.getElementById("locationInput");
+  // console.log(element);
+  // this.autocomplete = new google.maps.places.SearchBox(element);
+}
 </script>
 
 <style>
