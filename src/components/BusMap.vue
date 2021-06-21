@@ -40,7 +40,7 @@
                 outlined
                 clearable
                 append-icon="mdi-map-marker"
-                @click:append="toggleMarker"
+                @click:append="currentLocation('origin')"
               ></v-text-field>
               <v-text-field
                 v-model="destination"
@@ -49,7 +49,7 @@
                 outlined
                 clearable
                 append-icon="mdi-map-marker"
-                @click:append="toggleMarker"
+                @click:append="currentLocation('destination')"
               ></v-text-field>
               <date-picker v-model="time"         :open.sync="open"
     placeholder="Select date & time"
@@ -117,22 +117,8 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              <p>
-                Fusce a quam. Phasellus nec sem in justo pellentesque facilisis.
-                Nam eget dui. Proin viverra, ligula sit amet ultrices semper,
-                ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In
-                dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-              </p>
-
-              <p class="mb-0">
-                Cras sagittis. Phasellus nec sem in justo pellentesque
-                facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut,
-                mi. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                quis, sem. Nam at tortor in tellus interdum sagittis.
-              </p>
-            </v-card-text>
-          </v-card>
+<BusStopSearch></BusStopSearch>          
+</v-card>
         </v-tab-item>
       </v-tabs>
 
@@ -144,7 +130,8 @@
 <script>
 import $ from "jquery";
 import VCalendar from "v-calendar";
-
+import axios from "axios";
+import BusStopSearch from "./BusStopSearch.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import InfoWindowComponent from "./InfoWindow.vue";
@@ -233,6 +220,92 @@ function fromLatLngToPoint(latLng) {
   );
 }
 
+const trackLocation = ({ onSuccess, onError = () => {} }) => {
+  // Omitted for brevity
+
+  return navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+  });
+};
+const getPositionErrorMessage = (code) => {
+  switch (code) {
+    case 1:
+      return "Permission denied.";
+    case 2:
+      return "Position unavailable.";
+    case 3:
+      return "Timeout reached.";
+    default:
+      return null;
+  }
+};
+// https://stackoverflow.com/questions/24952593/how-to-add-my-location-button-in-google-maps
+function addYourLocationButton(map) {
+  var controlDiv = document.createElement("div");
+
+  var firstChild = document.createElement("button");
+  firstChild.style.backgroundColor = "#fff";
+  firstChild.style.border = "none";
+  firstChild.style.outline = "none";
+  firstChild.style.width = "28px";
+  firstChild.style.height = "28px";
+  firstChild.style.borderRadius = "2px";
+  firstChild.style.boxShadow = "0 1px 4px rgba(0,0,0,0.3)";
+  firstChild.style.cursor = "pointer";
+  firstChild.style.marginRight = "10px";
+  firstChild.style.padding = "0";
+  firstChild.title = "Your Location";
+  controlDiv.appendChild(firstChild);
+
+  var secondChild = document.createElement("div");
+  secondChild.style.margin = "5px";
+  secondChild.style.width = "18px";
+  secondChild.style.height = "18px";
+  secondChild.style.backgroundImage =
+    "url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-2x.png)";
+  secondChild.style.backgroundSize = "180px 18px";
+  secondChild.style.backgroundPosition = "0 0";
+  secondChild.style.backgroundRepeat = "no-repeat";
+  firstChild.appendChild(secondChild);
+
+  google.maps.event.addListener(map, "center_changed", function() {
+    secondChild.style["background-position"] = "0 0";
+  });
+
+  firstChild.addEventListener("click", function() {
+    var imgX = 0,
+      animationInterval = setInterval(function() {
+        imgX = -imgX - 18;
+        secondChild.style["background-position"] = imgX + "px 0";
+      }, 500);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var latlng = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        myLatLng = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        map.setCenter(latlng);
+        clearInterval(animationInterval);
+        secondChild.style["background-position"] = "-144px 0";
+      });
+    } else {
+      clearInterval(animationInterval);
+      secondChild.style["background-position"] = "0 0";
+    }
+  });
+
+  controlDiv.index = 1;
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+}
+
 function bindInfoWindow(marker, map, infowindow, html) {
   marker.addListener("click", function() {
     infowindow.setContent(html);
@@ -264,7 +337,54 @@ export default {
       }
     },
 
-    toggleMarker() {},
+    currentLocation(textBox) {
+      trackLocation({
+        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+          let current_marker = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            map,
+          });
+          current_marker.setPosition({ lat, lng });
+          map.panTo({ lat, lng });
+          myLatLng = { lat: lat, lng: lng };
+          geocoder.geocode({ location: myLatLng }, (results, status) => {
+            if (status === "OK") {
+              if (results[0]) {
+                map.setZoom(11);
+                const marker = new google.maps.Marker({
+                  position: myLatLng,
+                  map: map,
+                });
+              } else {
+                window.alert("No results found");
+              }
+            } else {
+              window.alert("Geocoder failed due to: " + status);
+            }
+            if (textBox === "origin") {
+              this.origin = results[0].formatted_address;
+            } else {
+              this.destination = results[0].formatted_address;
+            }
+          });
+
+          // Print out the user's location.
+          // $info.textContent = `Current Location Found!`;
+          // // Don't forget to remove any error class name.
+          // $info.classList.remove("error");
+          // $info.classList.add("success");
+        },
+        onError: (err) => {
+          // Print out the error message.
+          // $info.textContent = `Error: ${getPositionErrorMessage(err.code) ||
+          //   err.message}`;
+          // // Add error class name.
+          // $info.classList.add("error");
+          // $info.classList.remove("success");
+        },
+      });
+    },
     sampleFun() {
       const inputOrigin = document.getElementById("locationOrigin");
       const inputDestination = document.getElementById("locationDestination");
@@ -389,22 +509,53 @@ export default {
   mounted() {
     initMap();
   },
-  components: { DatePicker },
+  components: { DatePicker, BusStopSearch },
 };
 let directionsDisplay;
 let map;
+let myLatLng = { lat: 53.3531, lng: -6.258 };
+let geocoder = null;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(53.3498, -6.2603),
     zoom: 14,
     mapTypeId: "roadmap",
   });
+  addYourLocationButton(map);
+  geocoder = new google.maps.Geocoder();
+
   directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
     map,
     panel: document.getElementById("card"),
   });
   directionsDisplay.setMap(map);
+  trackLocation({
+    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+      let current_marker = new google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        map,
+      });
+      current_marker.setPosition({ lat, lng });
+      map.panTo({ lat, lng });
+      myLatLng = { lat: lat, lng: lng };
+
+      // Print out the user's location.
+      // $info.textContent = `Current Location Found!`;
+      // // Don't forget to remove any error class name.
+      // $info.classList.remove("error");
+      // $info.classList.add("success");
+    },
+    onError: (err) => {
+      // Print out the error message.
+      // $info.textContent = `Error: ${getPositionErrorMessage(err.code) ||
+      //   err.message}`;
+      // // Add error class name.
+      // $info.classList.add("error");
+      // $info.classList.remove("success");
+    },
+  });
 
   var icon = {
     url: require("@/assets/busstop.png"), // url
