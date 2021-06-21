@@ -51,7 +51,22 @@
                 append-icon="mdi-map-marker"
                 @click:append="toggleMarker"
               ></v-text-field>
-              <date-picker v-model="time2" type="datetime"></date-picker>
+              <date-picker v-model="time"         :open.sync="open"
+    placeholder="Select date & time"
+ type="datetime" close-on-complete format="DD, MMM - hh:mm"
+></date-picker>
+<!-- <div>
+<v-date-picker v-model="date" mode="dateTime" is24hr>
+  <template v-slot="{ inputValue, inputEvents }">
+    <input
+      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+      :value="inputValue"
+      v-on="inputEvents"
+    />
+  </template>
+</v-date-picker>
+</div> -->
+
               <v-btn   @click="showRoute();">
                 Get Directions
               </v-btn>
@@ -61,7 +76,6 @@
          hide-overlay
     no-click-animation
     scrollable
-    persistent
     
     >
       <template v-slot:activator="{ on, attrs }">
@@ -129,6 +143,7 @@
 
 <script>
 import $ from "jquery";
+import VCalendar from "v-calendar";
 
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
@@ -237,12 +252,52 @@ export default {
     mapCenter: (0, 0),
     origin: "",
     destination: "",
-    time2: null,
+    time: null,
+    open: false,
     sheet: false,
+    date: "new Date()",
   }),
   methods: {
+    hideDateTimePicker(value, type) {
+      if (type === "minute") {
+        this.open = false;
+      }
+    },
+
     toggleMarker() {},
+    sampleFun() {
+      const inputOrigin = document.getElementById("locationOrigin");
+      const inputDestination = document.getElementById("locationDestination");
+
+      const options = {
+        componentRestrictions: { country: "ie" },
+        fields: ["formatted_address", "geometry", "name"],
+        origin: map.getCenter(),
+        strictBounds: false,
+        types: ["establishment"],
+      };
+      const autocompleteOrigin = new google.maps.places.Autocomplete(
+        inputOrigin,
+        options
+      );
+      const autocompleteDestination = new google.maps.places.Autocomplete(
+        inputDestination,
+        options
+      );
+      map.addListener("bounds_changed", () => {
+        autocompleteOrigin.setBounds(map.getBounds());
+      });
+      map.addListener("bounds_changed", () => {
+        autocompleteDestination.setBounds(map.getBounds());
+      });
+
+      inputOrigin.placeholder = "";
+      inputDestination.placeholder = "";
+    },
+
     showRoute() {
+      console.log(this.time);
+      this.sampleFun();
       this.sheet = true;
       let locationOrigin = $("#locationOrigin").val();
       let locationDestination = $("#locationDestination").val();
@@ -267,10 +322,11 @@ export default {
         destination: end,
         travelMode: travel_mode,
         drivingOptions: {
-          departureTime: new Date(),
+          departureTime: new Date(this.time),
           trafficModel: "pessimistic",
         },
       };
+      console.log(Date(this.time));
 
       directionsService.route(request, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
