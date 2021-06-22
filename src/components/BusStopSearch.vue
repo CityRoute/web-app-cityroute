@@ -21,6 +21,7 @@
         :loading="isLoading"
         :search-input.sync="search"
         color="white"
+        @change="showSchedule()"
         hide-no-data
         hide-selected
         item-text="Description"
@@ -33,23 +34,47 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
-      <v-list
-        v-if="model"
-        class="blue lighten-3"
-      >
-        <v-list-item
-          v-for="(field, i) in fields"
-          :key="i"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="field.value"></v-list-item-title>
-            <v-list-item-subtitle v-text="field.key"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+        <div v-if="!isFetching && info && model">
+          <v-data-table  v-if="model" :headers="headers" :items="info" :items-per-page="5"
+    class="elevation-1">
+  </v-data-table>
+    </div>
+
     </v-expand-transition>
     <v-card-actions>
       <v-spacer></v-spacer>
+                  <v-btn
+        :disabled="!model"
+        color="yellow darken-3"
+        @click="showSchedule"
+      >
+        Schedule
+        <v-icon right>
+          mdi-clock
+        </v-icon>
+      </v-btn>
+
+            <v-btn
+        :disabled="!model"
+        color="green darken-3"
+        @click="saveToFavourites"
+      >
+        Save to Favourites
+        <v-icon right>
+          mdi-star
+        </v-icon>
+      </v-btn>
+      <v-btn
+        :disabled="!model"
+        color="blue darken-3"
+        @click="showOnMap"
+      >
+        Show on Map
+        <v-icon right>
+          mdi-map
+        </v-icon>
+      </v-btn>
+
       <v-btn
         :disabled="!model"
         color="grey darken-3"
@@ -66,17 +91,49 @@
 
 <script>
 import stops from "../assets/stops.json";
-
+import axios from "axios";
 export default {
   name: "BusStopSearch",
   data: () => ({
+    headers: [
+      {
+        text: "Route",
+        align: "start",
+        sortable: false,
+        value: "Route",
+      },
+      { text: "Destination", value: "Destination" },
+      { text: "Expected Time", value: "Expected_Time" },
+    ],
     descriptionLimit: 60,
     entries: [],
     isLoading: false,
     model: null,
     search: null,
+    isFetching: true,
   }),
+  methods: {
+    showOnMap() {},
+    saveToFavourites() {},
+    showSchedule() {
+      this.isFetching = true;
+      let stop_desc = this.model.Description + "";
+      console.log(stop_desc);
 
+      stop_desc = stop_desc.split(" ");
+      console.log(stop_desc);
+
+      let stop_num = stop_desc[stop_desc.length - 1];
+      console.log(stop_num);
+      axios
+        .get("api/bus-stop-times/" + stop_num)
+        .then((response) => (this.info = response.data))
+        .catch((e) => {});
+      this.isFetching = false;
+
+      console.log(this.info);
+    },
+  },
   computed: {
     fields() {
       if (!this.model) return [];
