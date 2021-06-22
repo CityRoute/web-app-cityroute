@@ -118,7 +118,9 @@ export default {
     isFetching: true,
   }),
   methods: {
-    showOnMap() {},
+    showOnMap() {
+      this.$root.$emit("marker", this.model.Description);
+    },
     saveToFavourites() {},
     showSchedule() {
       this.isFetching = true;

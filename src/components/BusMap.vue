@@ -416,13 +416,10 @@ export default {
     },
 
     showRoute() {
-      console.log(this.time);
       this.sampleFun();
       this.sheet = true;
       let locationOrigin = $("#locationOrigin").val();
       let locationDestination = $("#locationDestination").val();
-      console.log(locationOrigin);
-      console.log(locationDestination);
 
       this.calcRoute(locationOrigin, locationDestination);
     },
@@ -434,7 +431,6 @@ export default {
         end = new google.maps.LatLng(end[0], end[1]);
       }
 
-      // console.log(start);
       let after_directions_latlng = end;
       let travel_mode = "DRIVING";
       var request = {
@@ -446,13 +442,11 @@ export default {
           trafficModel: "pessimistic",
         },
       };
-      console.log(Date(this.time));
 
       directionsService.route(request, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
-          console.log($("#card").length);
 
           $("#card").append(
             "" +
@@ -508,6 +502,14 @@ export default {
   },
   mounted() {
     initMap();
+    this.$root.$on("marker", (text) => {
+      console.log(markers[text]);
+      if (!map.getBounds().contains(markers[text].getPosition())) {
+        //Note the double &
+        map.setCenter(markers[text].getPosition());
+        //OR map.panTo(marker.getPosition());
+      }
+    });
   },
   components: { DatePicker, BusStopSearch },
 };
@@ -515,6 +517,7 @@ let directionsDisplay;
 let map;
 let myLatLng = { lat: 53.3531, lng: -6.258 };
 let geocoder = null;
+var markers;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(53.3498, -6.2603),
@@ -563,7 +566,7 @@ function initMap() {
     origin: new google.maps.Point(0, 0), // origin
     anchor: new google.maps.Point(0, 0), // anchor
   };
-  var markers = [];
+  markers = [];
   var new_infowindows = [];
   var instances = [];
   for (var key of Object.keys(stops)) {
@@ -572,7 +575,7 @@ function initMap() {
       lng: parseFloat(stops[key].stop_lon),
     };
     // console.log(stops[key].stop_lon);
-    markers[key] = new google.maps.Marker({
+    markers[stops[key].stop_name] = new google.maps.Marker({
       position: new google.maps.LatLng(
         parseFloat(stops[key].stop_lat),
         parseFloat(stops[key].stop_lon)
