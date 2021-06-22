@@ -10,7 +10,7 @@
       Explore hundreds of bus stops in and around Dublin! For more information visit
       <a
         class="grey--text text--lighten-3"
-        href="https://www.dublinpublictransport.ie/dublin-buses"
+        href="https://www.dublinbus.ie"
         target="_blank"
       >the Official Wesbite</a>.
     </v-card-text>
@@ -34,10 +34,13 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
-        <div v-if="!isFetching && info && model">
-          <v-data-table  v-if="model" :headers="headers" :items="info" :items-per-page="5"
+        <div v-if="!isFetching && info" >
+                  <v-theme-provider root>
+
+          <v-data-table  id="vuetable" :key="bus_stop_times_div" v-if="model" :headers="headers" :items="info" :items-per-page="5"
     class="elevation-1">
   </v-data-table>
+                  </v-theme-provider>
     </div>
 
     </v-expand-transition>
@@ -95,6 +98,8 @@ import axios from "axios";
 export default {
   name: "BusStopSearch",
   data: () => ({
+    info: null,
+    bus_stop_times_div: 0,
     headers: [
       {
         text: "Route",
@@ -118,20 +123,21 @@ export default {
     showSchedule() {
       this.isFetching = true;
       let stop_desc = this.model.Description + "";
-      console.log(stop_desc);
 
       stop_desc = stop_desc.split(" ");
-      console.log(stop_desc);
 
       let stop_num = stop_desc[stop_desc.length - 1];
-      console.log(stop_num);
+      var self = this;
+
       axios
         .get("api/bus-stop-times/" + stop_num)
-        .then((response) => (this.info = response.data))
+        .then(function(response) {
+          self.info = response.data;
+          bus_stop_times_div += 1;
+          this.$parent.refresh();
+        })
         .catch((e) => {});
       this.isFetching = false;
-
-      console.log(this.info);
     },
   },
   computed: {
