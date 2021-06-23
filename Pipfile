@@ -12,6 +12,8 @@ dj-database-url = "*"
 psycopg2-binary = "*"
 pandas = "*"
 lxml = "*"
+djangorestframework-jwt = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 

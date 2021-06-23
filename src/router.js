@@ -4,6 +4,8 @@ import Router from "vue-router";
 import Home from "@/views/Home.vue";
 import Messages from "@/views/Messages";
 import News from "@/views/News.vue";
+import Login from "@/views/Login.vue";
+import Logout from "@/views/Logout.vue";
 
 Vue.use(Router);
 
@@ -32,6 +34,16 @@ export default new Router({
       path: "/news",
       name: "News",
       component: News,
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: Login,
+    },
+    {
+      path: "/logout",
+      name: "Logout",
+      component: Logout,
     },
   ],
 });
