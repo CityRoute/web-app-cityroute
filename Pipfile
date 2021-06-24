@@ -12,6 +12,10 @@ dj-database-url = "*"
 psycopg2-binary = "*"
 pandas = "*"
 lxml = "*"
+requests = "*"
+bs4 = "*"
+celery = "*"
+rabbitmq = "*"
 
 [dev-packages]
 
