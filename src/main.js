@@ -8,7 +8,17 @@ import vuetify from "@/plugins/vuetify"; // path to vuetify export
 
 Vue.config.productionTip = false;
 
-// Vue.use(VueRouter)
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresLogin)) {
+    if (!store.getters.loggedIn) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 const vue = new Vue({
   router,

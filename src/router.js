@@ -6,7 +6,7 @@ import Messages from "@/views/Messages";
 import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
-
+import MyAccount from "@/views/MyAccount.vue";
 Vue.use(Router);
 
 export default new Router({
@@ -44,6 +44,17 @@ export default new Router({
       path: "/logout",
       name: "Logout",
       component: Logout,
+      meta: {
+        requiresLogin: true,
+      },
+    },
+    {
+      path: "/myaccount",
+      name: "MyAccount",
+      component: MyAccount,
+      meta: {
+        requiresLogin: true,
+      },
     },
   ],
 });
