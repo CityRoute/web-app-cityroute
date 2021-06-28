@@ -6,43 +6,46 @@ import json
 from backend.api.models import Weather
 import requests
 import psycopg2
-
-conn = psycopg2.connect(database="users", user="stephanie", password="password", host="", port="")
-cur = conn.cursor()
-
-api_url = "api.openweathermap.org/data/2.5/forecast/daily?q=Dublin"
-appid = "595c29ce82ae35b1caa367d86f0a8b26"
+from datetime import datetime
+import time
+from django.utils.timezone import make_aware, now
 
 
-
+import os
 
 class Command(BaseCommand):
-    help = "collect weather data"
+    appid = os.getenv("weatherapikey")
+    api_url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Dublin&cnt=16&appid={id}".format(id = appid)
+    
     # define logic of command
     def handle(self, *args, **options):
         global weatherForecastResult
-        weatherForecastResult = requests.get(api_url, params={"appid":appid, "units": "metric"})
+        weatherForecastResult = requests.get(self.api_url, params={"appid":self.appid, "units": "metric"})
         data = json.loads(weatherForecastResult.text)
+        days = data.get("list")
 
-        # # collect html
-        # html = urlopen('https://jobs.lever.co/opencare')
-        # # convert to soup
-        # soup = BeautifulSoup(html, 'html.parser')
-        # # grab all postings
-        # postings = soup.find_all("div", class_="posting")
-        # for p in postings:
-        #     url = p.find('a', class_='posting-btn-submit')['href']
-        #     title = p.find('h5').text
-        #     location = p.find('span', class_='sort-by-location').text
-        #     # check if url in db
-        #     try:
-        #         # save in db
-        #         Weather.objects.create(
-        #             url=url,
-        #             title=title,
-        #             location=location
-        #         )
-        #         print('%s added' % (title,))
-        #     except:
-        #         print('%s already exists' % (title,))
-        # self.stdout.write( 'job complete' )
+        for day in days:
+            # save in db
+            unix_timestamp = day["dt"]
+            timestamp = make_aware(datetime.fromtimestamp(unix_timestamp))
+            Weather.objects.create(
+                # lon = 
+                # lat = 
+                datetime = timestamp,
+                temperature = day["temp"]["day"],
+                windDirection = day["deg"],
+                windSpeed = day["speed"],
+                humidity = day["humidity"],
+                pressure = day["pressure"],
+                clouds = day["clouds"],
+                precipitation = day["pop"], # probability of precipiation
+                weatherid = day["weather"][0]["id"],
+                # created_date = now
+            )
+
+                # print('Weather at datetime {} added'.format(datetime))
+            # except:
+            #     print("error occurred - entry not added to table")
+        self.stdout.write( 'scraping job complete' )
+
+

@@ -1,6 +1,9 @@
 from django.db import models
 from rest_framework import serializers
 from django.utils import timezone
+from datetime import datetime
+import time
+from django.utils.timezone import make_aware, now
 
 
 
@@ -16,13 +19,23 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class Weather(models.Model):
-    url = models.CharField(max_length=250, unique=True)
-    title = models.CharField(max_length=250)
-    location = models.CharField(max_length=250)
-    created_date = models.DateTimeField(default=timezone.now)
+    # lon = models.FloatField()
+    # lat = models.FloatField()
+
+    datetime = models.DateTimeField(default=now, editable=False)
+    temperature = models.FloatField(default=0)
+    windDirection = models.FloatField(default=0)
+    windSpeed = models.FloatField(default=0)
+    humidity = models.FloatField(default=0)
+    pressure = models.FloatField(default=0)
+    clouds = models.FloatField(default=0)
+    precipitation = models.FloatField(default=0)
+    weatherid = models.IntegerField(default=0)
+    # created_date = models.DateTimeField(default=now, editable=False)
+
     def __str__(self):
-        return self.title
+        return self.datetime
     class Meta:
-        ordering = ['title']
+        ordering = ['datetime']
     class Admin:
         pass
