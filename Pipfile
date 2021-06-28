@@ -15,6 +15,7 @@ lxml = "*"
 psycopg2 = "*"
 django-heroku = "*"
 bs4 = "*"
+heroku = "*"
 
 [dev-packages]
 

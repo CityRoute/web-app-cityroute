@@ -1,9 +1,6 @@
 from django.db import models
 from rest_framework import serializers
-from django.utils import timezone
-from datetime import datetime
-import time
-from django.utils.timezone import make_aware, now
+from django.utils.timezone import now
 
 
 

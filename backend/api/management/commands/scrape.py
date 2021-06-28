@@ -1,7 +1,4 @@
 from django.core.management.base import BaseCommand
-import urllib3
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
 import json
 from backend.api.models import Weather
 import requests
