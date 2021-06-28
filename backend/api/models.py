@@ -34,7 +34,7 @@ class Weather(models.Model):
     # created_date = models.DateTimeField(default=now, editable=False)
 
     def __str__(self):
-        return self.datetime
+        return str(self.datetime)
     class Meta:
         ordering = ['datetime']
     class Admin:
