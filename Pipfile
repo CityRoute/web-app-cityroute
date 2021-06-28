@@ -12,6 +12,9 @@ dj-database-url = "*"
 psycopg2-binary = "*"
 pandas = "*"
 lxml = "*"
+psycopg2 = "*"
+django-heroku = "*"
+bs4 = "*"
 
 [dev-packages]
 
