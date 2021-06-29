@@ -1,12 +1,11 @@
 from django.core.management.base import BaseCommand
 import json
 from backend.api.models import Weather
-import requests
-import psycopg2
+# import psycopg2
 from datetime import datetime
-import time
 from django.utils.timezone import make_aware, now
 
+import requests
 
 import os
 
@@ -29,14 +28,19 @@ class Command(BaseCommand):
                 # lon = 
                 # lat = 
                 datetime = timestamp,
-                temperature = day["temp"]["day"],
+                temp_day = day["temp"]["day"],
+                temp_min = day["temp"]["min"],
+                temp_max = day["temp"]["max"],
+                temp_night = day["temp"]["night"],
+                temp_eve = day["temp"]["eve"],
+                temp_morn = day["temp"]["morn"],
                 windDirection = day["deg"],
                 windSpeed = day["speed"],
                 humidity = day["humidity"],
                 pressure = day["pressure"],
                 clouds = day["clouds"],
                 precipitation = day["pop"], # probability of precipiation
-                weatherid = day["weather"][0]["id"],
+                weatherid = day["weather"][0]["id"]
                 # created_date = now
             )
 
