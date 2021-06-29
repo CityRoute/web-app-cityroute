@@ -18,9 +18,13 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 class Weather(models.Model):
     # lon = models.FloatField()
     # lat = models.FloatField()
-
+    temp_day = models.FloatField(default=0)
+    temp_min = models.FloatField(default=0)
+    temp_max = models.FloatField(default=0)
+    temp_night = models.FloatField(default=0)
+    temp_eve = models.FloatField(default=0)
+    temp_morn = models.FloatField(default=0)
     datetime = models.DateTimeField(default=now, editable=False)
-    temperature = models.FloatField(default=0)
     windDirection = models.FloatField(default=0)
     windSpeed = models.FloatField(default=0)
     humidity = models.FloatField(default=0)
