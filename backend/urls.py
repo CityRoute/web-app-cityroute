@@ -11,7 +11,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -31,5 +31,8 @@ urlpatterns = [
     url('api-token/', TokenObtainPairView.as_view()),
     url('api-token-refresh/', TokenRefreshView.as_view()),
     path('api/register', RegisterApi.as_view()),
+        path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
+
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
 ]

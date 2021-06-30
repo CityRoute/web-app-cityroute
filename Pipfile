@@ -14,6 +14,7 @@ pandas = "*"
 lxml = "*"
 djangorestframework-jwt = "*"
 djangorestframework-simplejwt = "*"
+django-rest-passwordreset = "*"
 
 [dev-packages]
 

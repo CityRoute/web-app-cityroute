@@ -19,7 +19,7 @@
         </v-avatar>
       </v-chip>
 
-      <v-form>
+      <v-form v-on:submit.prevent="login">
         <v-text-field
           class="mb-10"
           v-model="password"
