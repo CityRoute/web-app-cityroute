@@ -11,7 +11,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -30,5 +30,6 @@ urlpatterns = [
 
     url('api-token/', TokenObtainPairView.as_view()),
     url('api-token-refresh/', TokenRefreshView.as_view()),
+    path('api/register', RegisterApi.as_view()),
 
 ]
