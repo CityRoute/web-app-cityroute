@@ -6,8 +6,7 @@
 export default {
   created() {
     this.$store.dispatch("userLogout").then(() => {
-      // this.$router.push("/login");
-      this.$router.push({ path: "/login" });
+      this.$router.go({ name: "signin" });
     });
   },
 };

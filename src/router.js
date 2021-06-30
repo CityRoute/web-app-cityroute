@@ -7,6 +7,13 @@ import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import MyAccount from "@/views/MyAccount.vue";
+
+import Auth from "@/views/Auth/Auth";
+import Signin from "@/views/Auth/Signin";
+import SigninIdentifier from "@/views/Auth/SigninIdentifier";
+import SigninPassword from "@/views/Auth/SigninPassword";
+import Signup from "@/views/Auth/Signup";
+
 Vue.use(Router);
 
 export default new Router({
@@ -55,6 +62,33 @@ export default new Router({
       meta: {
         requiresLogin: true,
       },
+    },
+    {
+      path: "/auth",
+      component: Auth,
+      children: [
+        {
+          path: "signin",
+          component: Signin,
+          children: [
+            {
+              path: "identifier",
+              name: "signin",
+              component: SigninIdentifier,
+            },
+            {
+              path: "password",
+              name: "password",
+              component: SigninPassword,
+            },
+          ],
+        },
+        {
+          path: "signup",
+          component: Signup,
+          name: "signup",
+        },
+      ],
     },
   ],
 });
