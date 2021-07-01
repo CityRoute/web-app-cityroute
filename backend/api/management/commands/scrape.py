@@ -22,6 +22,7 @@ class Command(BaseCommand):
         days = data.get("list")
 
         try:
+            number = 1 # for incrementing day_number, the primary key
             for day in days:
                 # save in db
                 unix_timestamp = day["dt"]
@@ -29,7 +30,7 @@ class Command(BaseCommand):
                 today = make_aware(datetime.fromtimestamp(time.time()))
 
                 Weather.objects.create(
-                    scraped_on = today,
+                    day_number = number, # (PK) day number 1 to 16, where 1 is today
                     datetime = timestamp,
                     temp_day = day["temp"]["day"],
                     temp_min = day["temp"]["min"],
@@ -43,9 +44,10 @@ class Command(BaseCommand):
                     pressure = day["pressure"],
                     clouds = day["clouds"],
                     precipitation = day["pop"], # probability of precipiation
-                    weatherid = day["weather"][0]["id"]
-                    
+                    weatherid = day["weather"][0]["id"],
+                    scraped_on = today
                 )
+                number += 1 
             print('Scraping job complete!')
         except:
             print("An error occurred - entries not added to table")

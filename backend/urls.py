@@ -8,7 +8,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from .api.views import index_view, MessageViewSet, BusStopTimes
+from .api.views import index_view, MessageViewSet, BusStopTimes, WeatherByDay
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -24,4 +24,7 @@ urlpatterns = [
 
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
+
+    # http://localhost:8000/api/weather/<day>
+    path('api/weather-forecast/<int:day_number>', WeatherByDay, name='weather-forecast')
 ]

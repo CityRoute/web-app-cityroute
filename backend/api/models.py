@@ -17,13 +17,14 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 class Weather(models.Model):
     # lon = models.FloatField()
     # lat = models.FloatField()
+    day_number = models.IntegerField(default=1, primary_key=True)
     temp_day = models.FloatField(default=0)
     temp_min = models.FloatField(default=0)
     temp_max = models.FloatField(default=0)
     temp_night = models.FloatField(default=0)
     temp_eve = models.FloatField(default=0)
     temp_morn = models.FloatField(default=0)
-    datetime = models.DateTimeField(default=now, editable=False)
+    datetime = models.DateTimeField(default=now)
     windDirection = models.FloatField(default=0)
     windSpeed = models.FloatField(default=0)
     humidity = models.FloatField(default=0)
@@ -31,12 +32,15 @@ class Weather(models.Model):
     clouds = models.FloatField(default=0)
     precipitation = models.FloatField(default=0)
     weatherid = models.IntegerField(default=0)
-    scraped_on = models.DateTimeField(default=now, editable=False)
+    scraped_on = models.DateTimeField(default=now)
+
+    
 
     def __str__(self):
         return str(self.datetime)
     class Meta:
         ordering = ['datetime']
         db_table = 'weather'
+        unique_together = ['day_number', 'scraped_on']
     class Admin:
         pass
