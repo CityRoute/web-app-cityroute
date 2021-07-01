@@ -1,7 +1,6 @@
 from django.db import models
 from rest_framework import serializers
-from django.utils.timezone import now
-
+from django.utils.timezone import make_aware, now
 
 
 class Message(models.Model):
@@ -32,11 +31,12 @@ class Weather(models.Model):
     clouds = models.FloatField(default=0)
     precipitation = models.FloatField(default=0)
     weatherid = models.IntegerField(default=0)
-    # created_date = models.DateTimeField(default=now, editable=False)
+    scraped_on = models.DateTimeField(default=now, editable=False)
 
     def __str__(self):
         return str(self.datetime)
     class Meta:
         ordering = ['datetime']
+        db_table = 'weather'
     class Admin:
         pass

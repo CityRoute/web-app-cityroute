@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(SETTINGS_DIR)
 SECRET_KEY = 'verybadsecret!!!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
@@ -83,13 +83,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }, 
-    # 'default': {
-    #     'NAME': 'django_weather',
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'USER': 'django_user',
-    #     'HOST': '',
-    #     'PORT': ''
-    # }
+    'weather': {
+        'NAME': 'django_weather',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'django_user',
+        'HOST': '',
+        'PORT': ''
+    }
 }
 
 
