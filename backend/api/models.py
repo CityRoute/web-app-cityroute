@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.dispatch import receiver
 import os
 from django.core import mail
+from django.template.loader import render_to_string
 
 class Message(models.Model):
     subject = models.CharField(max_length=200)
@@ -24,11 +25,13 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
     send_mail(
         # title:
-        "Password Reset for {title}".format(title="Some website title"),
+        "Password Reset for {title}".format(title="CityRoute.ml"),
         # message:
         email_plaintext_message,
         # from:
         os.getenv("EMAIL_HOST_USER"),
         # to:
-        [reset_password_token.user.email]
+        [reset_password_token.user.email],
+        # html message
+        html_message=render_to_string('password_reset.html', {'reset_token': reset_password_token.key})
     )

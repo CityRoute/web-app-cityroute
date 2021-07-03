@@ -22,7 +22,7 @@
         :disabled="disabled"
         :error-messages="error"
       />
-      <a
+      <!-- <a
         href="#"
         class="
           d-inline-block
@@ -32,7 +32,7 @@
         "
         @click="wip"
         >{{ $vuetify.lang.t("$vuetify.auth.sign-in.forgot-email") }}</a
-      >
+      > -->
     </v-form>
 
     <div class="text-body-2 text--secondary mb-8">

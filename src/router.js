@@ -12,6 +12,9 @@ import Auth from "@/views/Auth/Auth";
 import Signin from "@/views/Auth/Signin";
 import SigninIdentifier from "@/views/Auth/SigninIdentifier";
 import SigninPassword from "@/views/Auth/SigninPassword";
+import SigninForgotPassword from "@/views/Auth/SigninForgotPassword";
+import SigninForgotPasswordReset from "@/views/Auth/SigninForgotPasswordReset";
+
 import Signup from "@/views/Auth/Signup";
 
 Vue.use(Router);
@@ -80,6 +83,16 @@ export default new Router({
               path: "password",
               name: "password",
               component: SigninPassword,
+            },
+            {
+              path: "forgot-password",
+              name: "forgot-password",
+              component: SigninForgotPassword,
+            },
+            {
+              path: "forgot-password-reset",
+              name: "forgot-password-reset",
+              component: SigninForgotPasswordReset,
             },
           ],
         },

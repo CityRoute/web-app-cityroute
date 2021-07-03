@@ -2,7 +2,7 @@
   <div>
     <div class="text-center w-100">
       <h1 class="text-h5 mb-2">
-        {{ $vuetify.lang.t("$vuetify.auth.sign-in-password.title") }}
+        Forgot Password
       </h1>
       <v-chip
         class="mb-10"
@@ -22,37 +22,50 @@
       <v-form v-on:submit.prevent="login">
         <v-text-field
           class="mb-10"
-          v-model="password"
-          :append-icon="show ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-          :label="
-            $vuetify.lang.t('$vuetify.auth.sign-in-password.enter-password')
-          "
-          name="password"
-          :type="show ? 'input' : 'password'"
+          v-model="token"
+          label="Your token"
+          name="text"
           hide-details="auto"
           outlined
-          @click:append="show = !show"
         />
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field
+              ref="input"
+              class="mb-2"
+              :label="$vuetify.lang.t('$vuetify.auth.sign-up.password')"
+              name="login"
+              type="password"
+              hide-details="auto"
+              outlined
+              :error-messages="error"
+              dense
+              v-model="password"
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              ref="input"
+              class="mb-2"
+              label="Confirm"
+              name="login"
+              type="password"
+              hide-details="auto"
+              outlined
+              :error-messages="error"
+              dense
+            />
+          </v-col>
+        </v-row>
       </v-form>
 
-      <div class="d-flex justify-space-between">
-        <v-btn
-          class="text-none letter-spacing-0 font-weight-bold"
-          style="margin-left: -16px"
-          color="primary"
-          text
-          to="forgot-password"
-        >
-          {{
-            $vuetify.lang.t("$vuetify.auth.sign-in-password.forgot-password")
-          }}
-        </v-btn>
+      <div class="text-right">
         <v-btn
           class="text-none"
           style="min-width: 88px"
           color="primary"
           depressed
-          @click="login"
+          @click="reset"
         >
           {{ $vuetify.lang.t("$vuetify.auth.sign-in-password.next") }}
         </v-btn>
@@ -67,8 +80,8 @@ import { wip } from "@/helpers.js";
 export default {
   data: () => ({
     show: false,
-    username: "",
     incorrectAuth: false,
+    token: "",
     password: "",
   }),
 
@@ -76,11 +89,10 @@ export default {
 
   methods: {
     wip,
-    login() {
-      console.log(this.$store.state.identifier, this.$store.state.password);
+    reset() {
       this.$store
-        .dispatch("userLogin", {
-          username: this.$store.state.identifier,
+        .dispatch("userForgotPasswordReset", {
+          token: this.token,
           password: this.password,
         })
         .then(() => {

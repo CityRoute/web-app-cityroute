@@ -61,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # Add dist to
-        'DIRS': ['dist'],
+        'DIRS': ['dist', os.path.join(BASE_DIR, "backend", "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -153,7 +153,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # http://whitenoise.evans.io/en/stable/django.html#make-sure-staticfiles-is-configured-correctly
 
 # email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Host for sending e-mail.
 EMAIL_HOST = os.getenv("EMAIL_HOST")
@@ -165,3 +165,4 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")

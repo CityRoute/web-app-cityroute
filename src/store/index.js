@@ -75,6 +75,39 @@ export default new Vuex.Store({
           });
       });
     },
+    userForgotPassword(context, usercredentials) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/api/password_reset/", {
+            email: usercredentials.email,
+          })
+          .then((response) => {
+            console.log(response);
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    userForgotPasswordReset(context, usercredentials) {
+      console.log(usercredentials);
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/api/password_reset/confirm/", {
+            token: usercredentials.token,
+            password: usercredentials.password,
+          })
+          .then((response) => {
+            console.log(response);
+            resolve();
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+
     userSignup(context, usercredentials) {
       return new Promise((resolve, reject) => {
         axios
