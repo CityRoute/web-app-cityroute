@@ -105,7 +105,20 @@
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          <v-card flat> <Landmarks></Landmarks></v-card>
+          <v-card flat>
+            <div id="landmarksContainer">
+              <v-switch
+                v-for="(item, index) in categories"
+                v-bind:key="item.name"
+                inset
+                color="amber"
+                :prepend-icon="item.icon"
+                :label="item.name"
+                :input-value="item.shown"
+                @change="flipLandmarkSwitch(index, item)"
+              ></v-switch>
+            </div>
+          </v-card>
         </v-tab-item>
       </v-tabs>
     </v-card>
@@ -113,6 +126,21 @@
 </template>
 
 <script>
+import {
+  mdiHospitalBuilding,
+  mdiShopping,
+  mdiFactory,
+  mdiTicket,
+  mdiSchool,
+  mdiMapMarkerQuestionOutline,
+  mdiDramaMasks,
+  mdiTheater,
+  mdiAccountChild,
+  mdiMapMarkerRadius,
+  mdiMusicNoteOutline,
+  mdiBasketball,
+} from "@mdi/js";
+
 import $ from "jquery";
 import VCalendar from "v-calendar";
 import axios from "axios";
@@ -124,6 +152,8 @@ import { EventBus } from "./EventBus";
 import Vue from "vue";
 var InfoWindow = Vue.extend(InfoWindowComponent);
 import Landmarks from "./Landmarks.vue";
+import landmarks_data from "../assets/landmarks.json";
+
 // var instance = new InfoWindow({
 //   propsData: {
 //     content: "This displays as info-window content!",
@@ -315,8 +345,93 @@ export default {
     open: false,
     sheet: false,
     date: "new Date()",
+    categories: {
+      Hospital: {
+        shown: false,
+        name: "Hospital",
+        isVenue: false,
+        icon: mdiHospitalBuilding,
+      },
+      Shopping: {
+        shown: false,
+        name: "Shopping",
+        isVenue: false,
+        icon: mdiShopping,
+      },
+      Industrial: {
+        shown: false,
+        name: "Industrial",
+        isVenue: false,
+        icon: mdiFactory,
+      },
+      Attraction: {
+        shown: false,
+        name: "Attraction",
+        isVenue: false,
+        icon: mdiTicket,
+      },
+      College: {
+        shown: false,
+        name: "College",
+        isVenue: false,
+        icon: mdiSchool,
+      },
+      Other: {
+        shown: false,
+        name: "Other",
+        isVenue: false,
+        icon: mdiMapMarkerQuestionOutline,
+      },
+      Arts: {
+        shown: false,
+        name: "Arts, Theatre & Comedy",
+        isVenue: true,
+        icon: mdiDramaMasks,
+      },
+      Exhibition: {
+        shown: false,
+        name: "Exhibition",
+        isVenue: true,
+        icon: mdiTheater,
+      },
+      Family: {
+        shown: false,
+        name: "Family & Attractions",
+        isVenue: true,
+        icon: mdiAccountChild,
+      },
+      Miscellaneous: {
+        shown: false,
+        name: "Miscellaneous",
+        isVenue: true,
+        icon: mdiMapMarkerRadius,
+      },
+      Music: {
+        shown: false,
+        name: "Music",
+        isVenue: true,
+        icon: mdiMusicNoteOutline,
+      },
+      Sport: {
+        shown: false,
+        name: "Sport",
+        isVenue: true,
+        icon: mdiBasketball,
+      },
+    },
   }),
   methods: {
+    flipLandmarkSwitch(val, item) {
+      item.shown = !item.shown;
+      for (var entry of Object.keys(landmarkMarkers)) {
+        if (landmarkMarkers[entry].category == val) {
+          landmarkMarkers[entry].marker.setVisible(this.categories[val].shown);
+          landmarkMarkers[entry].marker.setIcon({
+            path: this.categories[val].icon,
+          });
+        }
+      }
+    },
     hideDateTimePicker(value, type) {
       if (type === "minute") {
         this.open = false;
@@ -489,10 +604,10 @@ export default {
   mounted() {
     initMap();
     this.$root.$on("marker", (text) => {
-      console.log(markers[text]);
-      if (!map.getBounds().contains(markers[text].getPosition())) {
+      console.log(stopMarkers[text]);
+      if (!map.getBounds().contains(stopMarkers[text].getPosition())) {
         //Note the double &
-        map.setCenter(markers[text].getPosition());
+        map.setCenter(stopMarkers[text].getPosition());
         //OR map.panTo(marker.getPosition());
       }
     });
@@ -503,7 +618,8 @@ let directionsDisplay;
 let map;
 let myLatLng = { lat: 53.3531, lng: -6.258 };
 let geocoder = null;
-var markers;
+var stopMarkers;
+var landmarkMarkers;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(53.3498, -6.2603),
@@ -552,16 +668,16 @@ function initMap() {
     origin: new google.maps.Point(0, 0), // origin
     anchor: new google.maps.Point(0, 0), // anchor
   };
-  markers = [];
-  var new_infowindows = [];
-  var instances = [];
+  stopMarkers = [];
+  // var new_infowindows = [];
+  // var instances = [];
   for (var key of Object.keys(stops)) {
     var myLatLng = {
       lat: parseFloat(stops[key].stop_lat),
       lng: parseFloat(stops[key].stop_lon),
     };
     // console.log(stops[key].stop_lon);
-    markers[stops[key].stop_name] = new google.maps.Marker({
+    stopMarkers[stops[key].stop_name] = new google.maps.Marker({
       position: new google.maps.LatLng(
         parseFloat(stops[key].stop_lat),
         parseFloat(stops[key].stop_lon)
@@ -570,28 +686,28 @@ function initMap() {
       title: stops[key].stop_name,
       icon: icon,
       id: key,
+      visible: false,
     });
-    // instances[key] = new InfoWindow({
-    //   propsData: {
-    //     content: "This displays as info-window content!",
-    //   },
-    // });
+  }
 
-    // new_infowindows[key] = new google.maps.InfoWindow({
-    // content: ,
-    // });
-    // bindInfoWindow(
-    //   markers[key],
-    //   map,
-    //   new_infowindows[key],
-    //   "<h1>" + stops[key].stop_name + "</h1>"
-    // );
-
-    // google.maps.event.addListener(markers[key], "click", function() {
-    //   new_infowindows[key].open(map, markers[key]);
-    // });
-    // EventBus.$emit("map", map);
-    // instances[key].$mount();
+  landmarkMarkers = [];
+  // var new_infowindows = [];
+  // var instances = [];
+  for (var key of Object.keys(landmarks_data.markers)) {
+    // console.log(stops[key].stop_lon);
+    landmarkMarkers[landmarks_data.markers[key].address] = {
+      marker: new google.maps.Marker({
+        position: new google.maps.LatLng(
+          parseFloat(landmarks_data.markers[key].lat),
+          parseFloat(landmarks_data.markers[key].lng)
+        ),
+        map: map,
+        title: landmarks_data.markers[key].address,
+        id: key,
+        visible: false,
+      }),
+      category: landmarks_data.markers[key].category,
+    };
   }
 
   // new_infowindow.open(this.map, marker);
@@ -625,5 +741,10 @@ function initMap() {
 .gm-style .gm-style-iw-c,
 .gm-style .gm-style-iw-t::after {
   background: rgba(255, 255, 255, 0);
+}
+
+#landmarksContainer {
+  height: 50vh;
+  overflow-y: auto;
 }
 </style>

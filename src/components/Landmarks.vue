@@ -115,7 +115,7 @@ export default {
 
 <style>
 #landmarksContainer {
-  height: 30vh;
+  height: 50vh;
   overflow-y: auto;
 }
 </style>
