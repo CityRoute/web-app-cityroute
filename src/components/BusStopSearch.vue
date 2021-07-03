@@ -36,7 +36,7 @@
       <div v-if="!isFetching && info">
         <v-theme-provider root>
           <v-data-table
-            id="vuetable"
+            mobile-breakpoint="0"
             :key="bus_stop_times_div"
             v-if="model"
             :headers="headers"
@@ -174,8 +174,4 @@ export default {
 </script>
 
 <style>
-#vuetable {
-  height: 30vh;
-  overflow-y: auto;
-}
 </style>
