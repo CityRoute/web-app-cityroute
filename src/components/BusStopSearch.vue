@@ -1,18 +1,17 @@
 <template>
-  <v-card
-    color="blue lighten-2"
-    dark
-  >
+  <v-card color="blue lighten-2" dark>
     <v-card-title class="text-h5 blue lighten-3">
       Search for your Stop
     </v-card-title>
     <v-card-text>
-      Explore hundreds of bus stops in and around Dublin! For more information visit
+      Explore hundreds of bus stops in and around Dublin! For more information
+      visit
       <a
         class="grey--text text--lighten-3"
         href="https://www.dublinbus.ie"
         target="_blank"
-      >the Official Wesbite</a>.
+        >the Official Wesbite</a
+      >.
     </v-card-text>
     <v-card-text>
       <v-autocomplete
@@ -34,30 +33,30 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
-        <div v-if="!isFetching && info" >
-                  <v-theme-provider root>
-
-          <v-data-table  id="vuetable" :key="bus_stop_times_div" v-if="model" :headers="headers" :items="info" :items-per-page="5"
-    class="elevation-1">
-  </v-data-table>
-                  </v-theme-provider>
-    </div>
-
+      <div v-if="!isFetching && info">
+        <v-theme-provider root>
+          <v-data-table
+            id="vuetable"
+            :key="bus_stop_times_div"
+            v-if="model"
+            :headers="headers"
+            :items="info"
+            :items-per-page="5"
+          >
+          </v-data-table>
+        </v-theme-provider>
+      </div>
     </v-expand-transition>
     <v-card-actions>
       <v-spacer></v-spacer>
-                  <v-btn
-        :disabled="!model"
-        color="yellow darken-3"
-        @click="showSchedule"
-      >
+      <v-btn :disabled="!model" color="yellow darken-3" @click="showSchedule">
         Schedule
         <v-icon right>
           mdi-clock
         </v-icon>
       </v-btn>
 
-            <v-btn
+      <v-btn
         :disabled="!model"
         color="green darken-3"
         @click="saveToFavourites"
@@ -67,22 +66,14 @@
           mdi-star
         </v-icon>
       </v-btn>
-      <v-btn
-        :disabled="!model"
-        color="blue darken-3"
-        @click="showOnMap"
-      >
+      <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
         Show on Map
         <v-icon right>
           mdi-map
         </v-icon>
       </v-btn>
 
-      <v-btn
-        :disabled="!model"
-        color="grey darken-3"
-        @click="model = null"
-      >
+      <v-btn :disabled="!model" color="grey darken-3" @click="model = null">
         Clear
         <v-icon right>
           mdi-close-circle
@@ -181,3 +172,10 @@ export default {
   },
 };
 </script>
+
+<style>
+#vuetable {
+  height: 30vh;
+  overflow-y: auto;
+}
+</style>

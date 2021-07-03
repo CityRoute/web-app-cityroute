@@ -1,6 +1,5 @@
 <template>
   <div class="map-container">
-
     <div id="map"></div>
 
     <v-card id="MapOptions">
@@ -25,6 +24,13 @@
         </v-tab>
         <v-tab>
           <v-icon left>
+            mdi-map-search-outline
+          </v-icon>
+          Landmarks
+        </v-tab>
+
+        <v-tab>
+          <v-icon left>
             mdi-eye-off
           </v-icon>
         </v-tab>
@@ -32,7 +38,6 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-
               <v-text-field
                 v-model="origin"
                 label="Origin"
@@ -51,79 +56,59 @@
                 append-icon="mdi-map-marker"
                 @click:append="currentLocation('destination')"
               ></v-text-field>
-              <date-picker v-model="time"         :open.sync="open"
-    placeholder="Select date & time"
- type="datetime" close-on-complete format="DD, MMM - hh:mm"
-></date-picker>
-<!-- <div>
-<v-date-picker v-model="date" mode="dateTime" is24hr>
-  <template v-slot="{ inputValue, inputEvents }">
-    <input
-      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-      :value="inputValue"
-      v-on="inputEvents"
-    />
-  </template>
-</v-date-picker>
-</div> -->
-
-              <v-btn   @click="showRoute();">
+              <date-picker
+                v-model="time"
+                :open.sync="open"
+                placeholder="Select date & time"
+                type="datetime"
+                close-on-complete
+                format="DD, MMM - hh:mm"
+              ></date-picker>
+              <v-btn @click="showRoute()">
                 Get Directions
               </v-btn>
-                  <v-bottom-sheet
-      v-model="sheet"
-      inset
-         hide-overlay
-    no-click-animation
-    scrollable
-    
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="orange"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Show Directions
-        </v-btn>
-
-      </template>
-                    <v-card>
-        <v-card-text style="height: 300px;">
-
-        <v-btn
-          class="mt-6"
-          text
-          color="error"
-          @click="sheet = !sheet"
-        >
-          close
-        </v-btn>
-          <div id="card"></div>
-                  </v-card-text >
-
-      </v-card>
-    </v-bottom-sheet>
-
+              <v-bottom-sheet
+                v-model="sheet"
+                inset
+                hide-overlay
+                no-click-animation
+                scrollable
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="orange" dark v-bind="attrs" v-on="on">
+                    Show Directions
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text style="height: 300px;">
+                    <v-btn
+                      class="mt-6"
+                      text
+                      color="error"
+                      @click="sheet = !sheet"
+                    >
+                      close
+                    </v-btn>
+                    <div id="card"></div>
+                  </v-card-text>
+                </v-card>
+              </v-bottom-sheet>
             </v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item>
-          <v-card flat>
-            <!-- <div   class="card">
-            </div> -->
-          </v-card>
+          <v-card flat></v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-<BusStopSearch></BusStopSearch>          
-</v-card>
+            <BusStopSearch></BusStopSearch>
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat> <Landmarks></Landmarks></v-card>
         </v-tab-item>
       </v-tabs>
-
     </v-card>
-
   </div>
 </template>
 
@@ -138,6 +123,7 @@ import InfoWindowComponent from "./InfoWindow.vue";
 import { EventBus } from "./EventBus";
 import Vue from "vue";
 var InfoWindow = Vue.extend(InfoWindowComponent);
+import Landmarks from "./Landmarks.vue";
 // var instance = new InfoWindow({
 //   propsData: {
 //     content: "This displays as info-window content!",
@@ -511,7 +497,7 @@ export default {
       }
     });
   },
-  components: { DatePicker, BusStopSearch },
+  components: { DatePicker, BusStopSearch, Landmarks },
 };
 let directionsDisplay;
 let map;
