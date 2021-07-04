@@ -1,8 +1,7 @@
 <template>
   <div class="map-container">
     <div id="map"></div>
-
-    <v-card id="MapOptions">
+    <v-navigation-drawer absolute width="30vw" id="MapOptions">
       <v-tabs>
         <v-tab>
           <v-icon left>
@@ -39,6 +38,7 @@
           <v-card flat>
             <v-card-text>
               <v-text-field
+                dense
                 v-model="origin"
                 label="Origin"
                 id="locationOrigin"
@@ -48,6 +48,7 @@
                 @click:append="currentLocation('origin')"
               ></v-text-field>
               <v-text-field
+                dense
                 v-model="destination"
                 label="Destination"
                 id="locationDestination"
@@ -56,43 +57,52 @@
                 append-icon="mdi-map-marker"
                 @click:append="currentLocation('destination')"
               ></v-text-field>
-              <date-picker
-                v-model="time"
-                :open.sync="open"
-                placeholder="Select date & time"
-                type="datetime"
-                close-on-complete
-                format="DD, MMM - hh:mm"
-              ></date-picker>
-              <v-btn @click="showRoute()">
-                Get Directions
-              </v-btn>
-              <v-bottom-sheet
-                v-model="sheet"
-                inset
-                hide-overlay
-                no-click-animation
-                scrollable
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="orange" dark v-bind="attrs" v-on="on">
-                    Show Directions
+              <v-row>
+                <v-col>
+                  <date-picker
+                    v-model="time"
+                    :open.sync="open"
+                    placeholder="Select date & time"
+                    type="datetime"
+                    close-on-complete
+                    format="DD, MMM - hh:mm"
+                  ></date-picker
+                ></v-col>
+                <v-col>
+                  <v-btn @click="showRoute()">
+                    Get Directions
                   </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text style="height: 300px;">
-                    <v-btn
-                      class="mt-6"
-                      text
-                      color="error"
-                      @click="sheet = !sheet"
-                    >
-                      close
-                    </v-btn>
-                    <div id="card"></div>
-                  </v-card-text>
-                </v-card>
-              </v-bottom-sheet>
+                </v-col>
+              </v-row>
+              <v-card
+                v-if="directions"
+                style="height: 40vh; overflow-y:scroll; overflow-x:hidden;white-space: nowrap;"
+                class="mt-5"
+              >
+                <v-card-text>
+                  <v-btn id="close" @click="closeDirections()">
+                    Close Directions
+                  </v-btn>
+                  <div id="card"></div>
+                </v-card-text>
+              </v-card>
+              <div v-if="directions" class="share-network-list mt-5">
+                <ShareNetwork
+                  v-for="network in networks"
+                  :network="network.network"
+                  :key="network.network"
+                  :style="{ backgroundColor: network.color }"
+                  :url="sharing.url"
+                  :title="sharing.title"
+                  :description="sharing.description"
+                  :quote="sharing.quote"
+                  :hashtags="sharing.hashtags"
+                  :twitterUser="sharing.twitterUser"
+                >
+                  <i :class="network.icon"></i>
+                  <span>{{ network.name }}</span>
+                </ShareNetwork>
+              </div>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -121,7 +131,7 @@
           </v-card>
         </v-tab-item>
       </v-tabs>
-    </v-card>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -140,7 +150,6 @@ import {
   mdiMusicNoteOutline,
   mdiBasketball,
 } from "@mdi/js";
-
 import $ from "jquery";
 import VCalendar from "v-calendar";
 import axios from "axios";
@@ -154,11 +163,6 @@ var InfoWindow = Vue.extend(InfoWindowComponent);
 import Landmarks from "./Landmarks.vue";
 import landmarks_data from "../assets/landmarks.json";
 
-// var instance = new InfoWindow({
-//   propsData: {
-//     content: "This displays as info-window content!",
-//   },
-// });
 import stops from "../assets/stops.json";
 function offsetMap() {
   if (routeBounds !== false) {
@@ -331,13 +335,46 @@ function bindInfoWindow(marker, map, infowindow, html) {
 
 let directionsService = new google.maps.DirectionsService();
 let routeBounds = false;
-let overlayWidth = 200;
+const vw = Math.max(
+  document.documentElement.clientWidth || 0,
+  window.innerWidth || 0
+);
+console.log("this", vw);
+let overlayWidth = 0.35 * vw;
 var leftMargin = 30; // Grace margin to avoid too close fits on the edge of the overlay
 var rightMargin = 80;
 export default {
   name: "BusMap",
   computed: {},
   data: () => ({
+    sharing: {
+      url: window.location.href,
+      title: "CityRoute directions",
+      description: "Thanks for your using our route planner!",
+      hashtags: "cityroute,dublinbus",
+    },
+    networks: [
+      {
+        network: "sms",
+        name: "SMS",
+        icon: "far fah fa-lg fa-comment-dots",
+        color: "#333333",
+      },
+      {
+        network: "twitter",
+        name: "Twitter",
+        icon: "fab fah fa-lg fa-twitter",
+        color: "#1da1f2",
+      },
+      {
+        network: "whatsapp",
+        name: "Whatsapp",
+        icon: "fab fah fa-lg fa-whatsapp",
+        color: "#25d366",
+      },
+    ],
+    directions: false,
+    autocompleteInit: false,
     mapCenter: (0, 0),
     origin: "",
     destination: "",
@@ -420,7 +457,24 @@ export default {
       },
     },
   }),
+  watch: {
+    origin: function() {
+      this.$router.push({
+        query: { origin: this.origin, destination: this.destination },
+      });
+    },
+    destination: function() {
+      this.$router.push({
+        query: { origin: this.origin, destination: this.destination },
+      });
+    },
+  },
   methods: {
+    closeDirections() {
+      this.directions = false;
+      this.sheet = !this.sheet;
+      $("#card").html("");
+    },
     flipLandmarkSwitch(val, item) {
       item.shown = !item.shown;
       for (var entry of Object.keys(landmarkMarkers)) {
@@ -486,43 +540,53 @@ export default {
         },
       });
     },
-    sampleFun() {
-      const inputOrigin = document.getElementById("locationOrigin");
-      const inputDestination = document.getElementById("locationDestination");
+    setOrigin(val) {
+      this.origin = val;
+    },
+    initAutocomplete() {
+      if (!this.autocompleteInit) {
+        const inputOrigin = document.getElementById("locationOrigin");
+        const inputDestination = document.getElementById("locationDestination");
+        const options = {
+          componentRestrictions: { country: "ie" },
+          fields: ["formatted_address", "geometry", "name"],
+          origin: map.getCenter(),
+          strictBounds: false,
+          types: ["establishment"],
+        };
+        const autocompleteOrigin = new google.maps.places.Autocomplete(
+          inputOrigin,
+          options
+        );
+        const autocompleteDestination = new google.maps.places.Autocomplete(
+          inputDestination,
+          options
+        );
+        map.addListener("bounds_changed", () => {
+          autocompleteOrigin.setBounds(map.getBounds());
+        });
+        map.addListener("bounds_changed", () => {
+          autocompleteDestination.setBounds(map.getBounds());
+        });
 
-      const options = {
-        componentRestrictions: { country: "ie" },
-        fields: ["formatted_address", "geometry", "name"],
-        origin: map.getCenter(),
-        strictBounds: false,
-        types: ["establishment"],
-      };
-      const autocompleteOrigin = new google.maps.places.Autocomplete(
-        inputOrigin,
-        options
-      );
-      const autocompleteDestination = new google.maps.places.Autocomplete(
-        inputDestination,
-        options
-      );
-      map.addListener("bounds_changed", () => {
-        autocompleteOrigin.setBounds(map.getBounds());
-      });
-      map.addListener("bounds_changed", () => {
-        autocompleteDestination.setBounds(map.getBounds());
-      });
+        inputOrigin.placeholder = "";
+        inputDestination.placeholder = "";
+        this.autocompleteInit = true;
+        var self = this;
 
-      inputOrigin.placeholder = "";
-      inputDestination.placeholder = "";
+        autocompleteOrigin.addListener("place_changed", function() {
+          self.$data.origin = inputOrigin.value;
+        });
+        autocompleteDestination.addListener("place_changed", function() {
+          self.destination = inputDestination.value;
+        });
+      }
     },
 
     showRoute() {
-      this.sampleFun();
       this.sheet = true;
-      let locationOrigin = $("#locationOrigin").val();
-      let locationDestination = $("#locationDestination").val();
-
-      this.calcRoute(locationOrigin, locationDestination);
+      this.directions = true;
+      this.calcRoute(this.origin, this.destination);
     },
     calcRoute(start, end) {
       if (Array.isArray(start)) {
@@ -532,8 +596,7 @@ export default {
         end = new google.maps.LatLng(end[0], end[1]);
       }
 
-      let after_directions_latlng = end;
-      let travel_mode = "DRIVING";
+      let travel_mode = "TRANSIT";
       var request = {
         origin: start,
         destination: end,
@@ -546,25 +609,16 @@ export default {
 
       directionsService.route(request, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
+          console.log(response);
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
-
-          $("#card").append(
-            "" +
-              "            <div class='card' id=\"overlay\">\n" +
-              "                <span id='close'\n" +
-              "                      onClick='this.parentNode.parentNode.removeChild(this.parentNode);  return false;'>x</span>\n" +
-              '                <div id="overlayContent"></div>\n' +
-              "            </div>\n"
-          );
           $("#close").on("click", function() {
             directionsDisplay.setMap(null);
             directionsDisplay.setPanel(null);
             map.setZoom(15);
-            map.setCenter(after_directions_latlng);
           });
 
-          directionsDisplay.setPanel(document.getElementById("overlayContent"));
+          directionsDisplay.setPanel(document.getElementById("card"));
 
           // Define route bounds for use in offsetMap function
           routeBounds = response.routes[0].bounds;
@@ -590,7 +644,7 @@ export default {
               // console.log(routeBounds);
               // Fit updated bounds
               map.fitBounds(routeBounds);
-
+              console.log(map.getBounds());
               // Write directions steps
 
               // Offset map
@@ -602,15 +656,19 @@ export default {
     },
   },
   mounted() {
-    initMap();
+    (this.origin = this.$route.query.origin),
+      (this.destination = this.$route.query.destination),
+      initMap();
     this.$root.$on("marker", (text) => {
       console.log(stopMarkers[text]);
       if (!map.getBounds().contains(stopMarkers[text].getPosition())) {
-        //Note the double &
         map.setCenter(stopMarkers[text].getPosition());
-        //OR map.panTo(marker.getPosition());
       }
     });
+    this.showRoute();
+  },
+  updated() {
+    this.initAutocomplete();
   },
   components: { DatePicker, BusStopSearch, Landmarks },
 };
@@ -695,6 +753,16 @@ function initMap() {
   // var instances = [];
   for (var key of Object.keys(landmarks_data.markers)) {
     // console.log(stops[key].stop_lon);
+    const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      `<h1 id="firstHeading">${landmarks_data.markers[key].address}</h1>` +
+      '<div id="bodyContent">';
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString,
+    });
+
     landmarkMarkers[landmarks_data.markers[key].address] = {
       marker: new google.maps.Marker({
         position: new google.maps.LatLng(
@@ -708,15 +776,17 @@ function initMap() {
       }),
       category: landmarks_data.markers[key].category,
     };
+    landmarkMarkers[landmarks_data.markers[key].address].marker.addListener(
+      "click",
+      () => {
+        infowindow.open({
+          anchor: landmarkMarkers[landmarks_data.markers[key].address].marker,
+          map,
+          shouldFocus: false,
+        });
+      }
+    );
   }
-
-  // new_infowindow.open(this.map, marker);
-
-  // let element = this.$refs["locationOrigin"].$el;
-  // element = element.querySelector("input");
-  // let element = document.getElementById("locationInput");
-  // console.log(element);
-  // this.autocomplete = new google.maps.places.SearchBox(element);
 }
 </script>
 
@@ -746,5 +816,51 @@ function initMap() {
 #landmarksContainer {
   height: 50vh;
   overflow-y: auto;
+}
+
+.share-network-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1000px;
+  margin: auto;
+}
+a[class^="share-network-"] {
+  flex: none;
+  color: #ffffff !important;
+  background-color: #333;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 10px 10px 0;
+}
+a[class^="share-network-"] .fah {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  padding: 10px;
+  flex: 0 1 auto;
+}
+a[class^="share-network-"] span {
+  padding: 0 10px;
+  flex: 1 1 0%;
+  font-weight: 500;
+}
+
+a[class^="share-network-"],
+a[class^="share-network-"]:hover,
+a[class^="share-network-"]:focus,
+a[class^="share-network-"]:active {
+  text-decoration: none;
+  color: inherit;
+}
+.warnbox-content,
+.adp-warnbox {
+  visibility: hidden;
+  height: 0;
+  width: 0;
 }
 </style>
