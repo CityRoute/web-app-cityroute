@@ -1,5 +1,12 @@
 from django.db import models
 from rest_framework import serializers
+from django.core.mail import send_mail  
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.urls import reverse
+from django.dispatch import receiver
+import os
+from django.core import mail
+from django.template.loader import render_to_string
 from django.utils.timezone import make_aware, now
 
 
@@ -13,6 +20,23 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         model = Message
         fields = ('url', 'subject', 'body', 'pk')
 
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+
+    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="CityRoute.ml"),
+        # message:
+        email_plaintext_message,
+        # from:
+        os.getenv("EMAIL_HOST_USER"),
+        # to:
+        [reset_password_token.user.email],
+        # html message
+        html_message=render_to_string('password_reset.html', {'reset_token': reset_password_token.key})
+    )
 
 class Weather(models.Model):
     # lon = models.FloatField()

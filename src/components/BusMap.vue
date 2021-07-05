@@ -111,8 +111,7 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <!-- <div   class="card">
-            </div> -->
+<BusScheduleViewer></BusScheduleViewer>          
           </v-card>
         </v-tab-item>
         <v-tab-item>
@@ -132,6 +131,7 @@ import $ from "jquery";
 import VCalendar from "v-calendar";
 import axios from "axios";
 import BusStopSearch from "./BusStopSearch.vue";
+import BusScheduleViewer from "./BusScheduleViewer.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import InfoWindowComponent from "./InfoWindow.vue";
@@ -511,7 +511,7 @@ export default {
       }
     });
   },
-  components: { DatePicker, BusStopSearch },
+  components: { DatePicker, BusStopSearch, BusScheduleViewer },
 };
 let directionsDisplay;
 let map;

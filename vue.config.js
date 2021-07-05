@@ -4,6 +4,7 @@ module.exports = {
   lintOnSave: false,
   outputDir: "dist",
   assetsDir: "static",
+  transpileDependencies: ["vuetify"],
   // baseUrl: IS_PRODUCTION
   // ? 'http://cdn123.com'
   // : '/',
