@@ -22,7 +22,7 @@ class Command(BaseCommand):
         days = data.get("list")
 
         try:
-            number = 1 # for incrementing day_number, the primary key
+            number = 1 # for incrementing day_number
             for day in days:
                 # save in db
                 unix_timestamp = day["dt"]
@@ -30,7 +30,7 @@ class Command(BaseCommand):
                 today = make_aware(datetime.fromtimestamp(time.time()))
 
                 Weather.objects.create(
-                    day_number = number, # (PK) day number 1 to 16, where 1 is today
+                    day_number = number, 
                     datetime = timestamp,
                     temp_day = day["temp"]["day"],
                     temp_min = day["temp"]["min"],
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                     clouds = day["clouds"],
                     precipitation = day["pop"], # probability of precipiation
                     weatherid = day["weather"][0]["id"],
-                    scraped_on = today
+                    scraped_on = today # PK
                 )
                 number += 1 
             print('Scraping job complete!')

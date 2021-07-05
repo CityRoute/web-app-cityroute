@@ -47,7 +47,7 @@ def WeatherByDay(request, day_number):
     Retrieve the weather in Dublin on a given day within the next 16 days 
     (ie. From today = DAY 1, to (today+15 days) = DAY 16)
     """
-    weather = Weather.objects.get(day_number=day_number)
-    serializer = WeatherSerializer(weather, many=False)
+    weather = Weather.objects.filter(day_number=day_number)
+    serializer = WeatherSerializer(weather, many=True)
     print(serializer.data)
     return Response(serializer.data)
