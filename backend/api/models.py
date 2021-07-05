@@ -17,7 +17,7 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
 class Weather(models.Model):
     # lon = models.FloatField()
     # lat = models.FloatField()
-    day_number = models.IntegerField(default=1, primary_key=True)
+    day_number = models.IntegerField(default=1)
     temp_day = models.FloatField(default=0)
     temp_min = models.FloatField(default=0)
     temp_max = models.FloatField(default=0)
@@ -32,7 +32,7 @@ class Weather(models.Model):
     clouds = models.FloatField(default=0)
     precipitation = models.FloatField(default=0)
     weatherid = models.IntegerField(default=0)
-    scraped_on = models.DateTimeField(default=now)
+    scraped_on = models.DateTimeField(default=now, primary_key=True)
 
     
 
@@ -41,6 +41,6 @@ class Weather(models.Model):
     class Meta:
         ordering = ['datetime']
         db_table = 'weather'
-        unique_together = ['day_number', 'scraped_on']
+        # unique_together = ['day_number', 'scraped_on']
     class Admin:
         pass
