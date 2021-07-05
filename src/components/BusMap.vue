@@ -154,6 +154,7 @@ import $ from "jquery";
 import VCalendar from "v-calendar";
 import axios from "axios";
 import BusStopSearch from "./BusStopSearch.vue";
+import BusScheduleViewer from "./BusScheduleViewer.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import InfoWindowComponent from "./InfoWindow.vue";

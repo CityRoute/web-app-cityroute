@@ -1,16 +1,56 @@
 from django.views.generic import TemplateView
 from django.views.decorators.cache import never_cache
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Message, MessageSerializer
+from .models import Message, MessageSerializer, Weather
 import pandas as pd
 from django.http import JsonResponse
+from rest_framework import generics, permissions, mixins
+from rest_framework.response import Response
+from .serializer import RegisterSerializer, UserSerializer
+from django.contrib.auth.models import User
+from .serializer import ChangePasswordSerializer
+from rest_framework.permissions import IsAuthenticated   
+from .serializers import WeatherSerializer
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
 
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MessageViewSet(viewsets.ModelViewSet):
     """
@@ -19,6 +59,17 @@ class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
+#Register API
+class RegisterApi(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+    def post(self, request, *args,  **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user": UserSerializer(user,    context=self.get_serializer_context()).data,
+            "message": "User Created Successfully.  Now perform Login to get your token",
+        })
 
 @api_view(['GET'])
 def BusStopTimes(request, bus_stop):
@@ -38,3 +89,15 @@ def BusStopTimes(request, bus_stop):
 
         print(schedule)
         return Response(json.loads(schedule))
+
+
+@api_view(['GET'])
+def WeatherByDay(request, day_number):
+    """
+    Retrieve the weather in Dublin on a given day within the next 16 days 
+    (ie. From today = DAY 1, to (today+15 days) = DAY 16)
+    """
+    weather = Weather.objects.filter(day_number=day_number)
+    serializer = WeatherSerializer(weather, many=True)
+    print(serializer.data)
+    return Response(serializer.data)

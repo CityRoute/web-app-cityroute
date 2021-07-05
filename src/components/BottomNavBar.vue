@@ -17,7 +17,7 @@
       <v-icon>mdi-newspaper</v-icon>
     </v-btn>
 
-    <v-btn>
+    <v-btn to="/myaccount">
       <span>My Account</span>
 
       <v-icon>mdi-account</v-icon>
@@ -29,5 +29,4 @@
 export default { name: "BottomNavBar" };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(SETTINGS_DIR)
 SECRET_KEY = 'verybadsecret!!!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'backend.api',
+    'rest_framework_simplejwt.token_blacklist',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # Add dist to
-        'DIRS': ['dist'],
+        'DIRS': ['dist', os.path.join(BASE_DIR, "backend", "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +76,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -83,13 +93,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }, 
-    # 'default': {
-    #     'NAME': 'django_weather',
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'USER': 'django_user',
-    #     'HOST': '',
-    #     'PORT': ''
-    # }
+    'weather': {
+        'NAME': 'django_weather',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'django_user',
+        'HOST': '',
+        'PORT': ''
+    }
 }
 
 
@@ -149,6 +159,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware',)
 # http://whitenoise.evans.io/en/stable/django.html#make-sure-staticfiles-is-configured-correctly
 
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+
+# Port for sending e-mail.
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
 
 # import django_heroku
 # django_heroku.settings(locals())
