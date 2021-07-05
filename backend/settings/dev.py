@@ -92,6 +92,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }, 
+    'weather': {
+        'NAME': 'django_weather',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'django_user',
+        'HOST': '',
+        'PORT': ''
     }
 }
 
@@ -166,3 +173,6 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
+
+# import django_heroku
+# django_heroku.settings(locals())

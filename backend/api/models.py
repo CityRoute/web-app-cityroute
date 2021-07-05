@@ -7,6 +7,8 @@ from django.dispatch import receiver
 import os
 from django.core import mail
 from django.template.loader import render_to_string
+from django.utils.timezone import make_aware, now
+
 
 class Message(models.Model):
     subject = models.CharField(max_length=200)
@@ -35,3 +37,34 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # html message
         html_message=render_to_string('password_reset.html', {'reset_token': reset_password_token.key})
     )
+
+class Weather(models.Model):
+    # lon = models.FloatField()
+    # lat = models.FloatField()
+    day_number = models.IntegerField(default=1)
+    temp_day = models.FloatField(default=0)
+    temp_min = models.FloatField(default=0)
+    temp_max = models.FloatField(default=0)
+    temp_night = models.FloatField(default=0)
+    temp_eve = models.FloatField(default=0)
+    temp_morn = models.FloatField(default=0)
+    datetime = models.DateTimeField(default=now)
+    windDirection = models.FloatField(default=0)
+    windSpeed = models.FloatField(default=0)
+    humidity = models.FloatField(default=0)
+    pressure = models.FloatField(default=0)
+    clouds = models.FloatField(default=0)
+    precipitation = models.FloatField(default=0)
+    weatherid = models.IntegerField(default=0)
+    scraped_on = models.DateTimeField(default=now, primary_key=True)
+
+    
+
+    def __str__(self):
+        return str(self.datetime)
+    class Meta:
+        ordering = ['datetime']
+        db_table = 'weather'
+        # unique_together = ['day_number', 'scraped_on']
+    class Admin:
+        pass

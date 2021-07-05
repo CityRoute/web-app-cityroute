@@ -11,7 +11,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -34,4 +34,7 @@ urlpatterns = [
     path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
+
+    # http://localhost:8000/api/weather/<day>
+    path('api/weather-forecast/<int:day_number>', WeatherByDay, name='weather-forecast')
 ]

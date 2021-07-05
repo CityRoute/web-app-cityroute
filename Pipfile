@@ -15,8 +15,16 @@ lxml = "*"
 djangorestframework-jwt = "*"
 djangorestframework-simplejwt = "*"
 django-rest-passwordreset = "*"
+psycopg2 = "*"
+django-heroku = "*"
+bs4 = "*"
+heroku3 = "*"
+requests = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
