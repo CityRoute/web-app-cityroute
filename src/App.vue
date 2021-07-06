@@ -49,6 +49,18 @@
     </v-navigation-drawer>
     <v-main>
       <v-navigation-drawer absolute width="30vw" id="MapOptions">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="text-h4">
+              <v-icon large>mdi-bus-stop-covered</v-icon>
+              City Route
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              Dublin Bus Directions Service
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-spacer></v-spacer>
         <router-view />
       </v-navigation-drawer>
       <div id="map"></div>
@@ -87,9 +99,9 @@ export default {
         icon: "mdi-map-search-outline",
         link: "/landmarks",
       },
-      { title: "Favourites", icon: "mdi-heart", link: "/favourites"  },
-      { title: "Reviews", icon: "mdi-star", link: "/ratings"  },
-      { title: "News", icon: "mdi-newspaper", link: "/news"  },
+      { title: "Favourites", icon: "mdi-heart", link: "/favourites" },
+      { title: "Reviews", icon: "mdi-star", link: "/ratings" },
+      { title: "News", icon: "mdi-newspaper", link: "/news" },
       { title: "My Account", icon: "mdi-account", link: "/myaccount" },
     ],
     mini: true,
