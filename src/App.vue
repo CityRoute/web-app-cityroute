@@ -53,7 +53,7 @@
           <v-list-item-content>
             <v-list-item-title class="text-h4">
               <v-icon large>mdi-bus-stop-covered</v-icon>
-              City Route
+              CityRoute
             </v-list-item-title>
             <v-list-item-subtitle>
               Dublin Bus Directions Service
