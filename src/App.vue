@@ -5,7 +5,7 @@
       v-model="drawer"
       :mini-variant.sync="mini"
       permanent
-      expand-on-hover
+      :expand-on-hover="$vuetify.breakpoint.mdAndUp"
       class="blue accent-4"
       dark
     >
@@ -29,6 +29,7 @@
           :key="item.title"
           :to="item.link"
           link
+          @click="showSheet()"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -48,7 +49,12 @@
       ></v-switch>
     </v-navigation-drawer>
     <v-main>
-      <v-navigation-drawer absolute width="30vw" id="MapOptions">
+      <v-navigation-drawer
+        v-if="$vuetify.breakpoint.mdAndUp"
+        absolute
+        width="30vw"
+        id="MapOptions"
+      >
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="text-h4">
@@ -63,22 +69,47 @@
         <v-spacer></v-spacer>
         <router-view />
       </v-navigation-drawer>
+
+      <div class="text-center" v-else>
+        <v-bottom-sheet scrollable v-model="sheet" inset>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              id="thebutton"
+              fab
+              fixed
+              bottom
+              dark
+              v-bind="attrs"
+              v-on="on"
+              color="blue darken-2"
+            >
+              <v-icon>
+                mdi-account-circle
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-card class="text-center">
+            <v-card-title>Select Country</v-card-title>
+            <v-card-text style="height: 50vh;">
+              <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
+                close
+              </v-btn>
+              <router-view />
+            </v-card-text>
+          </v-card>
+        </v-bottom-sheet>
+      </div>
       <div id="map"></div>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import NavBar from "./components/NavBar";
-import BottomNavBar from "./components/BottomNavBar";
-
 export default {
   name: "App",
-  components: {
-    NavBar,
-    BottomNavBar,
-  },
+  components: {},
   data: () => ({
+    sheet: true,
     model: null,
     text: null,
     drawer: true,
@@ -106,11 +137,26 @@ export default {
     ],
     mini: true,
   }),
+  mounted: {},
+  methods: {
+    showSheet() {
+      this.sheet = true;
+    },
+  },
   computed: {},
 };
 </script>
 
 <style>
+html {
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+html::-webkit-scrollbar {
+  width: 0px; /* For Chrome, Safari, and Opera */
+}
+
 /* Optional: Makes the sample page fill the window. */
 body {
   padding-top: 56px;
@@ -123,5 +169,11 @@ body {
 #MapOptions {
   position: absolute;
   top: 0;
+}
+
+#lateral .v-btn--example {
+  bottom: 0;
+  position: absolute;
+  margin: 0 0 16px 16px;
 }
 </style>

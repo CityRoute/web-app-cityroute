@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 // import VueDemo from "@/views/VueDemo";
-import Home from "@/views/Home.vue";
+import BusMap from "@/components/BusMap.vue";
 import Messages from "@/views/Messages";
 import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
@@ -24,23 +24,23 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home,
+      component: BusMap,
       children: [
         {
           path: "directions",
-          component: Home,
+          component: BusMap,
         },
         {
           path: "route-viewer",
-          component: Home,
+          component: BusMap,
         },
         {
           path: "stop-finder",
-          component: Home,
+          component: BusMap,
         },
         {
           path: "landmarks",
-          component: Home,
+          component: BusMap,
         },
       ],
     },

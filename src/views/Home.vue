@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <BusMap />
-  </div>
+  <div></div>
 </template>
 
 <script>
