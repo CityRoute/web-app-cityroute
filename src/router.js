@@ -25,6 +25,24 @@ export default new Router({
       path: "/",
       name: "home",
       component: Home,
+      children: [
+        {
+          path: "directions",
+          component: Home,
+        },
+        {
+          path: "route-viewer",
+          component: Home,
+        },
+        {
+          path: "stop-finder",
+          component: Home,
+        },
+        {
+          path: "landmarks",
+          component: Home,
+        },
+      ],
     },
     {
       path: "/messages",

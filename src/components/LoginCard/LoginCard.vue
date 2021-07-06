@@ -1,21 +1,19 @@
 <template>
-  <component
-    :is="component"
-    v-bind="$attrs"
-  >
+  <component :is="component" v-bind="$attrs">
     <slot />
   </component>
 </template>
 
 <script>
-import LoginCardDesktop from './LoginCardDesktop'
-import LoginCardMobile from './LoginCardMobile'
+import LoginCardDesktop from "./LoginCardDesktop";
+import LoginCardMobile from "./LoginCardMobile";
 
 export default {
   computed: {
-    component () {
-      return (this.$vuetify.breakpoint.xsOnly) ? LoginCardMobile : LoginCardDesktop
-    }
-  }
-}
+    component() {
+      // return (this.$vuetify.breakpoint.xsOnly) ? LoginCardMobile : LoginCardDesktop
+      return LoginCardMobile;
+    },
+  },
+};
 </script>

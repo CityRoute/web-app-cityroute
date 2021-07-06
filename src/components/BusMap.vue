@@ -1,137 +1,93 @@
 <template>
   <div class="map-container">
-    <div id="map"></div>
-    <v-navigation-drawer absolute width="30vw" id="MapOptions">
-      <v-tabs>
-        <v-tab>
-          <v-icon left>
-            mdi-map-marker-distance
-          </v-icon>
-          Plan Your Trip
-        </v-tab>
-        <v-tab>
-          <v-icon left>
-            mdi-map-marker-path
-          </v-icon>
-          Bus Route Viewer
-        </v-tab>
-        <v-tab>
-          <v-icon left>
-            mdi-bus-stop
-          </v-icon>
-          Stop Finder
-        </v-tab>
-        <v-tab>
-          <v-icon left>
-            mdi-map-search-outline
-          </v-icon>
-          Landmarks
-        </v-tab>
-
-        <v-tab>
-          <v-icon left>
-            mdi-eye-off
-          </v-icon>
-        </v-tab>
-
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              <v-text-field
-                dense
-                v-model="origin"
-                label="Origin"
-                id="locationOrigin"
-                outlined
-                clearable
-                append-icon="mdi-map-marker"
-                @click:append="currentLocation('origin')"
-              ></v-text-field>
-              <v-text-field
-                dense
-                v-model="destination"
-                label="Destination"
-                id="locationDestination"
-                outlined
-                clearable
-                append-icon="mdi-map-marker"
-                @click:append="currentLocation('destination')"
-              ></v-text-field>
-              <v-row>
-                <v-col>
-                  <date-picker
-                    v-model="time"
-                    :open.sync="open"
-                    placeholder="Select date & time"
-                    type="datetime"
-                    close-on-complete
-                    format="DD, MMM - hh:mm"
-                  ></date-picker
-                ></v-col>
-                <v-col>
-                  <v-btn @click="showRoute()">
-                    Get Directions
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-card
-                v-if="directions"
-                style="height: 40vh; overflow-y:scroll; overflow-x:hidden;white-space: nowrap;"
-                class="mt-5"
-              >
-                <v-card-text>
-                  <v-btn id="close" @click="closeDirections()">
-                    Close Directions
-                  </v-btn>
-                  <div id="card"></div>
-                </v-card-text>
-              </v-card>
-              <div v-if="directions" class="share-network-list mt-5">
-                <ShareNetwork
-                  v-for="network in networks"
-                  :network="network.network"
-                  :key="network.network"
-                  :style="{ backgroundColor: network.color }"
-                  :url="sharing.url"
-                  :title="sharing.title"
-                  :description="sharing.description"
-                  :quote="sharing.quote"
-                  :hashtags="sharing.hashtags"
-                  :twitterUser="sharing.twitterUser"
-                >
-                  <i :class="network.icon"></i>
-                  <span>{{ network.name }}</span>
-                </ShareNetwork>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat></v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat>
-            <BusStopSearch></BusStopSearch>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat>
-            <div id="landmarksContainer">
-              <v-switch
-                v-for="(item, index) in categories"
-                v-bind:key="item.name"
-                inset
-                color="amber"
-                :prepend-icon="item.icon"
-                :label="item.name"
-                :input-value="item.shown"
-                @change="flipLandmarkSwitch(index, item)"
-              ></v-switch>
-            </div>
-          </v-card>
-        </v-tab-item>
-      </v-tabs>
-    </v-navigation-drawer>
+    <v-card flat v-if="isDirections">
+      <v-card-text>
+        <v-text-field
+          dense
+          v-model="origin"
+          label="Origin"
+          id="locationOrigin"
+          outlined
+          clearable
+          append-icon="mdi-map-marker"
+          @click:append="currentLocation('origin')"
+        ></v-text-field>
+        <v-text-field
+          dense
+          v-model="destination"
+          label="Destination"
+          id="locationDestination"
+          outlined
+          clearable
+          append-icon="mdi-map-marker"
+          @click:append="currentLocation('destination')"
+        ></v-text-field>
+        <v-row>
+          <v-col>
+            <date-picker
+              v-model="time"
+              :open.sync="open"
+              placeholder="Select date & time"
+              type="datetime"
+              close-on-complete
+              format="DD, MMM - hh:mm"
+            ></date-picker
+          ></v-col>
+          <v-col>
+            <v-btn @click="showRoute()">
+              Get Directions
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-card
+          v-if="directions"
+          style="height: 40vh; overflow-y:scroll; overflow-x:hidden;white-space: nowrap;"
+          class="mt-5"
+        >
+          <v-card-text>
+            <v-btn id="close" @click="closeDirections()">
+              Close Directions
+            </v-btn>
+            <div id="card"></div>
+          </v-card-text>
+        </v-card>
+        <div v-if="directions" class="share-network-list mt-5">
+          <ShareNetwork
+            v-for="network in networks"
+            :network="network.network"
+            :key="network.network"
+            :style="{ backgroundColor: network.color }"
+            :url="sharing.url"
+            :title="sharing.title"
+            :description="sharing.description"
+            :quote="sharing.quote"
+            :hashtags="sharing.hashtags"
+            :twitterUser="sharing.twitterUser"
+          >
+            <i :class="network.icon"></i>
+            <span>{{ network.name }}</span>
+          </ShareNetwork>
+        </div>
+      </v-card-text>
+    </v-card>
+    <v-card flat v-if="isRouteViewer"></v-card>
+    <v-card flat v-if="isStopFinder">
+      <BusStopSearch></BusStopSearch>
+    </v-card>
+    <v-card flat v-if="isLandmarks">
+      <div id="landmarksContainer">
+        <v-switch
+          v-for="(item, index) in categories"
+          v-bind:key="item.name"
+          inset
+          color="amber"
+          :prepend-icon="item.icon"
+          :label="item.name"
+          :input-value="item.shown"
+          @change="flipLandmarkSwitch(index, item)"
+        ></v-switch>
+      </div>
+    </v-card>
   </div>
 </template>
 
@@ -346,7 +302,22 @@ var leftMargin = 30; // Grace margin to avoid too close fits on the edge of the 
 var rightMargin = 80;
 export default {
   name: "BusMap",
-  computed: {},
+  computed: {
+    isDirections() {
+      console.log(this.$route.fullPath);
+      return this.$route.fullPath.includes("directions");
+    },
+    isRouteViewer() {
+      return this.$route.fullPath.includes("route-viewer");
+    },
+
+    isStopFinder() {
+      return this.$route.fullPath.includes("stop-finder");
+    },
+    isLandmarks() {
+      return this.$route.fullPath.includes("landmarks");
+    },
+  },
   data: () => ({
     sharing: {
       url: window.location.href,
@@ -815,7 +786,8 @@ function initMap() {
 }
 
 #landmarksContainer {
-  height: 50vh;
+  margin: 5%;
+  height: 95vh;
   overflow-y: auto;
 }
 

@@ -1,14 +1,57 @@
 <template>
   <v-app>
-    <NavBar></NavBar>
+    <v-navigation-drawer
+      app
+      v-model="drawer"
+      :mini-variant.sync="mini"
+      permanent
+      expand-on-hover
+      class="blue accent-4"
+      dark
+    >
+      <v-list-item class="px-2">
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-title>Brian Manning</v-list-item-title>
+
+        <v-btn icon @click.stop="mini = !mini">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          :to="item.link"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-switch
+        ripple
+        append-icon="mdi-moon"
+        v-model="$vuetify.theme.dark"
+        v-on:change="darkMap()"
+        inset
+      ></v-switch>
+    </v-navigation-drawer>
     <v-main>
-      <router-link to="/Home"></router-link>
-      <v-slide-x-transition mode="out-in">
-        <keep-alive>
-          <router-view />
-        </keep-alive>
-      </v-slide-x-transition>
-      <BottomNavBar></BottomNavBar>
+      <v-navigation-drawer absolute width="30vw" id="MapOptions">
+        <router-view />
+      </v-navigation-drawer>
+      <div id="map"></div>
     </v-main>
   </v-app>
 </template>
@@ -26,12 +69,30 @@ export default {
   data: () => ({
     model: null,
     text: null,
+    drawer: true,
     items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" },
+      {
+        title: "Journey Planner",
+        icon: "mdi-map-marker-distance",
+        link: "/directions",
+      },
+      {
+        title: "Route Viewer",
+        icon: "mdi-map-marker-path",
+        link: "/route-viewer",
+      },
+      { title: "Stop Finder", icon: "mdi-bus-stop", link: "/stop-finder" },
+      {
+        title: "Landmarks",
+        icon: "mdi-map-search-outline",
+        link: "/landmarks",
+      },
+      { title: "Favourites", icon: "mdi-heart", link: "/favourites"  },
+      { title: "Reviews", icon: "mdi-star", link: "/ratings"  },
+      { title: "News", icon: "mdi-newspaper", link: "/news"  },
+      { title: "My Account", icon: "mdi-account", link: "/myaccount" },
     ],
+    mini: true,
   }),
   computed: {},
 };
@@ -45,5 +106,10 @@ body {
   padding: 0;
   margin: 0;
   overflow: hidden;
+}
+
+#MapOptions {
+  position: absolute;
+  top: 0;
 }
 </style>
