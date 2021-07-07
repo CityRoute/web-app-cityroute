@@ -11,7 +11,7 @@ import os
 
 class Command(BaseCommand):
     appid = os.getenv("weatherapikey")
-    api_url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Dublin&cnt=16&appid={id}".format(id = appid)
+    api_url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Dublin,IE&cnt=16&units=metric&cnt=16&appid={id}".format(id = appid)
     
     # define logic of command
     def handle(self, *args, **options):
