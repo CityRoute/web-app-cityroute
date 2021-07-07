@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
+from .models import Weather
 # Register serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +33,9 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class CustomTokenSerializer(serializers.Serializer):
     token = serializers.CharField()
+
+
+class WeatherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Weather
+        fields = '__all__'
