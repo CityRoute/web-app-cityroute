@@ -13,7 +13,7 @@ from .serializer import RegisterSerializer, UserSerializer
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
-from .serializers import WeatherSerializer
+from .serializer import WeatherSerializer
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
