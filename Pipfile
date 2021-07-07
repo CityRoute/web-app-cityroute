@@ -12,7 +12,6 @@ dj-database-url = "*"
 psycopg2-binary = "*"
 pandas = "*"
 lxml = "*"
-djangorestframework-jwt = "*"
 djangorestframework-simplejwt = "*"
 django-rest-passwordreset = "*"
 psycopg2 = "*"
@@ -20,6 +19,7 @@ django-heroku = "*"
 bs4 = "*"
 heroku3 = "*"
 requests = "*"
+django-defender = "*"
 
 [dev-packages]
 
