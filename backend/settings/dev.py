@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "backend.api",
     "rest_framework_simplejwt.token_blacklist",
     "django_rest_passwordreset",
-    "defender",
 ]
 
 MIDDLEWARE = [
@@ -54,7 +53,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "defender.middleware.FailedLoginMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -182,5 +180,3 @@ DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
 # import django_heroku
 # django_heroku.settings(locals())
 
-# SECURITY
-SECURE_CONTENT_TYPE_NOSNIFF = True

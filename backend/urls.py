@@ -30,7 +30,6 @@ urlpatterns = [
     path("api/", include(router.urls)),
     # http://localhost:8000/api/admin/
     path("api/admin/", admin.site.urls),
-    path("admin/defender/", include("defender.urls")),  # defender admin
     url("api-token/", TokenObtainPairView.as_view()),
     url("api-token-refresh/", TokenRefreshView.as_view()),
     path("api/register", RegisterApi.as_view()),
