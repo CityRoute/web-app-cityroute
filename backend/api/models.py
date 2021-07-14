@@ -8,6 +8,8 @@ import os
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.timezone import make_aware, now
+from postgres_copy import CopyManager
+
 
 
 class Message(models.Model):
@@ -39,8 +41,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
 
 class Weather(models.Model):
-    # lon = models.FloatField()
-    # lat = models.FloatField()
     day_number = models.IntegerField(default=1)
     temp_day = models.FloatField(default=0)
     temp_min = models.FloatField(default=0)
@@ -65,6 +65,20 @@ class Weather(models.Model):
     class Meta:
         ordering = ['datetime']
         db_table = 'weather'
-        # unique_together = ['day_number', 'scraped_on']
     class Admin:
         pass
+
+
+class Stop(models.Model):
+    name = models.CharField(default='Missing', max_length=50)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
+    unique_id = models.CharField(default='Missing', max_length=15)
+
+    def __str__(self):
+        return str(self.name)
+    class Meta:
+        db_table = 'stops'
+    class Admin:
+        pass
+    

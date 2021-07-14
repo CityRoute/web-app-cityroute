@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0455920a420dfac286a37a268b006e767a79b423204fe2518eaed9e6a11e35f8"
+            "sha256": "b3dd4364b3e50a9254dc73ed9a1c118349bb537602ede7b2e36bdb24a50f6796"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -77,6 +77,14 @@
             ],
             "index": "pypi",
             "version": "==0.3.1"
+        },
+        "django-postgres-copy": {
+            "hashes": [
+                "sha256:220ea9c4a9e9c58d0958b2ce860bfa4ec37b50629a72d5db76eceaa302ef25f8",
+                "sha256:68789c3cccbde7b3d0b2dcb93467876cb7530050f3dc10857c708c453689eeda"
+            ],
+            "index": "pypi",
+            "version": "==2.6.0"
         },
         "django-rest-passwordreset": {
             "hashes": [
