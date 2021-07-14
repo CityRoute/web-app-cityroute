@@ -70,14 +70,17 @@ class Weather(models.Model):
 
 
 class Stop(models.Model):
+    unique_id = models.CharField(default='Missing', max_length=15)
     name = models.CharField(default='Missing', max_length=50)
+    number = models.IntegerField(default=0)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
-    unique_id = models.CharField(default='Missing', max_length=15)
+
 
     def __str__(self):
         return str(self.name)
     class Meta:
+        # ordering = ['number']
         db_table = 'stops'
     class Admin:
         pass
