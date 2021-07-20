@@ -95,8 +95,8 @@ class Stop(models.Model):
 
 
 class FavouriteStop(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing')
-    stopid = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='favstops')
+    stopid = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='favstops')
 
     def __str__(self):
         return f"{self.user}-{self.stopid}"

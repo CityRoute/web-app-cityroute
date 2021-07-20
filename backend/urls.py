@@ -4,6 +4,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
 """
 
+from backend.api.serializer import FavouriteStopSerializer
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
@@ -11,7 +12,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStop
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStops, FavouriteStopsAll
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -38,7 +39,11 @@ urlpatterns = [
     # http://localhost:8000/api/weather-forecast/<day>
     path('api/weather-forecast/<int:day_number>', WeatherByDay, name='weather-forecast'),
 
-    # # http://localhost:8000/api/favourite-stops/<username>
-    # path('api/favourite-stops/<str:username>', FavouriteStop, name='favourite-stops')
+   # http://localhost:8000/api/favourite-stops-all/
+    path('api/favourite-stops-all/', FavouriteStopsAll, name='favourite-stops-all'),
+
+
+    # http://localhost:8000/api/favourite-stops/<username>
+    path('api/favourite-stops/<str:username>', FavouriteStops, name='favourite-stops')
 
     ]

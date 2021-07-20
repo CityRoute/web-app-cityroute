@@ -101,17 +101,27 @@ def WeatherByDay(request, day_number):
     print(serializer.data)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def FavouriteStopsAll(request):
+    """
+    Retrieve all users' favourite bus stops
+    """
+    user = FavouriteStop.objects.all()
+    serializer = FavouriteStopSerializer(user, many=True)
+    print(serializer.data)
+    return Response(serializer.data)
 
-# @api_view(['GET'])
-# def FavouriteStops(request, username):
-#     """
-#     Retrieve a given user's favourited bus stops
-#     """
-#     user = User.objects.get(username=username)
+@api_view(['GET'])
+def FavouriteStops(request, username):
+    """
+    Retrieve a given user's favourited bus stops
+    """
+    user = User.objects.get(username=username)
+    stops = user.favstops.all()
 
-#     serializer = FavouriteStopSerializer(user, many=True)
-#     print(serializer.data)
-    # return user.favourites.values('stopid')
+    serializer = FavouriteStopSerializer(stops, many=True)
+    print(serializer.data)
+    return Response(serializer.data)
 
 
 
