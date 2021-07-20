@@ -4,16 +4,15 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Message, MessageSerializer, Weather
+from .models import Message, MessageSerializer, Weather, User, Stop, FavouriteStop
 import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
-from .serializer import RegisterSerializer, UserSerializer
+from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, FavouriteStopSerializer
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
-from .serializer import WeatherSerializer
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
@@ -101,3 +100,18 @@ def WeatherByDay(request, day_number):
     serializer = WeatherSerializer(weather, many=True)
     print(serializer.data)
     return Response(serializer.data)
+
+
+# @api_view(['GET'])
+# def FavouriteStops(request, username):
+#     """
+#     Retrieve a given user's favourited bus stops
+#     """
+#     user = User.objects.get(username=username)
+
+#     serializer = FavouriteStopSerializer(user, many=True)
+#     print(serializer.data)
+    # return user.favourites.values('stopid')
+
+
+
