@@ -93,38 +93,18 @@ class Stop(models.Model):
         pass
     
 
-# class User(models.Model):
-#     email = models.CharField(default='Missing', max_length=40)
-#     first_name = models.CharField(default='Missing', max_length=25)
-#     last_name = models.CharField(default='Missing', max_length=25)
-#     username = models.CharField(default='Missing', max_length=15, primary_key=True)
-
-#     def __str__(self):
-#         return str(self.email)
-#     class Meta:
-#         db_table = 'users'
-#     class Admin:
-#         pass
-
-
 
 class FavouriteStop(models.Model):
-    # user = models.ManyToManyField(User, default='Missing')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing')
-
-    # stopid = models.ManyToManyField(Stop, default='Missing')
     stopid = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing')
-
 
     def __str__(self):
         return f"{self.user}-{self.stopid}"
     class Meta:
-        # db_table = 'blablabla'
-        # constraints = [
-        #     models.UniqueConstraint(fields=['user', 'stopid'], name='unique_favourite')
-        # ]
-        
-        unique_together = [['user', 'stopid']]
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'stopid'], name='unique_favourite')
+        ]
+        pass
     class Admin:
         pass
 
