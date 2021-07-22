@@ -13,6 +13,10 @@ from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, F
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+
+
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
@@ -111,17 +115,56 @@ def FavouriteStopsAll(request):
     print(serializer.data)
     return Response(serializer.data)
 
+# @api_view(['GET'])
+# def FavouriteStops(request, username):
+#     """
+#     Retrieve a given user's favourited bus stops
+#     """
+#     user = User.objects.get(username=username)
+#     stops = user.favstops.all()
+
+#     serializer = FavouriteStopSerializer(stops, many=True)
+#     print(serializer.data)
+#     return Response(serializer.data)
+
+
+# @login_required(login_url='/accounts/login/')
 @api_view(['GET'])
-def FavouriteStops(request, username):
+def FavouriteStops(request):
     """
     Retrieve a given user's favourited bus stops
     """
-    user = User.objects.get(username=username)
-    stops = user.favstops.all()
+    print(request.user.is_anonymous)
+    # username = request.POST.get('tester', False)
+    # password = request.POST.get('password')
+    # user = authenticate(request, username=username, password=password)
+    # if user is not None:
+    #     login(request, user)
+    #     print('login successful')
+    # else:
+    #     print('invalid login error')
 
+
+    user = request.user.id
+    print(user)
+    objs = User.objects.get(id=user)
+    # user = request.user
+    stops = objs.favstops.all()
     serializer = FavouriteStopSerializer(stops, many=True)
     print(serializer.data)
     return Response(serializer.data)
 
+
+    # if request.user.is_authenticated:
+    #     stops = user.favstops.all()
+
+    #     serializer = FavouriteStopSerializer(stops, many=True)
+    #     print(serializer.data)
+    #     return Response(serializer.data)
+    # else:
+    #     print("User not authenticated")
+    #     return
+
+    
 
 
