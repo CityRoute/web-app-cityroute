@@ -44,7 +44,6 @@ urlpatterns = [
 
 
     # http://localhost:8000/api/favourite-stops/<username>
-    # path('api/favourite-stops/<str:username>', FavouriteStops, name='favourite-stops')
     path('api/favourite-stops/', FavouriteStops, name='favourite-stops')
 
 

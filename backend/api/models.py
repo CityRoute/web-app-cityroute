@@ -108,3 +108,22 @@ class FavouriteStop(models.Model):
     class Admin:
         pass
 
+
+# class Route(models.Model):
+#     number = models.CharField(default='Missing')
+#     start_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+#     end_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='review')
+    title = models.CharField(default='Missing', max_length=50)
+    content = models.CharField(default='Missing', max_length=350)
+
+    def __str__(self):
+        return f"{self.user}-{self.title}"
+    class Meta:
+        pass
+    class Admin:
+        pass

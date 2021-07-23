@@ -115,55 +115,23 @@ def FavouriteStopsAll(request):
     print(serializer.data)
     return Response(serializer.data)
 
-# @api_view(['GET'])
-# def FavouriteStops(request, username):
-#     """
-#     Retrieve a given user's favourited bus stops
-#     """
-#     user = User.objects.get(username=username)
-#     stops = user.favstops.all()
 
-#     serializer = FavouriteStopSerializer(stops, many=True)
-#     print(serializer.data)
-#     return Response(serializer.data)
-
-
-# @login_required(login_url='/accounts/login/')
 @api_view(['GET'])
 def FavouriteStops(request):
     """
-    Retrieve a given user's favourited bus stops
+    Retrieve currently logged in user's favourited bus stops. 
+    To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
     """
-    print(request.user.is_anonymous)
-    # username = request.POST.get('tester', False)
-    # password = request.POST.get('password')
-    # user = authenticate(request, username=username, password=password)
-    # if user is not None:
-    #     login(request, user)
-    #     print('login successful')
-    # else:
-    #     print('invalid login error')
-
-
-    user = request.user.id
-    print(user)
-    objs = User.objects.get(id=user)
-    # user = request.user
-    stops = objs.favstops.all()
+    userid = request.user.id
+    user = User.objects.get(id=userid)
+    stops = user.favstops.all()
     serializer = FavouriteStopSerializer(stops, many=True)
     print(serializer.data)
     return Response(serializer.data)
 
 
-    # if request.user.is_authenticated:
-    #     stops = user.favstops.all()
 
-    #     serializer = FavouriteStopSerializer(stops, many=True)
-    #     print(serializer.data)
-    #     return Response(serializer.data)
-    # else:
-    #     print("User not authenticated")
-    #     return
+
 
     
 
