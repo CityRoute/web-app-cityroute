@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Message, MessageSerializer, Weather, User, Stop, FavouriteStop
+from .models import Message, MessageSerializer, Weather, User, Stop, FavouriteStop, Review
 import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
@@ -142,6 +142,15 @@ def addFavStop(request, number):
     return Response(status=status.HTTP_201_CREATED)
     
 
+@api_view(['POST', 'GET'])
+def writeReview(request, title, content):
+    """
+    Write review from logged in user's account & save to Review model/table in db
+    """
+    user = request.user
+    r = Review(user=user, title=title, content=content)
+    r.save()
+    return Response(status=status.HTTP_201_CREATED)
 
     
 
