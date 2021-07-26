@@ -13,8 +13,9 @@ from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, F
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+from django.http import HttpResponse
+
 
 
 
@@ -135,11 +136,17 @@ def addFavStop(request, number):
     Add favourite stop of currently logged in user by number. 
     Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
     """
-    user = request.user
-    stop = Stop.objects.get(number=number)
-    s = FavouriteStop(user=user, stopid=stop)
-    s.save()
-    return Response(status=status.HTTP_201_CREATED)
+    try:
+        user = request.user
+        if Stop.objects.filter(number=number).exists():
+            stop = Stop.objects.get(number=number)
+            s = FavouriteStop(user=user, stopid=stop)
+            s.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            print("Stop does not exist.")
+    except IntegrityError as e:
+        return HttpResponse("Error: Stop is already a favourite for this user.")
     
 
 @api_view(['POST', 'GET'])
