@@ -40,6 +40,12 @@ class WeatherSerializer(serializers.ModelSerializer):
         model = Weather
         fields = '__all__'
 
+class StopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stop
+        fields = '__all__'
+
+
 class FavouriteStopSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavouriteStop

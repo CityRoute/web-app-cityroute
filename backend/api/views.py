@@ -9,12 +9,14 @@ import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
-from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, FavouriteStopSerializer
+from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, StopSerializer, FavouriteStopSerializer
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
 from django.db import IntegrityError
+# from django.db import AssertionError
 from django.http import HttpResponse
+
 
 
 
@@ -107,6 +109,14 @@ def WeatherByDay(request, day_number):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def getAllStops(request):
+    stops = Stop.objects.all()
+    serializer = StopSerializer(stops, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
 def FavouriteStopsAll(request):
     """
     Retrieve all users' favourite bus stops
@@ -136,6 +146,7 @@ def addFavStop(request, number):
     Add favourite stop of currently logged in user by number. 
     Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
     """
+    
     try:
         user = request.user
         if Stop.objects.filter(number=number).exists():
@@ -147,13 +158,19 @@ def addFavStop(request, number):
             print("Stop does not exist.")
     except IntegrityError as e:
         return HttpResponse("Error: Stop is already a favourite for this user.")
-    
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+
+
 
 @api_view(['POST', 'GET'])
 def writeReview(request, title, content):
     """
     Write review from logged in user's account & save to Review model/table in db
     """
+    
     user = request.user
     r = Review(user=user, title=title, content=content)
     r.save()

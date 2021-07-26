@@ -12,7 +12,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -38,6 +38,9 @@ urlpatterns = [
 
     # http://localhost:8000/api/weather-forecast/<day>
     path('api/weather-forecast/<int:day_number>', WeatherByDay, name='weather-forecast'),
+
+    # http://localhost:8000/api/stops-all/
+    path('api/stops-all/', getAllStops, name='stops-all'),
 
    # http://localhost:8000/api/favourite-stops-all/
     path('api/favourite-stops-all/', FavouriteStopsAll, name='favourite-stops-all'),
