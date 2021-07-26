@@ -94,17 +94,10 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    },
-    "weather": {
-        "NAME": "django_weather",
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "USER": "django_user",
-        "HOST": "",
-        "PORT": "",
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
