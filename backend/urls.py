@@ -12,7 +12,7 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView)
 
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops
+from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop
 
 router = routers.DefaultRouter()
 router.register('messages', MessageViewSet)
@@ -43,8 +43,9 @@ urlpatterns = [
     path('api/favourite-stops-all/', FavouriteStopsAll, name='favourite-stops-all'),
 
 
-    # http://localhost:8000/api/favourite-stops/<username>
-    path('api/favourite-stops/', FavouriteStops, name='favourite-stops')
+    # http://localhost:8000/api/favourite-stops/
+    path('api/favourite-stops/', FavouriteStops, name='favourite-stops'),
 
-
+    # http://localhost:8000/api/add-fav-stop/<number>
+    path('api/add-fav-stop/<int:number>', addFavStop, name='add-favourite-stops')
     ]

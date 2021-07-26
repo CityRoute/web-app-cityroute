@@ -129,8 +129,18 @@ def FavouriteStops(request):
     print(serializer.data)
     return Response(serializer.data)
 
-
-
+@api_view(['POST', 'GET'])
+def addFavStop(request, number):
+    """ 
+    Add favourite stop of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
+    """
+    user = request.user
+    stop = Stop.objects.get(number=number)
+    s = FavouriteStop(user=user, stopid=stop)
+    s.save()
+    return Response(status=status.HTTP_201_CREATED)
+    
 
 
     
