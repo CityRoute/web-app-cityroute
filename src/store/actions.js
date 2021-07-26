@@ -31,7 +31,7 @@ export default {
           // storing jwt in localStorage. https cookie is safer place to store
           localStorage.setItem("token", token);
           localStorage.setItem("user", user);
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
           // calling the mutation "auth_success" to change/update state.properties to the new values passed along in the second param
           commit("auth_success", { token, user });
           resolve(response);

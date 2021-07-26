@@ -149,6 +149,7 @@ def addFavStop(request, number):
     
     try:
         user = request.user
+        print(user)
         if Stop.objects.filter(number=number).exists():
             stop = Stop.objects.get(number=number)
             s = FavouriteStop(user=user, stopid=stop)

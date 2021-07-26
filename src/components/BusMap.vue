@@ -703,17 +703,17 @@ function initMap() {
   // var instances = [];
   for (var key of Object.keys(stops)) {
     var myLatLng = {
-      lat: parseFloat(stops[key].stop_lat),
-      lng: parseFloat(stops[key].stop_lon),
+      lat: parseFloat(stops[key].latitude),
+      lng: parseFloat(stops[key].longitude),
     };
-    // console.log(stops[key].stop_lon);
-    stopMarkers[stops[key].stop_name] = new google.maps.Marker({
+    // console.log(stops[key].longitude);
+    stopMarkers[stops[key].name] = new google.maps.Marker({
       position: new google.maps.LatLng(
-        parseFloat(stops[key].stop_lat),
-        parseFloat(stops[key].stop_lon)
+        parseFloat(stops[key].latitude),
+        parseFloat(stops[key].longitude)
       ),
       map: map,
-      title: stops[key].stop_name,
+      title: stops[key].name,
       icon: icon,
       id: key,
       visible: false,
@@ -724,7 +724,7 @@ function initMap() {
   // var new_infowindows = [];
   // var instances = [];
   for (var key of Object.keys(landmarks_data.markers)) {
-    // console.log(stops[key].stop_lon);
+    // console.log(stops[key].longitude);
     const contentString =
       '<div id="content">' +
       '<div id="siteNotice">' +
