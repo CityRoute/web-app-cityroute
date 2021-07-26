@@ -20,6 +20,7 @@ bs4 = "*"
 heroku3 = "*"
 requests = "*"
 django-defender = "*"
+django-postgres-copy = "*"
 
 [dev-packages]
 

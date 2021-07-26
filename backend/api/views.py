@@ -4,16 +4,22 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Message, MessageSerializer, Weather
+from .models import Message, MessageSerializer, Weather, User, Stop, FavouriteStop, Review
 import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
 from rest_framework.response import Response
-from .serializer import RegisterSerializer, UserSerializer
+from .serializer import RegisterSerializer, UserSerializer, WeatherSerializer, StopSerializer, FavouriteStopSerializer
 from django.contrib.auth.models import User
 from .serializer import ChangePasswordSerializer
 from rest_framework.permissions import IsAuthenticated   
-from .serializers import WeatherSerializer
+from django.db import IntegrityError
+# from django.db import AssertionError
+from django.http import HttpResponse
+
+
+
+
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
@@ -101,3 +107,75 @@ def WeatherByDay(request, day_number):
     serializer = WeatherSerializer(weather, many=True)
     print(serializer.data)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getAllStops(request):
+    stops = Stop.objects.all()
+    serializer = StopSerializer(stops, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def FavouriteStopsAll(request):
+    """
+    Retrieve all users' favourite bus stops
+    """
+    user = FavouriteStop.objects.all()
+    serializer = FavouriteStopSerializer(user, many=True)
+    print(serializer.data)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def FavouriteStops(request):
+    """
+    Retrieve currently logged in user's favourited bus stops. 
+    To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
+    """
+    userid = request.user.id
+    user = User.objects.get(id=userid)
+    stops = user.favstops.all()
+    serializer = FavouriteStopSerializer(stops, many=True)
+    print(serializer.data)
+    return Response(serializer.data)
+
+@api_view(['POST', 'GET'])
+def addFavStop(request, number):
+    """ 
+    Add favourite stop of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
+    """
+    
+    try:
+        user = request.user
+        if Stop.objects.filter(number=number).exists():
+            stop = Stop.objects.get(number=number)
+            s = FavouriteStop(user=user, stopid=stop)
+            s.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            print("Stop does not exist.")
+    except IntegrityError as e:
+        return HttpResponse("Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+
+
+
+@api_view(['POST', 'GET'])
+def writeReview(request, title, content):
+    """
+    Write review from logged in user's account & save to Review model/table in db
+    """
+    
+    user = request.user
+    r = Review(user=user, title=title, content=content)
+    r.save()
+    return Response(status=status.HTTP_201_CREATED)
+
+    
+
+

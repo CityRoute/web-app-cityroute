@@ -8,6 +8,15 @@ import os
 from django.core import mail
 from django.template.loader import render_to_string
 from django.utils.timezone import make_aware, now
+from postgres_copy import CopyManager
+from django.contrib.auth import get_user_model
+
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+
+
+
 
 
 class Message(models.Model):
@@ -39,8 +48,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
 
 class Weather(models.Model):
-    # lon = models.FloatField()
-    # lat = models.FloatField()
     day_number = models.IntegerField(default=1)
     temp_day = models.FloatField(default=0)
     temp_min = models.FloatField(default=0)
@@ -65,6 +72,58 @@ class Weather(models.Model):
     class Meta:
         ordering = ['datetime']
         db_table = 'weather'
-        # unique_together = ['day_number', 'scraped_on']
+    class Admin:
+        pass
+
+
+class Stop(models.Model):
+    number = models.IntegerField(default=0)
+    unique_id = models.CharField(default='Missing', max_length=15, primary_key=True)
+    name = models.CharField(default='Missing', max_length=50)
+    
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
+
+
+    def __str__(self):
+        return str(self.name)
+    class Meta:
+        db_table = 'stops'
+    class Admin:
+        pass
+    
+
+
+class FavouriteStop(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='favstops')
+    stopid = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='favstops')
+
+    def __str__(self):
+        return f"{self.user}-{self.stopid}"
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'stopid'], name='unique_favourite')
+        ]
+        pass
+    class Admin:
+        pass
+
+
+# class Route(models.Model):
+#     number = models.CharField(default='Missing')
+#     start_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+#     end_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='review')
+    title = models.CharField(default='Missing', max_length=50)
+    content = models.CharField(default='Missing', max_length=350)
+
+    def __str__(self):
+        return f"{self.user}-{self.title}"
+    class Meta:
+        pass
     class Admin:
         pass
