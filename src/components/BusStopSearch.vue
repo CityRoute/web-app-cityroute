@@ -119,7 +119,7 @@ export default {
           {},
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
             },
           }
         )
