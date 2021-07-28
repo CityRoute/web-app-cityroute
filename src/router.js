@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 // import VueDemo from "@/views/VueDemo";
 import BusMap from "@/components/BusMap.vue";
+import Favourite from "@/components/Favourite.vue";
 import Messages from "@/views/Messages";
 import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
@@ -40,6 +41,10 @@ export default new Router({
         },
         {
           path: "landmarks",
+          component: BusMap,
+        },
+        {
+          path: "favourites",
           component: BusMap,
         },
       ],

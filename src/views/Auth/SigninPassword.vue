@@ -77,7 +77,7 @@ export default {
   methods: {
     wip,
     login() {
-      console.log(this.$store.state.identifier, this.$store.state.password);
+      // console.log(this.$store.state.identifier, this.$store.state.password);
       this.$store
         .dispatch("userLogin", {
           username: this.$store.state.identifier,
@@ -87,7 +87,7 @@ export default {
           this.$router.push({ name: "MyAccount" });
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           this.incorrectAuth = true;
         });
     },

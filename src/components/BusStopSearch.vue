@@ -124,16 +124,16 @@ export default {
           }
         )
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
         })
         .catch(function(error) {
-          console.log(error);
+          // console.log(error);
         });
     },
     showSchedule() {
       this.isFetching = true;
       let stop_desc = this.model.Description + "";
-      console.log(this.model.number);
+      // console.log(this.model.number);
       stop_desc = stop_desc.split(" ");
 
       let stop_num = stop_desc[stop_desc.length - 1];

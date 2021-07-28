@@ -133,8 +133,7 @@ def FavouriteStops(request):
     Retrieve currently logged in user's favourited bus stops. 
     To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
     """
-    userid = request.user.id
-    user = User.objects.get(id=userid)
+    user = request.user
     stops = user.favstops.all()
     serializer = FavouriteStopSerializer(stops, many=True)
     print(serializer.data)

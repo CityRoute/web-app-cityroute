@@ -27,7 +27,7 @@ export default {
           //i know the object im getting back has an access_token and username prop
           const token = response.data.access_token;
           const user = response.data.username;
-          console.log(response); // lazy error handling its everywhere lol
+          // console.log(response); // lazy error handling its everywhere lol
           // storing jwt in localStorage. https cookie is safer place to store
           localStorage.setItem("token", token);
           localStorage.setItem("user", user);
@@ -37,7 +37,7 @@ export default {
           resolve(response);
         })
         .catch((err) => {
-          console.log("login error");
+          // console.log("login error");
           commit("auth_error");
           localStorage.removeItem("token");
           reject(err);
@@ -64,21 +64,21 @@ export default {
         commit("auth_success", { token });
       })
       .catch((error) => {
-        console.log("refresh token error");
+        // console.log("refresh token error");
         commit("logout");
         localStorage.removeItem("token");
-        console.log(error);
+        // console.log(error);
       });
   },
   getTableList({ commit }, tableName) {
     this.$http
       .get(`/${tableName}`)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         let tableList = response.data.Keys;
         commit("setTableList", { tableList });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => // console.log(error));
   },
   updateTableItem(tableData) {
     return new Promise((resolve, reject) => {
@@ -93,7 +93,7 @@ export default {
           resolve(response);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           reject(error);
         });
     });
@@ -112,8 +112,8 @@ export default {
   //           resolve(response)
   //         })
   //         .catch(error => {
-  //           console.log('refresh token error')
-  //           console.log(error)
+  //           // console.log('refresh token error')
+  //           // console.log(error)
   //           reject(error)
   //         })
   //     }, 1200000)
