@@ -47,8 +47,7 @@
         </v-theme-provider>
       </div>
     </v-expand-transition>
-    <v-card-actions>
-      <v-spacer></v-spacer>
+    <v-card-actions class="justify-center">
       <v-btn :disabled="!model" color="yellow darken-3" @click="showSchedule">
         Schedule
         <v-icon right>
@@ -66,6 +65,10 @@
           mdi-star
         </v-icon>
       </v-btn>
+          </v-card-actions>
+
+          <v-card-actions class="justify-center">
+
       <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
         Show on Map
         <v-icon right>

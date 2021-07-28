@@ -48,59 +48,34 @@
         inset
       ></v-switch>
     </v-navigation-drawer>
-    <v-main>
-      <v-navigation-drawer
-        v-if="$vuetify.breakpoint.mdAndUp"
-        absolute
-        width="30vw"
-        id="MapOptions"
-      >
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-h4">
-              <v-icon large>mdi-bus-stop-covered</v-icon>
-              CityRoute
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              Dublin Bus Directions Service
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-spacer></v-spacer>
-        <router-view />
-      </v-navigation-drawer>
-
-      <div class="text-center" v-else>
-        <v-bottom-sheet scrollable v-model="sheet" inset>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              id="thebutton"
-              fab
-              fixed
-              bottom
-              dark
-              v-bind="attrs"
-              v-on="on"
-              color="blue darken-2"
-            >
-              <v-icon>
-                mdi-account-circle
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-card class="text-center">
-            <v-card-title>Select Country</v-card-title>
-            <v-card-text style="height: 50vh;">
-              <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
-                close
-              </v-btn>
-              <router-view />
-            </v-card-text>
-          </v-card>
-        </v-bottom-sheet>
+    <v-main v-if="$vuetify.breakpoint.mdAndDown">
+      <div height="30vh">
+        <div id="map" style="height:30vh;"></div>
+        <div style="height:70vh; overflow-y: auto;">
+          <router-view />
+        </div>
       </div>
-      <div id="map"></div>
     </v-main>
+    <div v-else>
+      <v-main>
+        <v-navigation-drawer absolute width="30vw" id="MapOptions">
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-h4">
+                <v-icon large>mdi-bus-stop-covered</v-icon>
+                CityRoute
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Dublin Bus Directions Service
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-spacer></v-spacer>
+          <router-view />
+        </v-navigation-drawer>
+      </v-main>
+    </div>
+    <div id="map"></div>
   </v-app>
 </template>
 
