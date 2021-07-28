@@ -636,9 +636,19 @@ export default {
       (this.destination = this.$route.query.destination),
       initMap();
     this.$root.$on("marker", (text) => {
-      // console.log(stopMarkers[text]);
-      if (!map.getBounds().contains(stopMarkers[text].getPosition())) {
-        map.setCenter(stopMarkers[text].getPosition());
+      console.log(stopMarkers);
+
+      console.log(text);
+      if (
+        !map
+          .getBounds()
+          .contains(
+            stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
+          )
+      ) {
+        map.setCenter(
+          stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
+        );
       }
     });
     this.showRoute();
