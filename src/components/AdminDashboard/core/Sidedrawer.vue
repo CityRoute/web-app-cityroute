@@ -1,14 +1,6 @@
 <template>
-  <v-navigation-drawer
-    v-model = "drawerShown"
-    absolute
-    temporary
-    app
-  >
-    <v-list
-      nav
-      dense
-    >
+  <v-navigation-drawer v-model="drawerShown" absolute temporary app>
+    <v-list nav dense>
       <v-list-item-group
         v-model="group"
         active-class="deep-purple--text text--accent-4"
@@ -32,43 +24,35 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 export default {
-    data() {
-        return {
-            group: false,
-            drawerShown: false,
-            drawer: this.drawerState
-            
-        }
+  data() {
+    return {
+      group: false,
+      drawerShown: false,
+      drawer: this.drawerState,
+    };
+  },
+  mounted() {
+    // gets the initial drawer state(false) so it can be watched in data.drawer
+    this.drawer = this.drawerState;
+  },
+  watch: {
+    drawerState: function() {
+      // console.log(`Watcher for data.drawer: ${this.drawer}`)
+      this.drawerShown = this.drawerState;
+      // console.log(`Watcher for drawerShown: ${this.drawerShown}`)
     },
-    mounted (){ // gets the initial drawer state(false) so it can be watched in data.drawer
-      this.drawer = this.drawerState
+    drawerShown() {
+      // console.log("this is DrawerShown Watcher: " + this.drawerShown)
+      this.$store.state.drawertoggle.drawerState = this.drawerShown;
     },
-    watch: { 
-      drawerState: function () {
-        console.log(`Watcher for data.drawer: ${this.drawer}`)
-        this.drawerShown = this.drawerState
-        console.log(`Watcher for drawerShown: ${this.drawerShown}`)
-      },
-      drawerShown (){
-        console.log("this is DrawerShown Watcher: " + this.drawerShown)
-        this.$store.state.drawertoggle.drawerState = this.drawerShown
-      }
-    },
-    computed : {
-      ...mapState(
-          'drawertoggle',
-          ['drawerState']
-      ),
-
-    },
-    methods: {
-    },
-
-}
+  },
+  computed: {
+    ...mapState("drawertoggle", ["drawerState"]),
+  },
+  methods: {},
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

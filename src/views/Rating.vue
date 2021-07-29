@@ -44,7 +44,7 @@ export default {
   }),
   methods: {
     updateInput(value, id) {
-      console.log(value, id);
+      // console.log(value, id);
     },
     updateSheet() {
       this.sheet = !this.sheet;
@@ -60,7 +60,4 @@ export default {
   position: fixed;
   z-index: 999;
 }
-
-
-
 </style>

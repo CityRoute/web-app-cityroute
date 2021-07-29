@@ -48,7 +48,16 @@
         inset
       ></v-switch>
     </v-navigation-drawer>
-    <v-main>
+    <v-main v-if="$vuetify.breakpoint.mdAndDown">
+      <div height="30vh">
+        <div id="map" style="height:30vh;"></div>
+        <div style="height:70vh; overflow-y: auto;">
+          <router-view />
+        </div>
+      </div>
+    </v-main>
+
+    <v-main v-else>
       <v-navigation-drawer
         v-if="$vuetify.breakpoint.mdAndUp"
         absolute

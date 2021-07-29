@@ -60,7 +60,7 @@ export default {
           this.$router.push({ name: "MyAccount" });
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           this.incorrectAuth = true;
         });
     },

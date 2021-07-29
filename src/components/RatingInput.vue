@@ -138,7 +138,7 @@ export default {
   }),
   methods: {
     updateInput(value, id) {
-      console.log(value, id);
+      // console.log(value, id);
     },
   },
 };
