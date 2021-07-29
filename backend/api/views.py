@@ -136,9 +136,18 @@ def FavouriteStops(request):
     userid = request.user.id
     user = User.objects.get(id=userid)
     stops = user.favstops.all()
-    serializer = FavouriteStopSerializer(stops, many=True)
-    print(serializer.data)
-    return Response(serializer.data)
+    data = []
+    for s in stops:
+        data.append({
+            'name': s.stopid.name, 
+            'number' : s.stopid.number,
+            'unique_id' : s.stopid.unique_id,
+            'latitude': s.stopid.latitude,
+            'longitude': s.stopid.longitude
+
+        })
+
+    return Response(data)
 
 @api_view(['POST', 'GET'])
 def addFavStop(request, number):
