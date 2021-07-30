@@ -19,12 +19,17 @@
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </template>
-
-        <v-list-item v-for="child in item.items" :key="child.title">
-          <v-list-item-content>
-            <v-list-item-title v-text="child.stopid"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-group
+          v-model="selectedItem"
+          color="primary"
+        >
+          <v-list-item v-for="child in item.items" :key="child.title">
+            <v-list-item-content @add-marker="makeMarker(child)">
+              <v-list-item-title v-text="child.name"></v-list-item-title>
+              <p>Stop: {{ child.number }}</p>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list-group>
     </v-list>
   </v-card>
@@ -34,6 +39,7 @@
 import axios from "axios";
 export default {
   data: () => ({
+    selectedItem: 1,
     favouriteStops: [],
   }),
   computed: {
@@ -51,8 +57,23 @@ export default {
   beforeMount() {
     this.getFavouriteStops();
   },
+  created(){
+    EventBus.$on('add-marker', (data)=>{
+       let marker = this.makeMarker(data.latitude, data.longitude);
+       this.$markers.push(marker);
+     });
+  },
 
   methods: {
+    makeMarker(latitude, longitude) {
+      console.log('hello latitude is ', latitude)
+      return new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        icon: null,
+        map: this.$map,
+        title: null,
+      });
+    },
     getFavouriteStops() {
       axios
         .get(
