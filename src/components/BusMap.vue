@@ -585,7 +585,8 @@ export default {
 
       directionsService.route(request, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          // console.log(response);
+          console.log(response);
+
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
           $("#close").on("click", function() {
