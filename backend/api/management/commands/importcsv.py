@@ -7,7 +7,7 @@ import csv
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        with open('backend/api/management/commands/stops.csv') as f:
+        with open('backend/api/management/commands/stops.csv', encoding='UTF-8') as f:
             reader = csv.reader(f)
             for row in reader:
                 created = Stop.objects.get_or_create(

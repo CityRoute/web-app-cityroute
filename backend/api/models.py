@@ -115,7 +115,7 @@ class Route(models.Model):
     routeid = models.CharField(default='Missing', primary_key=True, max_length=5)
 
     def __str__(self):
-        return self.id
+        return self.routeid
     class Meta:
         pass
     class Admin:
