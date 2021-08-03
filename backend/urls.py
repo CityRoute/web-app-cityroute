@@ -70,7 +70,10 @@ urlpatterns = [
     path('api/favourite-stops/', FavouriteStops, name='favourite-stops'),
 
     # http://localhost:8000/api/add-fav-stop/<number>
-    path('api/add-fav-stop/<int:number>', addFavStop, name='add-favourite-stops')
+    path('api/add-fav-stop/<int:number>', addFavStop, name='add-favourite-stops'),
+
+    # http://localhost:8000/api/write-review/<title>
+    
 ]
     
     

@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.contrib.postgres.fields import ArrayField
 
 
 
@@ -77,7 +78,7 @@ class Weather(models.Model):
 
 
 class Stop(models.Model):
-    number = models.IntegerField(default=0)
+    number = models.IntegerField(default=0, unique=True)
     unique_id = models.CharField(default='Missing', max_length=15, primary_key=True)
     name = models.CharField(default='Missing', max_length=50)
     
@@ -109,12 +110,30 @@ class FavouriteStop(models.Model):
         pass
 
 
-# class Route(models.Model):
-#     number = models.CharField(default='Missing')
-#     start_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
-#     end_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+
+class Route(models.Model):
+    routeid = models.CharField(default='Missing', primary_key=True, max_length=5)
+
+    def __str__(self):
+        return self.routeid
+    class Meta:
+        pass
+    class Admin:
+        pass
 
 
+class RouteStop(models.Model):
+    routeid = models.ForeignKey('Route', on_delete=models.CASCADE, default='Missing', related_name='routestops', to_field='routeid')
+    stopnumber = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='routestops', to_field='number')
+    outbound_yn = models.BooleanField(default=0)
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.routeid}-{self.stopnumber}"
+    class Meta:
+        pass
+    class Admin:
+        pass
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='review')
