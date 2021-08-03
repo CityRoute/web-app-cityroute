@@ -1,11 +1,12 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   timeout: 5000,
   headers: {
-    'Content-Type': 'application/json',
-    'X-CSRFToken': Cookies.get('csrftoken')
-  }
-})
+    "Content-Type": "application/json",
+    "X-CSRFToken": Cookies.get("csrftoken"),
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+});

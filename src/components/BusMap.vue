@@ -88,6 +88,7 @@
         ></v-switch>
       </div>
     </v-card>
+    <v-card flat v-if="isFavourite"><Favourite></Favourite> </v-card>
   </div>
 </template>
 
@@ -119,7 +120,7 @@ import Vue from "vue";
 var InfoWindow = Vue.extend(InfoWindowComponent);
 import Landmarks from "./Landmarks.vue";
 import landmarks_data from "../assets/landmarks.json";
-
+import Favourite from "./Favourite.vue";
 import stops from "../assets/stops.json";
 function offsetMap() {
   if (routeBounds !== false) {
@@ -296,7 +297,7 @@ const vw = Math.max(
   document.documentElement.clientWidth || 0,
   window.innerWidth || 0
 );
-console.log("this", vw);
+// console.log("this", vw);
 let overlayWidth = 0.35 * vw;
 var leftMargin = 30; // Grace margin to avoid too close fits on the edge of the overlay
 var rightMargin = 80;
@@ -304,7 +305,7 @@ export default {
   name: "BusMap",
   computed: {
     isDirections() {
-      console.log(this.$route.fullPath);
+      // console.log(this.$route.fullPath);
       return this.$route.fullPath.includes("directions");
     },
     isRouteViewer() {
@@ -316,6 +317,9 @@ export default {
     },
     isLandmarks() {
       return this.$route.fullPath.includes("landmarks");
+    },
+    isFavourite() {
+      return this.$route.fullPath.includes("favourites");
     },
   },
   data: () => ({
@@ -581,7 +585,7 @@ export default {
 
       directionsService.route(request, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          console.log(response);
+          // console.log(response);
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
           $("#close").on("click", function() {
@@ -613,10 +617,10 @@ export default {
 
               // Update route bounds
               routeBounds = updatedResponse.routes[0].bounds;
-              // console.log(routeBounds);
+              // // console.log(routeBounds);
               // Fit updated bounds
               map.fitBounds(routeBounds);
-              console.log(map.getBounds());
+              // console.log(map.getBounds());
               // Write directions steps
 
               // Offset map
@@ -632,9 +636,19 @@ export default {
       (this.destination = this.$route.query.destination),
       initMap();
     this.$root.$on("marker", (text) => {
-      console.log(stopMarkers[text]);
-      if (!map.getBounds().contains(stopMarkers[text].getPosition())) {
-        map.setCenter(stopMarkers[text].getPosition());
+      console.log(stopMarkers);
+
+      console.log(text);
+      if (
+        !map
+          .getBounds()
+          .contains(
+            stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
+          )
+      ) {
+        map.setCenter(
+          stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
+        );
       }
     });
     this.showRoute();
@@ -642,7 +656,7 @@ export default {
   updated() {
     this.initAutocomplete();
   },
-  components: { DatePicker, BusStopSearch, Landmarks },
+  components: { DatePicker, BusStopSearch, Landmarks, Favourite },
 };
 let directionsDisplay;
 let map;
@@ -703,17 +717,17 @@ function initMap() {
   // var instances = [];
   for (var key of Object.keys(stops)) {
     var myLatLng = {
-      lat: parseFloat(stops[key].stop_lat),
-      lng: parseFloat(stops[key].stop_lon),
+      lat: parseFloat(stops[key].latitude),
+      lng: parseFloat(stops[key].longitude),
     };
-    // console.log(stops[key].stop_lon);
-    stopMarkers[stops[key].stop_name] = new google.maps.Marker({
+    // // console.log(stops[key].longitude);
+    stopMarkers[stops[key].name] = new google.maps.Marker({
       position: new google.maps.LatLng(
-        parseFloat(stops[key].stop_lat),
-        parseFloat(stops[key].stop_lon)
+        parseFloat(stops[key].latitude),
+        parseFloat(stops[key].longitude)
       ),
       map: map,
-      title: stops[key].stop_name,
+      title: stops[key].name,
       icon: icon,
       id: key,
       visible: false,
@@ -724,7 +738,7 @@ function initMap() {
   // var new_infowindows = [];
   // var instances = [];
   for (var key of Object.keys(landmarks_data.markers)) {
-    // console.log(stops[key].stop_lon);
+    // // console.log(stops[key].longitude);
     const contentString =
       '<div id="content">' +
       '<div id="siteNotice">' +

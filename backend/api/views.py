@@ -133,8 +133,7 @@ def FavouriteStops(request):
     Retrieve currently logged in user's favourited bus stops. 
     To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
     """
-    userid = request.user.id
-    user = User.objects.get(id=userid)
+    user = request.user
     stops = user.favstops.all()
     data = []
     for s in stops:
@@ -158,6 +157,7 @@ def addFavStop(request, number):
     
     try:
         user = request.user
+        print(user)
         if Stop.objects.filter(number=number).exists():
             stop = Stop.objects.get(number=number)
             s = FavouriteStop(user=user, stopid=stop)

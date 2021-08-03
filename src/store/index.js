@@ -46,7 +46,7 @@ export default new Vuex.Store({
   },
   getters: {
     loggedIn(state) {
-      console.log(state.accessToken);
+      // console.log(state.accessToken);
       return state.accessToken != null;
     },
   },
@@ -82,7 +82,7 @@ export default new Vuex.Store({
             email: usercredentials.email,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             resolve();
           })
           .catch((err) => {
@@ -91,7 +91,7 @@ export default new Vuex.Store({
       });
     },
     userForgotPasswordReset(context, usercredentials) {
-      console.log(usercredentials);
+      // console.log(usercredentials);
       return new Promise((resolve, reject) => {
         axios
           .post("/api/password_reset/confirm/", {
@@ -99,7 +99,7 @@ export default new Vuex.Store({
             password: usercredentials.password,
           })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             resolve();
           })
           .catch((err) => {
@@ -124,7 +124,7 @@ export default new Vuex.Store({
             //   access: response.data.access,
             //   refresh: response.data.refresh,
             // });
-            console.log(response);
+            // console.log(response);
             resolve();
           })
           .catch((err) => {

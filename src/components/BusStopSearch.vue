@@ -47,8 +47,7 @@
         </v-theme-provider>
       </div>
     </v-expand-transition>
-    <v-card-actions>
-      <v-spacer></v-spacer>
+    <v-card-actions class="justify-center">
       <v-btn :disabled="!model" color="yellow darken-3" @click="showSchedule">
         Schedule
         <v-icon right>
@@ -66,6 +65,10 @@
           mdi-star
         </v-icon>
       </v-btn>
+          </v-card-actions>
+
+          <v-card-actions class="justify-center">
+
       <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
         Show on Map
         <v-icon right>
@@ -112,18 +115,35 @@ export default {
     showOnMap() {
       this.$root.$emit("marker", this.model.Description);
     },
-    saveToFavourites() {},
+    saveToFavourites() {
+      axios
+        .post(
+          "/api/add-fav-stop/" + this.model.number,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
+            },
+          }
+        )
+        .then(function(response) {
+          // console.log(response);
+        })
+        .catch(function(error) {
+          // console.log(error);
+        });
+    },
     showSchedule() {
       this.isFetching = true;
       let stop_desc = this.model.Description + "";
-
+      // console.log(this.model.number);
       stop_desc = stop_desc.split(" ");
 
       let stop_num = stop_desc[stop_desc.length - 1];
       var self = this;
 
       axios
-        .get("api/bus-stop-times/" + stop_num)
+        .get("api/bus-stop-times/" + this.model.number)
         .then(function(response) {
           self.info = response.data;
           bus_stop_times_div += 1;
@@ -146,11 +166,11 @@ export default {
     },
     items() {
       return this.entries.map((entry) => {
-        const Description =
-          entry.stop_name.length > this.descriptionLimit
-            ? entry.stop_name.slice(0, this.descriptionLimit) + "..."
-            : entry.stop_name;
-
+        let Description =
+          entry.name.length > this.descriptionLimit
+            ? entry.name.slice(0, this.descriptionLimit) + "..."
+            : entry.name;
+        Description = entry.number + " " + Description;
         return Object.assign({}, entry, { Description });
       });
     },
@@ -173,5 +193,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

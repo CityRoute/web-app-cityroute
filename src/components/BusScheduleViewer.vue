@@ -126,7 +126,7 @@ export default {
         .get("/static/schedule/route_" + route_num + "_direction_O.json")
         .then(function(response) {
           self.info = response.data;
-          console.log(response.data)
+          // console.log(response.data)
           this.$parent.refresh();
         })
         .catch((e) => {});

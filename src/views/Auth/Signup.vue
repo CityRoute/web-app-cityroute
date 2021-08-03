@@ -178,7 +178,7 @@ export default {
           this.$router.push({ name: "signin" });
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           this.incorrectAuth = true;
         });
     },

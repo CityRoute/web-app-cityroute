@@ -68,7 +68,7 @@ export default {
           this.$router.push({ name: "forgot-password-reset" });
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           this.incorrectAuth = true;
         });
     },
