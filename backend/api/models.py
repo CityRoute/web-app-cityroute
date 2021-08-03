@@ -78,7 +78,7 @@ class Weather(models.Model):
 
 
 class Stop(models.Model):
-    number = models.IntegerField(default=0)
+    number = models.IntegerField(default=0, unique=True)
     unique_id = models.CharField(default='Missing', max_length=15, primary_key=True)
     name = models.CharField(default='Missing', max_length=50)
     
@@ -110,10 +110,9 @@ class FavouriteStop(models.Model):
         pass
 
 
+
 class Route(models.Model):
-    id = models.CharField(default='Missing', primary_key=True, max_length=5)
-    stops_outbound = ArrayField(models.IntegerField(default=0), max_length=1000)
-    stops_inbound = ArrayField(models.IntegerField(default=0), max_length=1000)
+    routeid = models.CharField(default='Missing', primary_key=True, max_length=5)
 
     def __str__(self):
         return self.id
@@ -123,7 +122,18 @@ class Route(models.Model):
         pass
 
 
+class RouteStop(models.Model):
+    routeid = models.ForeignKey('Route', on_delete=models.CASCADE, default='Missing', related_name='routestops', to_field='routeid')
+    stopnumber = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='routestops', to_field='number')
+    outbound_yn = models.BooleanField(default=0)
+    order = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.routeid}-{self.stopnumber}"
+    class Meta:
+        pass
+    class Admin:
+        pass
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='Missing', related_name='review')

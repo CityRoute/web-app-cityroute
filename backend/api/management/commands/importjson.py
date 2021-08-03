@@ -6,6 +6,7 @@ import json
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
+        
         with open('backend/api/management/commands/routes_and_stops.json') as f:
             reader = json.load(f)
             print()
