@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.contrib.postgres.fields import ArrayField
 
 
 
@@ -109,10 +110,17 @@ class FavouriteStop(models.Model):
         pass
 
 
-# class Route(models.Model):
-#     number = models.CharField(default='Missing')
-#     start_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
-#     end_stop = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='review')
+class Route(models.Model):
+    id = models.CharField(default='Missing', primary_key=True, max_length=5)
+    stops = ArrayField(models.IntegerField())
+
+    def __str__(self):
+        return self.id
+    class Meta:
+        pass
+    class Admin:
+        pass
+
 
 
 
