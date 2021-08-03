@@ -112,7 +112,8 @@ class FavouriteStop(models.Model):
 
 class Route(models.Model):
     id = models.CharField(default='Missing', primary_key=True, max_length=5)
-    stops = ArrayField(models.IntegerField())
+    stops_outbound = ArrayField(models.IntegerField(default=0), max_length=1000)
+    stops_inbound = ArrayField(models.IntegerField(default=0), max_length=1000)
 
     def __str__(self):
         return self.id
