@@ -75,6 +75,8 @@ urlpatterns = [
 
     path('api/stop-stop-model', StopToStopModelView, name='stop-stop-model')
 
+    # http://localhost:8000/api/write-review/<title>
+    
 ]
     
     
