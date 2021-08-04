@@ -45,9 +45,19 @@
           class="mt-5"
         >
           <v-card-text>
-            <v-btn id="close" @click="closeDirections()">
-              Close Directions
-            </v-btn>
+            <v-row align="center" justify="space-around">
+              <v-btn id="close" @click="closeDirections()">
+                Close Directions
+              </v-btn>
+              <v-btn
+                >Our estimation:
+                {{
+                  new Date(this.total_duration * 1000)
+                    .toISOString()
+                    .substr(11, 8)
+                }}
+              </v-btn>
+            </v-row>
             <div id="card"></div>
           </v-card-text>
         </v-card>
@@ -323,6 +333,7 @@ export default {
     },
   },
   data: () => ({
+    total_duration: 0,
     sharing: {
       url: window.location.href,
       title: "CityRoute directions",
@@ -582,10 +593,46 @@ export default {
           trafficModel: "pessimistic",
         },
       };
-
-      directionsService.route(request, function(response, status) {
+      function getDuration(step) {
+        return axios
+          .get("/api/stop-stop-model", {
+            params: {
+              route_num: step["transit"]["line"].short_name,
+              start_stop: step["transit"]["departure_stop"].name,
+              end_stop: step["transit"]["arrival_stop"].name,
+              num_stops: step["transit"]["num_stops"],
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            return response.data.duration - step["duration"]["value"];
+          })
+          .catch((error) => {
+            console.log("error", error);
+            return 0;
+          });
+      }
+      directionsService.route(request, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          console.log(response);
+          // console.log(response);
+          let directions = response;
+          let total_duration =
+            directions["routes"][0]["legs"][0]["duration"].value;
+          for (const step of directions["routes"][0]["legs"][0]["steps"]) {
+            if (
+              step.travel_mode == "TRANSIT" &&
+              step["transit"]["line"]["agencies"][0]["name"] == "Dublin Bus"
+            ) {
+              const bus_duration = async () => {
+                const leagues = await getDuration(step);
+                console.log(leagues);
+                total_duration += leagues;
+              };
+              bus_duration();
+            }
+          }
+          this.total_duration = total_duration;
+          console.log(total_duration);
 
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
