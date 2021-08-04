@@ -1,7 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+<<<<<<< HEAD
 from backend.api.models import Route, Stop, RouteStop
 from backend.api.serializer import StopSerializer
+=======
+>>>>>>> 1b8189ff4445289b311b3a04eb676205aabc7c3f
 
 @api_view(['GET'])
 def StopToStopModelView(request):
