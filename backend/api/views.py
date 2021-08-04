@@ -179,11 +179,11 @@ def writeReview(request, title, content):
     """
     Write review from logged in user's account & save to Review model/table in db
     """
-    
     user = request.user
     r = Review(user=user, title=title, content=content)
     r.save()
     return Response(status=status.HTTP_201_CREATED)
+
 
     
 
