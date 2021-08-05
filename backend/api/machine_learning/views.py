@@ -5,6 +5,7 @@ from backend.api.serializer import StopSerializer
 
 import datetime
 import holidays
+import numpy
 
 @api_view(['GET'])
 def StopToStopModelView(request):
@@ -78,7 +79,8 @@ def GetLists(self):
     rainlist = weatherlist[0]
     weatherlist = weatherlist[1]
     dtlist = GetDatetimeFeatures(dt)
-    output = [*rainlist, *dtlist, *weatherlist]
+    combined_lists = [*rainlist, *dtlist, *weatherlist]
+    output = numpy.array(combined_lists)
     return Response(output)
 
     
