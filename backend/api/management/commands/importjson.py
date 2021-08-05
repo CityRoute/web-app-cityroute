@@ -20,9 +20,13 @@ class Command(BaseCommand):
                 # print(id)
                 exit
                 for stop_direction, stop_num_list in stop_list.items():
+                    total_count = 0
+                    fail_count = 0
                     order = 0
                     for stop_num in stop_num_list:
+                        total_count += 1
                         print(f"stop number: {stop_num}")
+                        
                         try:
                             route = Route.objects.get(pk=route_num)
                             stopnumber = Stop.objects.get(number=stop_num)
@@ -34,4 +38,6 @@ class Command(BaseCommand):
                             order += 1
                         except Exception as e:
                             print(e)
+                            fail_count += 1
                             pass
+                print(f"total: {total_count}, fail: {fail_count}")

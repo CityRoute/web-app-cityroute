@@ -8,6 +8,29 @@ import datetime
 import holidays
 
 @api_view(['GET'])
+def RouteModelView(request):
+    """
+    Retrieve the stop to stop model result
+    """
+    try:
+        print(request.query_params)
+        start_stop = request.query_params.get('start_stop').lower()
+        end_stop = request.query_params.get('end_stop').lower()
+        route_num = request.query_params.get('route_num')
+        num_stops = request.query_params.get('num_stops')
+        # start_stop = Stop.objects.filter(name="College Street")
+        # end_stop = Stop.objects.get(number=1934)
+        # start_stop = "College Street"
+        # end_stop = "Dame Street, stop 1934"
+        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        print(all_stops)
+    except Exception as e:
+        print(e)
+        return Response({"error": "Error in getting journey time"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({"duration": 10})
+
+
+@api_view(['GET'])
 def StopToStopModelView(request):
     """
     Retrieve the stop to stop model result
