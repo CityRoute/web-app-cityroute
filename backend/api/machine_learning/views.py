@@ -71,14 +71,49 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 
     return relevant_stops
 
+@api_view(['GET'])
+def GetLists(self):
+    dt = datetime.datetime.today()
+    weatherlist = GetWeather(dt)
+    dtlist = GetDatetimeFeatures(dt)
+    output = [*dtlist, *weatherlist]
+    return Response(output)
+
+
 def GetWeather(dt):
-    pass
-    # find the latest instance of the relevant date in the Weather model
+    """
+    Return a list for the binary weather features
+    """
+    today = datetime.datetime.today().date()
+    dt = dt.date() # assuming dt will be a datetime object
+    try:
+        # find the latest instance of the relevant date in the Weather model
+        obj = Weather.objects.get(scraped_on__date=today, datetime__date=dt)
+
+        # make a list of 0s and 1 to feed to the pickle model
+        weatherlist = [0] * 7
+        dict = {
+            "Clear":0,
+            "Clouds":1,
+            "Drizzle":2,
+            "Fog":3,
+            "Mist":4,
+            "Rain":5,
+            "Snow":6
+        }
+        if obj.main in dict:
+            weatherlist[dict[obj.main]] = 1
+            return weatherlist
+        else:
+            return "Cannot make prediction as weather code is unknown to the model."
+    except Weather.DoesNotExist:
+        return "No weather data available for this day."
     
+        
 
 def GetDatetimeFeatures(dt):
     """
-    Returns a list (len 23), containing all the datetime features to be fed into the model
+    Returns a list (len 23), containing all the binary datetime features to be fed into the model
     """       
     # get day of the week (0-6) and month (1-12)
     date = dt.date()
@@ -101,12 +136,14 @@ def GetDatetimeFeatures(dt):
     
     # 0s and 1 in weekday list
     dayofweeklist = [0] * 7
-    dayofweeklist[dayofweek] = 1
+    order = [4, 0, 5, 6, 3, 1, 2]
+    dayofweeklist[order.index(dayofweek)] = 1
     print("Dayofweek list: {}".format(dayofweeklist))
     
     # 0s and 1 for month list
     monthlist = [0] * 12
-    monthlist[month-1] = 1
+    order = [4, 8, 12, 2, 1, 7, 6, 3, 5, 11, 10, 9]
+    monthlist[order.index(month)] = 1
     print("Month list: {}".format(monthlist))
     
     # 0 and 1 for is_holiday list
