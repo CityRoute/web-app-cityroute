@@ -28,8 +28,8 @@ class Command(BaseCommand):
                 unix_timestamp = day["dt"]
                 timestamp = make_aware(datetime.fromtimestamp(unix_timestamp))
                 today = make_aware(datetime.fromtimestamp(time.time()))
-
-                Weather.objects.create(
+                
+                w = Weather(
                     day_number = number, 
                     datetime = timestamp,
                     temp_day = day["temp"]["day"],
@@ -45,8 +45,17 @@ class Command(BaseCommand):
                     clouds = day["clouds"],
                     precipitation = day["pop"], # probability of precipiation
                     weatherid = day["weather"][0]["id"],
+                    rain = 0,
+                    main = day["weather"][0]["main"],
                     scraped_on = today # PK
                 )
+
+                if "rain" in day:
+                    w.rain = day["rain"]
+                
+                w.save()
+                
+        
                 number += 1 
             print('Scraping job complete!')
         except:

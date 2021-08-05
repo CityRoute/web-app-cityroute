@@ -22,6 +22,7 @@ heroku3 = "*"
 requests = "*"
 django-defender = "*"
 django-postgres-copy = "*"
+holidays = "*"
 
 [dev-packages]
 

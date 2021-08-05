@@ -1,8 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from backend.api.models import Route, Stop, RouteStop
+from backend.api.models import Route, Stop, RouteStop, Weather
 from backend.api.serializer import StopSerializer
 from rest_framework import status
+
+import datetime
+import holidays
 
 @api_view(['GET'])
 def StopToStopModelView(request):
@@ -101,6 +104,109 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     relevant_stops = [d['stopnumber_id'] for d in relevant_stops]
 
     return relevant_stops
+
+@api_view(['GET'])
+def GetLists(self):
+    dt = datetime.datetime.today()
+    weatherlist = GetWeather(dt)
+    dtlist = GetDatetimeFeatures(dt)
+    output = [*dtlist, *weatherlist]
+    return Response(output)
+
+    
+
+def GetWeather(dt):
+    """
+    Return a list for the binary weather features
+    """
+    today = datetime.datetime.today().date()
+    dt = dt.date() # assuming dt will be a datetime object
+    try:
+        # find the latest instance of the relevant date in the Weather model
+        obj = Weather.objects.get(scraped_on__date=today, datetime__date=dt)
+
+        # make a list of 0s and 1 to feed to the pickle model
+        
+        weatherlist = [0] * 7
+        dict = {
+            "Clear":0,
+            "Clouds":1,
+            "Drizzle":2,
+            "Fog":3,
+            "Mist":4,
+            "Rain":5,
+            "Snow":6
+        }
+        if obj.main in dict:
+            weatherlist[dict[obj.main]] = 1
+            return weatherlist
+        else:
+            return "Cannot make prediction as weather code is unknown to the model."
+    except Weather.DoesNotExist:
+        return "No weather data available for this day."
+    
+        
+
+def GetDatetimeFeatures(dt):
+    """
+    Returns a list (len 23), containing all the binary datetime features to be fed into the model
+    """       
+    # get day of the week (0-6) and month (1-12)
+    date = dt.date()
+    print("Date: {}".format(date))
+    dayofweek = date.weekday()
+    month = dt.month
+    print("Month: {}, weekday: {}".format(month, dayofweek))
+    
+    # get holiday yes/no, need to pipenv install holidays
+    irish_holidays_2021 = []
+    for date in holidays.Ireland(years=2021).items():
+        irish_holidays_2021.append(str(date[0]))
+        
+    is_holiday = (1 if str(date).split()[0] in irish_holidays_2021 else 0)
+    print("Holiday?: {}".format(is_holiday))
+    
+    # get weekday yes/no
+    is_weekday = (1 if int(dt.weekday()) < 5 else 0)
+    print("Weekday?: {}".format(is_weekday))
+    
+    # 0s and 1 in weekday list
+    dayofweeklist = [0] * 7
+    order = [4, 0, 5, 6, 3, 1, 2]
+    dayofweeklist[order.index(dayofweek)] = 1
+    print("Dayofweek list: {}".format(dayofweeklist))
+    
+    # 0s and 1 for month list
+    monthlist = [0] * 12
+    order = [4, 8, 12, 2, 1, 7, 6, 3, 5, 11, 10, 9]
+    monthlist[order.index(month)] = 1
+    print("Month list: {}".format(monthlist))
+    
+    # 0 and 1 for is_holiday list
+    # if it is a holiday, column 0 is 0 and column 1 is 1, and vice versa
+    isholidaylist = [0] * 2
+    if is_holiday == 1:
+        isholidaylist[1] = 1
+    else:
+        isholidaylist[0] = 1
+    print("isholiday list: {}".format(isholidaylist))
+    
+    # 0 and 1 for is_weekday list
+    # if it is a weekday, column 0 is 0 and column 1 is 1, and vice versa
+    isweekdaylist = [0] * 2
+    if is_weekday == 1:
+        isweekdaylist[1] = 1
+    else:
+        isweekdaylist[0] = 1
+    print("isweekday list: {}".format(isweekdaylist))
+    
+    # combine all the lists in the right order for model input
+    output = [*dayofweeklist,*monthlist,*isholidaylist,*isweekdaylist]
+    return output
+
+    
+
+
 
 # def GetNearestStopByRoute(start_stop, end_stop, route):
 #     relevant_stops = RouteStop.objects.filter(routeid=route)
