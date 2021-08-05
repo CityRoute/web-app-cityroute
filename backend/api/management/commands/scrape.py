@@ -50,6 +50,7 @@ class Command(BaseCommand):
                     scraped_on = today # PK
                 )
 
+                # a number of the objects don't have rain as a feature, so default to 0
                 if "rain" in day:
                     w.rain = day["rain"]
                 
