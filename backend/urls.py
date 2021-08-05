@@ -20,6 +20,7 @@ from .api.views import (
     WeatherByDay,
 )
 from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops
+from .api.machine_learning.views import StopToStopModelView
 
 router = routers.DefaultRouter()
 router.register("messages", MessageViewSet)
@@ -71,6 +72,8 @@ urlpatterns = [
 
     # http://localhost:8000/api/add-fav-stop/<number>
     path('api/add-fav-stop/<int:number>', addFavStop, name='add-favourite-stops'),
+
+    path('api/stop-stop-model', StopToStopModelView, name='stop-stop-model')
 
     # http://localhost:8000/api/write-review/<title>
     
