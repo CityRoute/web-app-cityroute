@@ -71,7 +71,7 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 
     return relevant_stops
 
-def GetWeather(date):
+def GetWeather(dt):
     pass
     # find the latest instance of the relevant date in the Weather model
     

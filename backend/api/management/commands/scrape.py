@@ -45,6 +45,7 @@ class Command(BaseCommand):
                     clouds = day["clouds"],
                     precipitation = day["pop"], # probability of precipiation
                     weatherid = day["weather"][0]["id"],
+                    main = day["weather"][0]["main"],
                     scraped_on = today # PK
                 )
                 number += 1 
