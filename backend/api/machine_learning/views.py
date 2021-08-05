@@ -79,6 +79,7 @@ def GetLists(self):
     output = [*dtlist, *weatherlist]
     return Response(output)
 
+    
 
 def GetWeather(dt):
     """
@@ -91,6 +92,7 @@ def GetWeather(dt):
         obj = Weather.objects.get(scraped_on__date=today, datetime__date=dt)
 
         # make a list of 0s and 1 to feed to the pickle model
+        
         weatherlist = [0] * 7
         dict = {
             "Clear":0,
