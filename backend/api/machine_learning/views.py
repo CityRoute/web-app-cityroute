@@ -2,67 +2,124 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from backend.api.models import Route, Stop, RouteStop, Weather
 from backend.api.serializer import StopSerializer
+from rest_framework import status
 
 import datetime
 import holidays
 import numpy
 
 @api_view(['GET'])
+def RouteModelView(request):
+    """
+    Retrieve the stop to stop model result
+    """
+    try:
+        print(request.query_params)
+        start_stop = request.query_params.get('start_stop').lower()
+        end_stop = request.query_params.get('end_stop').lower()
+        route_num = request.query_params.get('route_num')
+        num_stops = request.query_params.get('num_stops')
+        # start_stop = Stop.objects.filter(name="College Street")
+        # end_stop = Stop.objects.get(number=1934)
+        # start_stop = "College Street"
+        # end_stop = "Dame Street, stop 1934"
+        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        print(all_stops)
+    except Exception as e:
+        print(e)
+        return Response({"error": "Error in getting journey time"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({"duration": 10})
+
+
+@api_view(['GET'])
 def StopToStopModelView(request):
     """
     Retrieve the stop to stop model result
     """
-    print(request.query_params)
-    start_stop = request.query_params.get('start_stop')
-    end_stop = request.query_params.get('end_stop')
-    route_num = request.query_params.get('route_num')
-    data = ""
-    # start_stop = Stop.objects.filter(name="College Street")
-    # end_stop = Stop.objects.get(number=1934)
-    start_stop = "College Street"
-    end_stop = "Dame Street, stop 1934"
-    return Response(GetAllStops(start_stop, end_stop, "54a", 2))
+    try:
+        print(request.query_params)
+        start_stop = request.query_params.get('start_stop').lower()
+        end_stop = request.query_params.get('end_stop').lower()
+        route_num = request.query_params.get('route_num')
+        num_stops = request.query_params.get('num_stops')
+        # start_stop = Stop.objects.filter(name="College Street")
+        # end_stop = Stop.objects.get(number=1934)
+        # start_stop = "College Street"
+        # end_stop = "Dame Street, stop 1934"
+        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        print(all_stops)
+    except Exception as e:
+        print(e)
+        return Response({"error": "Error in getting journey time"}, status=status.HTTP_404_NOT_FOUND)
+    return Response({"duration": 10})
 
 # def GetStopPrediction(stop_id, route):
 
-def GetStopModel(stop):
+def GetStopModel(stop, route_model, outbound_yn):
     """
     Get the stop model
     """
     if stop.find('stop') != -1:
+        print("stop in string", stop)
         stop_split = stop.split(' ')
         stop_number = stop_split[-1]
-        stop_model = Stop.objects.get(number=stop_number)
+        if outbound_yn == None:
+            stop_model = Stop.objects.get(
+                routestops__routeid=route_model,
+                number=stop_number
+            )
+        else:
+            stop_model = Stop.objects.get(
+                routestops__routeid=route_model,
+                routestops__outbound_yn=outbound_yn,
+                number=stop_number
+            )
     else:
-        stop_model = Stop.objects.get(name=stop)
+        print("stop in name", stop)
+        if outbound_yn == None:
+            stop_model = Stop.objects.get(
+                routestops__routeid=route_model,
+                name=stop
+            )
+        else:
+            stop_model = Stop.objects.get(
+                routestops__routeid=route_model,
+                routestops__outbound_yn=outbound_yn,
+                name=stop
+            )
+    print(stop_model)
     return stop_model
 
 def GetAllStops(start_stop, end_stop, route, num_stops):
     """
     Get the stops between the start and end stops
     """
-
-    # get the stop models for both of the stops
-    start_stop_model = GetStopModel(start_stop)
-    end_stop_model = GetStopModel(end_stop)
-
     # get the route model for the route
     route_model = Route.objects.get(routeid=route.upper())
 
-    # try outbound first
-    relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=True)
-    relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
-    relevant_end_stop = relevant_stops.get(stopnumber=end_stop_model)
-    if relevant_start_stop.order + num_stops == relevant_end_stop.order:
-        relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=True, order__range=(relevant_start_stop.order, relevant_end_stop.order))
-        print("outbound")
+    if start_stop.find('stop') != -1:
+        start_stop_model = GetStopModel(start_stop, route_model, None)
+    elif end_stop.find('stop') != -1:
+        start_stop_model = GetStopModel(end_stop, route_model, None)
     else:
-        # if outbound fails above use inbound
-        relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=False)
-        relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
-        relevant_end_stop = relevant_stops.get(stopnumber=end_stop_model)
-        relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=False, order__range=(relevant_end_stop.order, relevant_start_stop.order))
+        try:
+            start_stop_model = GetStopModel(start_stop, route_model, None)
+        except:
+            start_stop_model = GetStopModel(end_stop, route_model, None)
+
+    # try outbound first
+    outbound_yn =  start_stop_model.routestops.values('outbound_yn')[0]['outbound_yn']
+    relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=outbound_yn)
+    relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
+
+    print(relevant_start_stop.order, num_stops)
+    num_stops = int(num_stops)
+    if outbound_yn:
+        print("outbound")
+        relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=True, order__range=(relevant_start_stop.order, relevant_start_stop.order+num_stops))
+    else:
         print("inbound")
+        relevant_stops = RouteStop.objects.filter(routeid=route_model, outbound_yn=False, order__range=(relevant_start_stop.order-num_stops, relevant_start_stop.order))
     
     # get the stops as a list of dictionaries
     relevant_stops = relevant_stops.values("stopnumber_id")
