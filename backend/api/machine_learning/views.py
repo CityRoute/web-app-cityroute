@@ -6,6 +6,7 @@ from rest_framework import status
 
 import datetime
 import holidays
+import numpy
 
 @api_view(['GET'])
 def RouteModelView(request):
@@ -132,8 +133,11 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 def GetLists(self):
     dt = datetime.datetime.today()
     weatherlist = GetWeather(dt)
+    rainlist = weatherlist[0]
+    weatherlist = weatherlist[1]
     dtlist = GetDatetimeFeatures(dt)
-    output = [*dtlist, *weatherlist]
+    combined_lists = [*rainlist, *dtlist, *weatherlist]
+    output = numpy.array(combined_lists)
     return Response(output)
 
     
@@ -149,7 +153,7 @@ def GetWeather(dt):
         obj = Weather.objects.get(scraped_on__date=today, datetime__date=dt)
 
         # make a list of 0s and 1 to feed to the pickle model
-        
+        rain = [obj.rain]
         weatherlist = [0] * 7
         dict = {
             "Clear":0,
@@ -162,7 +166,7 @@ def GetWeather(dt):
         }
         if obj.main in dict:
             weatherlist[dict[obj.main]] = 1
-            return weatherlist
+            return [rain, weatherlist]
         else:
             return "Cannot make prediction as weather code is unknown to the model."
     except Weather.DoesNotExist:
