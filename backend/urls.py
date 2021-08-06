@@ -81,7 +81,8 @@ urlpatterns = [
     path('api/add-fav-stop/<int:number>',
          addFavStop,
          name='add-favourite-stops'),
-    path('api/stop-stop-model', RouteModelView, name='stop-stop-model'),
+    # path('api/stop-stop-model', RouteModelView, name='stop-stop-model'),
     path('api/route-model', RouteModelView, name='route-model'),
+    path('api/stop-stop-model', StopToStopModelView, name='stop-stop-model'),
     # path('api/get-lists', GetLists, name='get-lists')
 ]

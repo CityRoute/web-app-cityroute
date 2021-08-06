@@ -89,15 +89,17 @@ def StopToStopModelView(request):
     """
     try:
         # print(request.query_params)
-        start_stop = request.query_params.get('start_stop').lower()
-        end_stop = request.query_params.get('end_stop').lower()
-        route_num = request.query_params.get('route_num')
-        num_stops = request.query_params.get('num_stops')
+        # start_stop = request.query_params.get('start_stop').lower()
+        # end_stop = request.query_params.get('end_stop').lower()
+        # route_num = request.query_params.get('route_num')
+        # num_stops = request.query_params.get('num_stops')
         # start_stop = Stop.objects.filter(name="College Street")
         # end_stop = Stop.objects.get(number=1934)
         # start_stop = "College Street"
         # end_stop = "Dame Street, stop 1934"
-        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        all_features = GetAllStopModelFeatures()
+        print("all_features", all_features, " length of array:", len(all_features))
         # print(all_stops)
     except Exception as e:
         # print(e)
@@ -105,6 +107,51 @@ def StopToStopModelView(request):
                         status=status.HTTP_404_NOT_FOUND)
     return Response({"duration": 10})
 
+
+def GetAllStopModelFeatures():
+    required_features = [
+        'rain_1h',
+        'DAYOFWEEK_Friday',
+        'DAYOFWEEK_Monday',
+        'DAYOFWEEK_Saturday',
+        'DAYOFWEEK_Sunday',
+        'DAYOFWEEK_Thursday',
+        'DAYOFWEEK_Tuesday',
+        'DAYOFWEEK_Wednesday',
+        'MONTHOFSERVICE_April',
+        'MONTHOFSERVICE_August',
+        'MONTHOFSERVICE_December',
+        'MONTHOFSERVICE_February',
+        'MONTHOFSERVICE_January',
+        'MONTHOFSERVICE_July',
+        'MONTHOFSERVICE_June',
+        'MONTHOFSERVICE_March',
+        'MONTHOFSERVICE_May',
+        'MONTHOFSERVICE_November',
+        'MONTHOFSERVICE_October',
+        'MONTHOFSERVICE_September',
+        'IS_HOLIDAY_0', 
+        'IS_HOLIDAY_1',
+        'IS_WEEKDAY_0', 
+        'IS_WEEKDAY_1',
+        'weather_main_Clear', 
+        'weather_main_Clouds',
+        'weather_main_Drizzle',
+        'weather_main_Fog',
+        'weather_main_Mist',
+        'weather_main_Rain',
+        'weather_main_Snow'
+    ]
+    dt = datetime.datetime.today()
+    datetime_features_dict = GetDatetimeFeaturesStop(dt)
+    weather_features_dict = GetWeather(dt)
+    all_features_dict = {**datetime_features_dict, **weather_features_dict}
+    filtered_all_features_dict = {k: v for k, v in all_features_dict.items() if k in required_features}
+    reordered_all_features_dict = {k: filtered_all_features_dict[k] for k in required_features}
+    print(reordered_all_features_dict)
+
+    numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
+    return numpy_features_array
 
 # def GetStopPrediction(stop_id, route):
 
@@ -301,63 +348,131 @@ def GetDatetimeFeaturesRoute(dt):
 
     return datetime_features_dict
 
-
-def GetDatetimeFeatures(dt):
+def GetDatetimeFeaturesStop(dt):
     """
     Returns a list (len 23), containing all the binary datetime features to be fed into the model
     """
     # get day of the week (0-6) and month (1-12)
+
+    datetime_features_list = [
+        'rain_1h',
+        'DAYOFWEEK_Friday',
+        'DAYOFWEEK_Monday',
+        'DAYOFWEEK_Saturday',
+        'DAYOFWEEK_Sunday',
+        'DAYOFWEEK_Thursday',
+        'DAYOFWEEK_Tuesday',
+        'DAYOFWEEK_Wednesday',
+        'MONTHOFSERVICE_April',
+        'MONTHOFSERVICE_August',
+        'MONTHOFSERVICE_December',
+        'MONTHOFSERVICE_February',
+        'MONTHOFSERVICE_January',
+        'MONTHOFSERVICE_July',
+        'MONTHOFSERVICE_June',
+        'MONTHOFSERVICE_March',
+        'MONTHOFSERVICE_May',
+        'MONTHOFSERVICE_November',
+        'MONTHOFSERVICE_October',
+        'MONTHOFSERVICE_September',
+        'IS_HOLIDAY_0',
+        'IS_HOLIDAY_1',
+        'IS_WEEKDAY_0', 
+        'IS_WEEKDAY_1',
+        'weather_main_Clear', 
+        'weather_main_Clouds',
+        'weather_main_Drizzle',
+        'weather_main_Fog',
+        'weather_main_Mist',
+        'weather_main_Rain',
+        'weather_main_Snow'
+    ]
+    datetime_features_dict = {el: 0 for el in datetime_features_list}
     date = dt.date()
-    print("Date: {}".format(date))
-    dayofweek = date.weekday()
-    month = dt.month
-    print("Month: {}, weekday: {}".format(month, dayofweek))
+
+    for day in filter(lambda k: 'DAYOFWEEK_' in k, datetime_features_list):
+        print(day)
+        if calendar.day_name[date.weekday()] in day:
+            datetime_features_dict[day] = 1
+
+    for month in filter(lambda k: 'MONTHOFSERVICE_' in k,
+                        datetime_features_list):
+        print(month)
+        if calendar.month_name[date.month] in month:
+            datetime_features_dict[month] = 1
 
     # get holiday yes/no, need to pipenv install holidays
     irish_holidays_2021 = []
     for date in holidays.Ireland(years=2021).items():
         irish_holidays_2021.append(str(date[0]))
 
-    is_holiday = (1 if str(date).split()[0] in irish_holidays_2021 else 0)
-    print("Holiday?: {}".format(is_holiday))
+    datetime_features_dict["IS_HOLIDAY_1"] = (1 if str(date).split()[0]
+                                              in irish_holidays_2021 else 0)
 
     # get weekday yes/no
-    is_weekday = (1 if int(dt.weekday()) < 5 else 0)
-    print("Weekday?: {}".format(is_weekday))
+    datetime_features_dict["IS_WEEKDAY_1"] = (1
+                                              if int(dt.weekday()) < 5 else 0)
 
-    # 0s and 1 in weekday list
-    dayofweeklist = [0] * 7
-    order = [4, 0, 5, 6, 3, 1, 2]
-    dayofweeklist[order.index(dayofweek)] = 1
-    print("Dayofweek list: {}".format(dayofweeklist))
+    # print(datetime_features_dict)
 
-    # 0s and 1 for month list
-    monthlist = [0] * 12
-    order = [4, 8, 12, 2, 1, 7, 6, 3, 5, 11, 10, 9]
-    monthlist[order.index(month)] = 1
-    print("Month list: {}".format(monthlist))
+    return datetime_features_dict
 
-    # 0 and 1 for is_holiday list
-    # if it is a holiday, column 0 is 0 and column 1 is 1, and vice versa
-    isholidaylist = [0] * 2
-    if is_holiday == 1:
-        isholidaylist[1] = 1
-    else:
-        isholidaylist[0] = 1
-    print("isholiday list: {}".format(isholidaylist))
+# def GetDatetimeFeatures(dt):
+#     """
+#     Returns a list (len 23), containing all the binary datetime features to be fed into the model
+#     """
+#     # get day of the week (0-6) and month (1-12)
+#     date = dt.date()
+#     print("Date: {}".format(date))
+#     dayofweek = date.weekday()
+#     month = dt.month
+#     print("Month: {}, weekday: {}".format(month, dayofweek))
 
-    # 0 and 1 for is_weekday list
-    # if it is a weekday, column 0 is 0 and column 1 is 1, and vice versa
-    isweekdaylist = [0] * 2
-    if is_weekday == 1:
-        isweekdaylist[1] = 1
-    else:
-        isweekdaylist[0] = 1
-    print("isweekday list: {}".format(isweekdaylist))
+#     # get holiday yes/no, need to pipenv install holidays
+#     irish_holidays_2021 = []
+#     for date in holidays.Ireland(years=2021).items():
+#         irish_holidays_2021.append(str(date[0]))
 
-    # combine all the lists in the right order for model input
-    output = [*dayofweeklist, *monthlist, *isholidaylist, *isweekdaylist]
-    return output
+#     is_holiday = (1 if str(date).split()[0] in irish_holidays_2021 else 0)
+#     print("Holiday?: {}".format(is_holiday))
+
+#     # get weekday yes/no
+#     is_weekday = (1 if int(dt.weekday()) < 5 else 0)
+#     print("Weekday?: {}".format(is_weekday))
+
+#     # 0s and 1 in weekday list
+#     dayofweeklist = [0] * 7
+#     order = [4, 0, 5, 6, 3, 1, 2]
+#     dayofweeklist[order.index(dayofweek)] = 1
+#     print("Dayofweek list: {}".format(dayofweeklist))
+
+#     # 0s and 1 for month list
+#     monthlist = [0] * 12
+#     order = [4, 8, 12, 2, 1, 7, 6, 3, 5, 11, 10, 9]
+#     monthlist[order.index(month)] = 1
+#     print("Month list: {}".format(monthlist))
+
+#     # 0 and 1 for is_holiday list
+#     # if it is a holiday, column 0 is 0 and column 1 is 1, and vice versa
+#     isholidaylist = [0] * 2
+#     if is_holiday == 1:
+#         isholidaylist[1] = 1
+#     else:
+#         isholidaylist[0] = 1
+#     print("isholiday list: {}".format(isholidaylist))
+
+#     # 0 and 1 for is_weekday list
+#     # if it is a weekday, column 0 is 0 and column 1 is 1, and vice versa
+#     isweekdaylist = [0] * 2
+#     if is_weekday == 1:
+#         isweekdaylist[1] = 1
+#     else:
+#         isweekdaylist[0] = 1
+#     print("isweekday list: {}".format(isweekdaylist))
+
+#     # combine all the lists in the right order for model input
+#     output = [*dayofweeklist, *monthlist, *isholidaylist, *isweekdaylist]
+#     return output
 
 
 # def GetNearestStopByRoute(start_stop, end_stop, route):
