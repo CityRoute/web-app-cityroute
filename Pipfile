@@ -24,6 +24,9 @@ django-defender = "*"
 django-postgres-copy = "*"
 holidays = "*"
 numpy = "*"
+scikit-learn = "*"
+scipy = "*"
+matplotlib = "*"
 
 [dev-packages]
 

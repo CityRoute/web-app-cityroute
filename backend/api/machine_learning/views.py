@@ -4,6 +4,9 @@ from backend.api.models import Route, Stop, RouteStop, Weather
 from backend.api.serializer import StopSerializer
 from rest_framework import status
 from django.forms.models import model_to_dict
+import pickle
+from django.core.management.base import BaseCommand
+
 
 import datetime
 import holidays
@@ -98,13 +101,27 @@ def StopToStopModelView(request):
         # start_stop = "College Street"
         # end_stop = "Dame Street, stop 1934"
         # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+
+        
         all_features = GetAllStopModelFeatures()
         print("all_features", all_features, " length of array:", len(all_features))
         # print(all_stops)
+        
+
     except Exception as e:
         # print(e)
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
+    
+    stop = 340
+    pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(stop)
+    with open(pkl_filename, 'rb') as file:
+        pickle_model = pickle.load(file)
+    print([all_features])
+    prediction = pickle_model.predict(all_features)
+    print("Predicted time: ", prediction)
+    # return Response("Predicted time: ", prediction)
+
     return Response({"duration": 10})
 
 
@@ -151,6 +168,9 @@ def GetAllStopModelFeatures():
     print(reordered_all_features_dict)
 
     numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
+    print(numpy_features_array.shape)
+    numpy_features_array = numpy_features_array.reshape(-1, 1)
+    print(numpy_features_array.shape)
     return numpy_features_array
 
 # def GetStopPrediction(stop_id, route):
