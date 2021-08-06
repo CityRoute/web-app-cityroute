@@ -29,7 +29,7 @@ def RouteModelView(request):
         # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
         all_features = GetAllRouteModelFeatures()
         # print("all_stops", all_stops)
-        print("all_features", all_features)
+        print("all_features", all_features, " length of array:", len(all_features))
     except Exception as e:
         print(e)
         return Response({"error": "Error in getting journey time"},
@@ -187,16 +187,16 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     return relevant_stops
 
 
-@api_view(['GET'])
-def GetLists(self):
-    dt = datetime.datetime.today()
-    weatherlist = GetWeather(dt)
-    rainlist = weatherlist[0]
-    weatherlist = weatherlist[1]
-    dtlist = GetDatetimeFeatures(dt)
-    combined_lists = [*rainlist, *dtlist, *weatherlist]
-    output = numpy.array(combined_lists)
-    return Response(output)
+# @api_view(['GET'])
+# def GetLists(self):
+#     dt = datetime.datetime.today()
+#     weatherlist = GetWeather(dt)
+#     rainlist = weatherlist[0]
+#     weatherlist = weatherlist[1]
+#     dtlist = GetDatetimeFeatures(dt)
+#     combined_lists = [*rainlist, *dtlist, *weatherlist]
+#     output = numpy.array(combined_lists)
+#     return Response(output)
 
 
 def GetWeather(dt):

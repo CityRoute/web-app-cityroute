@@ -46,7 +46,8 @@ class Command(BaseCommand):
                     precipitation = day["pop"], # probability of precipiation
                     weatherid = day["weather"][0]["id"],
                     rain = 0,
-                    main = day["weather"][0]["main"],
+                    main = day["weather"][0]["main"], # used in stop-to-stop model
+                    description = day["weather"][0]["description"], # used in route model
                     scraped_on = today # PK
                 )
 

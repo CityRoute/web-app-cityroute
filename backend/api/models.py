@@ -66,6 +66,7 @@ class Weather(models.Model):
     weatherid = models.IntegerField(default=0)
     rain = models.FloatField(default=0.0)
     main = models.CharField(default="Missing", max_length=20)
+    description = models.CharField(default="Missing", max_length=50)
     scraped_on = models.DateTimeField(default=now, primary_key=True)
 
     
