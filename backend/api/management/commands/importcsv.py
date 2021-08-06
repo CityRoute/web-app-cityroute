@@ -21,6 +21,7 @@ class Command(BaseCommand):
                         latitude = row[3],
                         longitude = row[4]
                     )
+                    
                     print("Imported", row[1], row[2])
                 except:
                     print("Error on", row[1], row[2])

@@ -84,6 +84,7 @@ class Stop(models.Model):
     number = models.IntegerField(default=0, unique=True)
     unique_id = models.CharField(default='Missing', max_length=15, primary_key=True)
     name = models.CharField(default='Missing', max_length=50)
+    avg_dwelltime = models.FloatField(default=0)
     
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
@@ -130,6 +131,7 @@ class RouteStop(models.Model):
     stopnumber = models.ForeignKey('Stop', on_delete=models.CASCADE, default='Missing', related_name='routestops', to_field='number')
     outbound_yn = models.BooleanField(default=0)
     order = models.IntegerField(default=0)
+    percent_of_route = models.FloatField(default=0)
 
     def __str__(self):
         return f"{self.routeid}-{self.stopnumber}"
