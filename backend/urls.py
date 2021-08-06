@@ -27,13 +27,15 @@ router.register("messages", MessageViewSet)
 
 urlpatterns = [
     path('api/admin/', admin.site.urls),
-
     url('api-token/', TokenObtainPairView.as_view()),
     url('api-token-refresh/', TokenRefreshView.as_view()),
     path('api/register', RegisterApi.as_view()),
-    path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
-    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
-
+    path('api/change-password/',
+         ChangePasswordView.as_view(),
+         name='change-password'),
+    path('api/password_reset/',
+         include('django_rest_passwordreset.urls',
+                 namespace='password_reset')),
 
     # http://localhost:8000/
     path("", index_view, name="index"),
@@ -41,42 +43,45 @@ urlpatterns = [
 
     # http://localhost:8000/api/<router-viewsets>
     path("api/", include(router.urls)),
-    
+
     # http://localhost:8000/api/admin/
     path("api/admin/", admin.site.urls),
     url("api-token/", TokenObtainPairView.as_view()),
     url("api-token-refresh/", TokenRefreshView.as_view()),
     path("api/register", RegisterApi.as_view()),
-    path("api/change-password/", ChangePasswordView.as_view(), name="change-password"),
+    path("api/change-password/",
+         ChangePasswordView.as_view(),
+         name="change-password"),
     path(
         "api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
     ),
     # http://localhost:8000/api/weather/<day>
-    path(
-        "api/weather-forecast/<int:day_number>", WeatherByDay, name="weather-forecast"
-    ),
+    path("api/weather-forecast/<int:day_number>",
+         WeatherByDay,
+         name="weather-forecast"),
 
     # http://localhost:8000/api/weather-forecast/<day>
-    path('api/weather-forecast/<int:day_number>', WeatherByDay, name='weather-forecast'),
+    path('api/weather-forecast/<int:day_number>',
+         WeatherByDay,
+         name='weather-forecast'),
 
     # http://localhost:8000/api/stops-all/
     path('api/stops-all/', getAllStops, name='stops-all'),
 
-   # http://localhost:8000/api/favourite-stops-all/
-    path('api/favourite-stops-all/', FavouriteStopsAll, name='favourite-stops-all'),
-
+    # http://localhost:8000/api/favourite-stops-all/
+    path('api/favourite-stops-all/',
+         FavouriteStopsAll,
+         name='favourite-stops-all'),
 
     # http://localhost:8000/api/favourite-stops/
     path('api/favourite-stops/', FavouriteStops, name='favourite-stops'),
 
     # http://localhost:8000/api/add-fav-stop/<number>
-    path('api/add-fav-stop/<int:number>', addFavStop, name='add-favourite-stops'),
-
-    path('api/stop-stop-model', StopToStopModelView, name='stop-stop-model'),
+    path('api/add-fav-stop/<int:number>',
+         addFavStop,
+         name='add-favourite-stops'),
+    path('api/stop-stop-model', RouteModelView, name='stop-stop-model'),
     path('api/route-model', RouteModelView, name='route-model'),
-
     path('api/get-lists', GetLists, name='get-lists')
 ]
-    
-    
