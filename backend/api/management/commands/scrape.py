@@ -10,7 +10,7 @@ import requests
 import os
 
 class Command(BaseCommand):
-    appid = os.getenv("weatherapikey")
+    appid = "595c29ce82ae35b1caa367d86f0a8b26"
     api_url = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Dublin,IE&cnt=16&units=metric&cnt=16&appid={id}".format(id = appid)
     
     # define logic of command
@@ -50,6 +50,7 @@ class Command(BaseCommand):
                     scraped_on = today # PK
                 )
 
+                # a number of the objects don't have rain as a feature, so default to 0
                 if "rain" in day:
                     w.rain = day["rain"]
                 
@@ -58,7 +59,7 @@ class Command(BaseCommand):
         
                 number += 1 
             print('Scraping job complete!')
-        except:
-            print("An error occurred - entries not added to table")
+        except Exception as e:
+            print("An error occurred - entries not added to table", e)
 
 

@@ -23,6 +23,7 @@ requests = "*"
 django-defender = "*"
 django-postgres-copy = "*"
 holidays = "*"
+numpy = "*"
 
 [dev-packages]
 
