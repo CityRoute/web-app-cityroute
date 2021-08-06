@@ -113,13 +113,13 @@ def StopToStopModelView(request):
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
     
-    stop = 340
+    stop = 2
     pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(stop)
     with open(pkl_filename, 'rb') as file:
         pickle_model = pickle.load(file)
-    print([all_features])
-    prediction = pickle_model.predict(all_features)
-    print("Predicted time: ", prediction)
+    print(numpy.array(all_features).reshape(1,-1))
+    prediction = pickle_model.predict(numpy.array(all_features).reshape(1,-1))
+    print("Predicted time: ", prediction[0])
     # return Response("Predicted time: ", prediction)
 
     return Response({"duration": 10})
@@ -168,10 +168,11 @@ def GetAllStopModelFeatures():
     print(reordered_all_features_dict)
 
     numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
-    print(numpy_features_array.shape)
-    numpy_features_array = numpy_features_array.reshape(-1, 1)
-    print(numpy_features_array.shape)
-    return numpy_features_array
+    # print(numpy_features_array.shape)
+    # numpy_features_array = numpy_features_array.reshape(-1, 1)
+    # print(numpy_features_array.shape)
+    # return numpy_features_array
+    return list(reordered_all_features_dict.values())
 
 # def GetStopPrediction(stop_id, route):
 
