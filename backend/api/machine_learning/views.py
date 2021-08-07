@@ -72,22 +72,23 @@ def ModelPredictionView(request):
         num_stops = request.query_params.get('num_stops')
 
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-        all_features = GetAllRequiredFeatures(route_model_required_features)
         print("all_stops", all_stops)
-        print("all_features", all_features, " length of array:",
-              len(all_features))
-
         model_type = request.query_params.get('model_type').lower()
         if model_type == 'route':
+            all_features = GetAllRequiredFeatures(route_model_required_features)
+            print("all_features", all_features, " length of array:",
+              len(all_features))
             prediction = RoutePrediction(all_stops, all_features)
         else:
+            all_features = GetAllRequiredFeatures(stop_model_required_features)
+            print("all_features", all_features, " length of array:",
+              len(all_features))
             prediction = StopPrediction(all_stops, all_features)
-
+            return Response({"prediction": prediction})
     except Exception as e:
         print(e)
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
-    return Response({"duration": prediction})
 
 
 def RoutePrediction(all_stops, all_features):
@@ -96,7 +97,6 @@ def RoutePrediction(all_stops, all_features):
     """
     print(all_stops, all_features)
     return 0
-
 
 
 def StopPrediction(all_stops, all_features):
