@@ -11,19 +11,13 @@ from django.conf.urls import url
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .api.views import (
-    index_view,
-    MessageViewSet,
-    BusStopTimes,
-    RegisterApi,
-    ChangePasswordView,
-    WeatherByDay,
-)
-from .api.views import index_view, MessageViewSet, BusStopTimes, RegisterApi,ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops
+from .api.views import (index_view, BusStopTimes, RegisterApi,
+                        ChangePasswordView, WeatherByDay, GetAllReviews,
+                        writeReview)
+from .api.views import index_view, BusStopTimes, RegisterApi, ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops, GetAllRoutes
 from .api.machine_learning.views import ModelPredictionView
 
 router = routers.DefaultRouter()
-router.register("messages", MessageViewSet)
 
 urlpatterns = [
     path('api/admin/', admin.site.urls),
@@ -68,6 +62,9 @@ urlpatterns = [
 
     # http://localhost:8000/api/stops-all/
     path('api/stops-all/', getAllStops, name='stops-all'),
+    path('api/routes-all/', GetAllRoutes, name='routes-all'),
+    path('api/reviews-all/', GetAllReviews, name='reviews-all'),
+    path('api/write-review/', writeReview, name='write-review'),
 
     # http://localhost:8000/api/favourite-stops-all/
     path('api/favourite-stops-all/',

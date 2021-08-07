@@ -4,12 +4,11 @@
       <v-icon large left>
         mdi-bus
       </v-icon>
-      <span class="text-h6 font-weight-light">Route: 7 Harolds Cross</span>
+      <span class="text-h6 font-weight-light">{{ route }}</span>
     </v-card-title>
-    <v-card-subtitle>4th June, 2018 - 10pm</v-card-subtitle>
+    <v-card-subtitle>{{ date }}}</v-card-subtitle>
     <v-card-text class="text-h6 font-weight-bold">
-      "Turns out semicolon-less style is easier and safer in TS because most
-      gotcha edge cases are type invalid as well."
+      {{ content }}
     </v-card-text>
 
     <v-card-actions>
@@ -26,7 +25,7 @@
           <v-list-item-title>Anonymous</v-list-item-title>
         </v-list-item-content>
 
-        <v-row align="center" justify="end">
+        <!-- <v-row align="center" justify="end">
           <v-icon class="mr-1">
             mdi-heart
           </v-icon>
@@ -36,14 +35,26 @@
             mdi-share-variant
           </v-icon>
           <span class="subheading">5</span>
-        </v-row>
+        </v-row> -->
       </v-list-item>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-export default { name: "Rating" };
+export default {
+  name: "Rating",
+  props: {
+    content: { type: String, required: true },
+    route: { type: String, required: true },
+    date: {
+      type: Date,
+      default: function() {
+        return new Date();
+      },
+    },
+  },
+};
 </script>
 
 <style></style>
