@@ -65,7 +65,7 @@ def ModelPredictionView(request):
     Retrieve the stop to stop model result
     """
     try:
-        print(request.query_params)
+        # print(request.query_params)
         start_stop = request.query_params.get('start_stop').lower()
         end_stop = request.query_params.get('end_stop').lower()
         route_num = request.query_params.get('route_num')
@@ -75,28 +75,53 @@ def ModelPredictionView(request):
         print("all_stops", all_stops)
         model_type = request.query_params.get('model_type').lower()
         if model_type == 'route':
-            all_features = GetAllRequiredFeatures(route_model_required_features)
+            all_features = GetAllRequiredFeatures(
+                route_model_required_features)
             print("all_features", all_features, " length of array:",
-              len(all_features))
-            prediction = RoutePrediction(all_stops, all_features)
+                  len(all_features))
+            prediction = RoutePrediction(all_stops, all_features, route_num)
         else:
             all_features = GetAllRequiredFeatures(stop_model_required_features)
             print("all_features", all_features, " length of array:",
-              len(all_features))
+                  len(all_features))
             prediction = StopPrediction(all_stops, all_features)
-            return Response({"prediction": prediction})
+        return Response({"prediction": prediction}, status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
 
 
-def RoutePrediction(all_stops, all_features):
+def RoutePrediction(all_stops, all_features, route):
     """
     Retrieve the route model prediction
     """
     print(all_stops, all_features)
-    return 0
+    start_stop_model = Stop.objects.get(number=all_stops[0])
+    outbound_yn = start_stop_model.routestops.values(
+        'outbound_yn')[0]['outbound_yn']
+    direction = 'outbound' if outbound_yn else 'inbound'
+    pkl_filename = f"backend/api/machine_learning/route_models/route_{route}_{direction}.pkl"
+    with open(pkl_filename, 'rb') as file:
+        pickle_model = pickle.load(file)
+    prediction = pickle_model.predict(
+        numpy.array(all_features).reshape(1, -1))
+    print("Predicted time: ", prediction[0])
+    end_stop_model = Stop.objects.get(number=all_stops[-1])
+    start_stop_pct = start_stop_model.routestops.values(
+    'percent_of_route')[0]['percent_of_route']
+    end_stop_pct = end_stop_model.routestops.values(
+        'percent_of_route')[0]['percent_of_route']
+
+    total_dwell_time = 0
+    for stop in all_stops:
+        stop_model = Stop.objects.get(number=stop)
+        dwell_time = getattr(stop_model, 'avg_dwelltime')
+        total_dwell_time += dwell_time
+    # print("total_dwell_time", total_dwell_time)
+    # print("end_stop_pct",end_stop_pct,"start_stop_pct",start_stop_pct)
+    final_prediction = prediction * ((end_stop_pct - start_stop_pct)/100) + total_dwell_time
+    return final_prediction[0]
 
 
 def StopPrediction(all_stops, all_features):
@@ -109,7 +134,7 @@ def StopPrediction(all_stops, all_features):
         stop)
     with open(pkl_filename, 'rb') as file:
         pickle_model = pickle.load(file)
-    print(numpy.array(all_features).reshape(1, -1))
+    # print(numpy.array(all_features).reshape(1, -1))
     prediction = pickle_model.predict(numpy.array(all_features).reshape(1, -1))
     print("Predicted time: ", prediction[0])
     # return Response("Predicted time: ", prediction)
@@ -209,7 +234,6 @@ def GetAllRequiredFeatures(required_features=None):
 
     # combine datetime and weather features into one dictionary
     all_features_dict = {**datetime_features_dict, **weather_features_dict}
-
     # filter this dict with the required features
     filtered_all_features_dict = {
         k: v
@@ -221,7 +245,8 @@ def GetAllRequiredFeatures(required_features=None):
         k: filtered_all_features_dict[k]
         for k in required_features
     }
-    print(reordered_all_features_dict)
+
+    # print("reordered_all_features_dict", reordered_all_features_dict)
 
     # convert to numpy array to match model spec
     numpy_features_array = numpy.array(
@@ -305,24 +330,23 @@ def GetDatetimeFeatures(dt):
     datetime_features_dict["HOUR"] = datetime.datetime.now().hour
 
     for day in filter(lambda k: 'DAYOFWEEK_' in k, datetime_features_list):
-        print(day)
+        # print(day)
         if calendar.day_name[date.weekday()] in day:
             datetime_features_dict[day] = 1
 
     for month in filter(lambda k: 'MONTHOFSERVICE_' in k,
                         datetime_features_list):
-        print(month)
+        # print(month)
         if calendar.month_name[date.month] in month:
             datetime_features_dict[month] = 1
 
     # get holiday yes/no, need to pipenv install holidays
-    irish_holidays_2021 = []
-    for date in holidays.Ireland(years=2021).items():
-        irish_holidays_2021.append(str(date[0]))
-
-    datetime_features_dict["IS_HOLIDAY_1"] = (1 if str(date).split()[0]
-                                              in irish_holidays_2021 else 0)
-
+    # irish_holidays_2021 = []
+    # print(holidays.Ireland(years=2021).keys())
+    # for date in holidays.Ireland(years=2021).items():
+    #     irish_holidays_2021.append(str(date[0]))
+    datetime_features_dict["IS_HOLIDAY_1"] = (1 if date in holidays.Ireland(
+        years=2021).keys() else 0)
     # get weekday yes/no
     datetime_features_dict["IS_WEEKDAY_1"] = (1
                                               if int(dt.weekday()) < 5 else 0)
