@@ -595,8 +595,9 @@ export default {
       };
       function getDuration(step) {
         return axios
-          .get("/api/stop-stop-model", {
+          .get("/api/stop-stop-model/model-prediction", {
             params: {
+              model_type: "route",
               route_num: step["transit"]["line"].short_name,
               start_stop: step["transit"]["departure_stop"].name,
               end_stop: step["transit"]["arrival_stop"].name,
