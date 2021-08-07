@@ -7,15 +7,60 @@ from django.forms.models import model_to_dict
 import pickle
 from django.core.management.base import BaseCommand
 
-
 import datetime
 import holidays
 import numpy
 import calendar
 
+route_model_required_features = [
+    'HOUR',
+    'DAYOFWEEK_Tuesday',
+    'DAYOFWEEK_Wednesday',
+    'DAYOFWEEK_Thursday',
+    'DAYOFWEEK_Friday',
+    'DAYOFWEEK_Saturday',
+    'DAYOFWEEK_Sunday',
+    'MONTHOFSERVICE_February',
+    'MONTHOFSERVICE_March',
+    'MONTHOFSERVICE_April',
+    'MONTHOFSERVICE_May',
+    'MONTHOFSERVICE_June',
+    'MONTHOFSERVICE_July',
+    'MONTHOFSERVICE_August',
+    'MONTHOFSERVICE_September',
+    'MONTHOFSERVICE_October',
+    'MONTHOFSERVICE_November',
+    'MONTHOFSERVICE_December',
+    'IS_HOLIDAY_1',
+    'humidity',
+    'rain_1h',
+    'temp',
+    'wind_speed',
+    'weather_main_Clouds',
+    'weather_main_Drizzle',
+    'weather_main_Fog',
+    'weather_main_Mist',
+    'weather_main_Rain',
+    'weather_main_Smoke',
+    'weather_main_Snow',
+]
+
+stop_model_required_features = [
+    'rain_1h', 'DAYOFWEEK_Friday', 'DAYOFWEEK_Monday', 'DAYOFWEEK_Saturday',
+    'DAYOFWEEK_Sunday', 'DAYOFWEEK_Thursday', 'DAYOFWEEK_Tuesday',
+    'DAYOFWEEK_Wednesday', 'MONTHOFSERVICE_April', 'MONTHOFSERVICE_August',
+    'MONTHOFSERVICE_December', 'MONTHOFSERVICE_February',
+    'MONTHOFSERVICE_January', 'MONTHOFSERVICE_July', 'MONTHOFSERVICE_June',
+    'MONTHOFSERVICE_March', 'MONTHOFSERVICE_May', 'MONTHOFSERVICE_November',
+    'MONTHOFSERVICE_October', 'MONTHOFSERVICE_September', 'IS_HOLIDAY_0',
+    'IS_HOLIDAY_1', 'IS_WEEKDAY_0', 'IS_WEEKDAY_1', 'weather_main_Clear',
+    'weather_main_Clouds', 'weather_main_Drizzle', 'weather_main_Fog',
+    'weather_main_Mist', 'weather_main_Rain', 'weather_main_Snow'
+]
+
 
 @api_view(['GET'])
-def RouteModelView(request):
+def ModelPredictionView(request):
     """
     Retrieve the stop to stop model result
     """
@@ -25,156 +70,51 @@ def RouteModelView(request):
         end_stop = request.query_params.get('end_stop').lower()
         route_num = request.query_params.get('route_num')
         num_stops = request.query_params.get('num_stops')
-        # start_stop = Stop.objects.filter(name="College Street")
-        # end_stop = Stop.objects.get(number=1934)
-        # start_stop = "College Street"
-        # end_stop = "Dame Street, stop 1934"
-        # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-        all_features = GetAllRouteModelFeatures()
-        # print("all_stops", all_stops)
-        print("all_features", all_features, " length of array:", len(all_features))
+
+        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+        all_features = GetAllRequiredFeatures(route_model_required_features)
+        print("all_stops", all_stops)
+        print("all_features", all_features, " length of array:",
+              len(all_features))
+
+        model_type = request.query_params.get('model_type').lower()
+        if model_type == 'route':
+            prediction = RoutePrediction(all_stops, all_features)
+        else:
+            prediction = StopPrediction(all_stops, all_features)
+
     except Exception as e:
         print(e)
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
-    return Response({"duration": 10})
+    return Response({"duration": prediction})
 
 
-def GetAllRouteModelFeatures():
-    required_features = [
-        'HOUR',
-        'DAYOFWEEK_Tuesday',
-        'DAYOFWEEK_Wednesday',
-        'DAYOFWEEK_Thursday',
-        'DAYOFWEEK_Friday',
-        'DAYOFWEEK_Saturday',
-        'DAYOFWEEK_Sunday',
-        'MONTHOFSERVICE_February',
-        'MONTHOFSERVICE_March',
-        'MONTHOFSERVICE_April',
-        'MONTHOFSERVICE_May',
-        'MONTHOFSERVICE_June',
-        'MONTHOFSERVICE_July',
-        'MONTHOFSERVICE_August',
-        'MONTHOFSERVICE_September',
-        'MONTHOFSERVICE_October',
-        'MONTHOFSERVICE_November',
-        'MONTHOFSERVICE_December',
-        'IS_HOLIDAY_1',
-        'humidity',
-        'rain_1h',
-        'temp',
-        'wind_speed',
-        'weather_main_Clouds',
-        'weather_main_Drizzle',
-        'weather_main_Fog',
-        'weather_main_Mist',
-        'weather_main_Rain',
-        'weather_main_Smoke',
-        'weather_main_Snow',
-    ]
-    dt = datetime.datetime.today()
-    datetime_features_dict = GetDatetimeFeaturesRoute(dt)
-    weather_features_dict = GetWeather(dt)
-    all_features_dict = {**datetime_features_dict, **weather_features_dict}
-    filtered_all_features_dict = {k: v for k, v in all_features_dict.items() if k in required_features}
-    reordered_all_features_dict = {k: filtered_all_features_dict[k] for k in required_features}
-    print(reordered_all_features_dict)
-
-    numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
-    return numpy_features_array
-
-
-@api_view(['GET'])
-def StopToStopModelView(request):
+def RoutePrediction(all_stops, all_features):
     """
-    Retrieve the stop to stop model result
+    Retrieve the route model prediction
     """
-    try:
-        # print(request.query_params)
-        # start_stop = request.query_params.get('start_stop').lower()
-        # end_stop = request.query_params.get('end_stop').lower()
-        # route_num = request.query_params.get('route_num')
-        # num_stops = request.query_params.get('num_stops')
-        # start_stop = Stop.objects.filter(name="College Street")
-        # end_stop = Stop.objects.get(number=1934)
-        # start_stop = "College Street"
-        # end_stop = "Dame Street, stop 1934"
-        # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+    print(all_stops, all_features)
+    return 0
 
-        
-        all_features = GetAllStopModelFeatures()
-        print("all_features", all_features, " length of array:", len(all_features))
-        # print(all_stops)
-        
 
-    except Exception as e:
-        # print(e)
-        return Response({"error": "Error in getting journey time"},
-                        status=status.HTTP_404_NOT_FOUND)
-    
+
+def StopPrediction(all_stops, all_features):
+    """
+    Retrieve the stop model prediction
+    """
+
     stop = 2
-    pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(stop)
+    pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(
+        stop)
     with open(pkl_filename, 'rb') as file:
         pickle_model = pickle.load(file)
-    print(numpy.array(all_features).reshape(1,-1))
-    prediction = pickle_model.predict(numpy.array(all_features).reshape(1,-1))
+    print(numpy.array(all_features).reshape(1, -1))
+    prediction = pickle_model.predict(numpy.array(all_features).reshape(1, -1))
     print("Predicted time: ", prediction[0])
     # return Response("Predicted time: ", prediction)
 
-    return Response({"duration": 10})
-
-
-def GetAllStopModelFeatures():
-    required_features = [
-        'rain_1h',
-        'DAYOFWEEK_Friday',
-        'DAYOFWEEK_Monday',
-        'DAYOFWEEK_Saturday',
-        'DAYOFWEEK_Sunday',
-        'DAYOFWEEK_Thursday',
-        'DAYOFWEEK_Tuesday',
-        'DAYOFWEEK_Wednesday',
-        'MONTHOFSERVICE_April',
-        'MONTHOFSERVICE_August',
-        'MONTHOFSERVICE_December',
-        'MONTHOFSERVICE_February',
-        'MONTHOFSERVICE_January',
-        'MONTHOFSERVICE_July',
-        'MONTHOFSERVICE_June',
-        'MONTHOFSERVICE_March',
-        'MONTHOFSERVICE_May',
-        'MONTHOFSERVICE_November',
-        'MONTHOFSERVICE_October',
-        'MONTHOFSERVICE_September',
-        'IS_HOLIDAY_0', 
-        'IS_HOLIDAY_1',
-        'IS_WEEKDAY_0', 
-        'IS_WEEKDAY_1',
-        'weather_main_Clear', 
-        'weather_main_Clouds',
-        'weather_main_Drizzle',
-        'weather_main_Fog',
-        'weather_main_Mist',
-        'weather_main_Rain',
-        'weather_main_Snow'
-    ]
-    dt = datetime.datetime.today()
-    datetime_features_dict = GetDatetimeFeaturesStop(dt)
-    weather_features_dict = GetWeather(dt)
-    all_features_dict = {**datetime_features_dict, **weather_features_dict}
-    filtered_all_features_dict = {k: v for k, v in all_features_dict.items() if k in required_features}
-    reordered_all_features_dict = {k: filtered_all_features_dict[k] for k in required_features}
-    print(reordered_all_features_dict)
-
-    numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
-    # print(numpy_features_array.shape)
-    # numpy_features_array = numpy_features_array.reshape(-1, 1)
-    # print(numpy_features_array.shape)
-    # return numpy_features_array
-    return list(reordered_all_features_dict.values())
-
-# def GetStopPrediction(stop_id, route):
+    return prediction[0]
 
 
 def GetStopModel(stop, route_model, outbound_yn):
@@ -254,7 +194,42 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 
     return relevant_stops
 
-def GetWeather(dt):
+
+def GetAllRequiredFeatures(required_features=None):
+    if required_features is None:
+        return None
+    # use current date for datetime features & weather features
+    dt = datetime.datetime.today()
+
+    # get datetime features
+    datetime_features_dict = GetDatetimeFeatures(dt)
+
+    # get weather features
+    weather_features_dict = GetWeatherFeatures(dt)
+
+    # combine datetime and weather features into one dictionary
+    all_features_dict = {**datetime_features_dict, **weather_features_dict}
+
+    # filter this dict with the required features
+    filtered_all_features_dict = {
+        k: v
+        for k, v in all_features_dict.items() if k in required_features
+    }
+
+    # reorder the list to match the model spec
+    reordered_all_features_dict = {
+        k: filtered_all_features_dict[k]
+        for k in required_features
+    }
+    print(reordered_all_features_dict)
+
+    # convert to numpy array to match model spec
+    numpy_features_array = numpy.array(
+        list(reordered_all_features_dict.values()))
+    return numpy_features_array
+
+
+def GetWeatherFeatures(dt):
     """
     Return a list for the binary weather features
     """
@@ -295,7 +270,7 @@ def GetWeather(dt):
         return "No weather data available for this day."
 
 
-def GetDatetimeFeaturesRoute(dt):
+def GetDatetimeFeatures(dt):
     """
     Returns a list (len 23), containing all the binary datetime features to be fed into the model
     """
