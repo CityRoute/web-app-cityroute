@@ -575,6 +575,30 @@ export default {
       this.directions = true;
       this.calcRoute(this.origin, this.destination);
     },
+    async getDuration(step) {
+        await axios
+          .get("/api/model-prediction", {
+            params: {
+              model_type: "route",
+              route_num: step["transit"]["line"].short_name,
+              start_stop: step["transit"]["departure_stop"].name,
+              end_stop: step["transit"]["arrival_stop"].name,
+              num_stops: step["transit"]["num_stops"],
+            },
+          })
+          .then(response => {
+            console.log(
+              "prediction",
+              response.data,
+              "google",
+              step["duration"]["value"]
+            );
+            this.total_duration += response.data.prediction - step["duration"]["value"]
+          })
+          .catch((error) => {
+            console.log("error", error);
+          });
+      },
     calcRoute(start, end) {
       if (Array.isArray(start)) {
         start = new google.maps.LatLng(start[0], start[1]);
@@ -592,47 +616,22 @@ export default {
           departureTime: new Date(this.time),
           trafficModel: "pessimistic",
         },
-      };
-      function getDuration(step) {
-        return axios
-          .get("/api/stop-stop-model", {
-            params: {
-              route_num: step["transit"]["line"].short_name,
-              start_stop: step["transit"]["departure_stop"].name,
-              end_stop: step["transit"]["arrival_stop"].name,
-              num_stops: step["transit"]["num_stops"],
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-            return response.data.duration - step["duration"]["value"];
-          })
-          .catch((error) => {
-            console.log("error", error);
-            return 0;
-          });
-      }
+      }; 
       directionsService.route(request, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
           // console.log(response);
           let directions = response;
-          let total_duration =
+          this.total_duration =
             directions["routes"][0]["legs"][0]["duration"].value;
           for (const step of directions["routes"][0]["legs"][0]["steps"]) {
             if (
               step.travel_mode == "TRANSIT" &&
               step["transit"]["line"]["agencies"][0]["name"] == "Dublin Bus"
             ) {
-              const bus_duration = async () => {
-                const leagues = await getDuration(step);
-                console.log(leagues);
-                total_duration += leagues;
-              };
-              bus_duration();
+              this.getDuration(step);
+              //  await getDuration(step).then(res => console.log(res));
             }
           }
-          this.total_duration = total_duration;
-          console.log(total_duration);
 
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);

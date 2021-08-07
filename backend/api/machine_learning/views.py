@@ -4,86 +4,63 @@ from backend.api.models import Route, Stop, RouteStop, Weather
 from backend.api.serializer import StopSerializer
 from rest_framework import status
 from django.forms.models import model_to_dict
+import pickle
+from django.core.management.base import BaseCommand
 
 import datetime
 import holidays
 import numpy
 import calendar
 
+route_model_required_features = [
+    'HOUR',
+    'DAYOFWEEK_Tuesday',
+    'DAYOFWEEK_Wednesday',
+    'DAYOFWEEK_Thursday',
+    'DAYOFWEEK_Friday',
+    'DAYOFWEEK_Saturday',
+    'DAYOFWEEK_Sunday',
+    'MONTHOFSERVICE_February',
+    'MONTHOFSERVICE_March',
+    'MONTHOFSERVICE_April',
+    'MONTHOFSERVICE_May',
+    'MONTHOFSERVICE_June',
+    'MONTHOFSERVICE_July',
+    'MONTHOFSERVICE_August',
+    'MONTHOFSERVICE_September',
+    'MONTHOFSERVICE_October',
+    'MONTHOFSERVICE_November',
+    'MONTHOFSERVICE_December',
+    'IS_HOLIDAY_1',
+    'humidity',
+    'rain_1h',
+    'temp',
+    'wind_speed',
+    'weather_main_Clouds',
+    'weather_main_Drizzle',
+    'weather_main_Fog',
+    'weather_main_Mist',
+    'weather_main_Rain',
+    'weather_main_Smoke',
+    'weather_main_Snow',
+]
 
-@api_view(['GET'])
-def RouteModelView(request):
-    """
-    Retrieve the stop to stop model result
-    """
-    try:
-        print(request.query_params)
-        start_stop = request.query_params.get('start_stop').lower()
-        end_stop = request.query_params.get('end_stop').lower()
-        route_num = request.query_params.get('route_num')
-        num_stops = request.query_params.get('num_stops')
-        # start_stop = Stop.objects.filter(name="College Street")
-        # end_stop = Stop.objects.get(number=1934)
-        # start_stop = "College Street"
-        # end_stop = "Dame Street, stop 1934"
-        # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-        all_features = GetAllRouteModelFeatures()
-        # print("all_stops", all_stops)
-        print("all_features", all_features)
-    except Exception as e:
-        print(e)
-        return Response({"error": "Error in getting journey time"},
-                        status=status.HTTP_404_NOT_FOUND)
-    return Response({"duration": 10})
-
-
-def GetAllRouteModelFeatures():
-    required_features = [
-        'HOUR',
-        'DAYOFWEEK_Tuesday',
-        'DAYOFWEEK_Wednesday',
-        'DAYOFWEEK_Thursday',
-        'DAYOFWEEK_Friday',
-        'DAYOFWEEK_Saturday',
-        'DAYOFWEEK_Sunday',
-        'MONTHOFSERVICE_February',
-        'MONTHOFSERVICE_March',
-        'MONTHOFSERVICE_April',
-        'MONTHOFSERVICE_May',
-        'MONTHOFSERVICE_June',
-        'MONTHOFSERVICE_July',
-        'MONTHOFSERVICE_August',
-        'MONTHOFSERVICE_September',
-        'MONTHOFSERVICE_October',
-        'MONTHOFSERVICE_November',
-        'MONTHOFSERVICE_December',
-        'IS_HOLIDAY_1',
-        'humidity',
-        'rain_1h',
-        'temp',
-        'wind_speed',
-        'weather_main_Clouds',
-        'weather_main_Drizzle',
-        'weather_main_Fog',
-        'weather_main_Mist',
-        'weather_main_Rain',
-        'weather_main_Smoke',
-        'weather_main_Snow',
-    ]
-    dt = datetime.datetime.today()
-    datetime_features_dict = GetDatetimeFeaturesRoute(dt)
-    weather_features_dict = GetWeather(dt)
-    all_features_dict = {**datetime_features_dict, **weather_features_dict}
-    filtered_all_features_dict = {k: v for k, v in all_features_dict.items() if k in required_features}
-    reordered_all_features_dict = {k: filtered_all_features_dict[k] for k in required_features}
-    print(reordered_all_features_dict)
-
-    numpy_features_array = numpy.array(list(reordered_all_features_dict.values()))
-    return numpy_features_array
+stop_model_required_features = [
+    'rain_1h', 'DAYOFWEEK_Friday', 'DAYOFWEEK_Monday', 'DAYOFWEEK_Saturday',
+    'DAYOFWEEK_Sunday', 'DAYOFWEEK_Thursday', 'DAYOFWEEK_Tuesday',
+    'DAYOFWEEK_Wednesday', 'MONTHOFSERVICE_April', 'MONTHOFSERVICE_August',
+    'MONTHOFSERVICE_December', 'MONTHOFSERVICE_February',
+    'MONTHOFSERVICE_January', 'MONTHOFSERVICE_July', 'MONTHOFSERVICE_June',
+    'MONTHOFSERVICE_March', 'MONTHOFSERVICE_May', 'MONTHOFSERVICE_November',
+    'MONTHOFSERVICE_October', 'MONTHOFSERVICE_September', 'IS_HOLIDAY_0',
+    'IS_HOLIDAY_1', 'IS_WEEKDAY_0', 'IS_WEEKDAY_1', 'weather_main_Clear',
+    'weather_main_Clouds', 'weather_main_Drizzle', 'weather_main_Fog',
+    'weather_main_Mist', 'weather_main_Rain', 'weather_main_Snow'
+]
 
 
 @api_view(['GET'])
-def StopToStopModelView(request):
+def ModelPredictionView(request):
     """
     Retrieve the stop to stop model result
     """
@@ -93,20 +70,76 @@ def StopToStopModelView(request):
         end_stop = request.query_params.get('end_stop').lower()
         route_num = request.query_params.get('route_num')
         num_stops = request.query_params.get('num_stops')
-        # start_stop = Stop.objects.filter(name="College Street")
-        # end_stop = Stop.objects.get(number=1934)
-        # start_stop = "College Street"
-        # end_stop = "Dame Street, stop 1934"
+
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-        # print(all_stops)
+        print("all_stops", all_stops)
+        model_type = request.query_params.get('model_type').lower()
+        if model_type == 'route':
+            all_features = GetAllRequiredFeatures(
+                route_model_required_features)
+            print("all_features", all_features, " length of array:",
+                  len(all_features))
+            prediction = RoutePrediction(all_stops, all_features, route_num)
+        else:
+            all_features = GetAllRequiredFeatures(stop_model_required_features)
+            print("all_features", all_features, " length of array:",
+                  len(all_features))
+            prediction = StopPrediction(all_stops, all_features)
+        return Response({"prediction": prediction}, status=status.HTTP_200_OK)
     except Exception as e:
-        # print(e)
+        print(e)
         return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
-    return Response({"duration": 10})
 
 
-# def GetStopPrediction(stop_id, route):
+def RoutePrediction(all_stops, all_features, route):
+    """
+    Retrieve the route model prediction
+    """
+    print(all_stops, all_features)
+    start_stop_model = Stop.objects.get(number=all_stops[0])
+    outbound_yn = start_stop_model.routestops.values(
+        'outbound_yn')[0]['outbound_yn']
+    direction = 'outbound' if outbound_yn else 'inbound'
+    pkl_filename = f"backend/api/machine_learning/route_models/route_{route}_{direction}.pkl"
+    with open(pkl_filename, 'rb') as file:
+        pickle_model = pickle.load(file)
+    prediction = pickle_model.predict(
+        numpy.array(all_features).reshape(1, -1))
+    print("Predicted time: ", prediction[0])
+    end_stop_model = Stop.objects.get(number=all_stops[-1])
+    start_stop_pct = start_stop_model.routestops.values(
+    'percent_of_route')[0]['percent_of_route']
+    end_stop_pct = end_stop_model.routestops.values(
+        'percent_of_route')[0]['percent_of_route']
+
+    total_dwell_time = 0
+    for stop in all_stops:
+        stop_model = Stop.objects.get(number=stop)
+        dwell_time = getattr(stop_model, 'avg_dwelltime')
+        total_dwell_time += dwell_time
+    # print("total_dwell_time", total_dwell_time)
+    # print("end_stop_pct",end_stop_pct,"start_stop_pct",start_stop_pct)
+    final_prediction = prediction * ((end_stop_pct - start_stop_pct)/100) + total_dwell_time
+    return final_prediction[0]
+
+
+def StopPrediction(all_stops, all_features):
+    """
+    Retrieve the stop model prediction
+    """
+
+    stop = 2
+    pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(
+        stop)
+    with open(pkl_filename, 'rb') as file:
+        pickle_model = pickle.load(file)
+    # print(numpy.array(all_features).reshape(1, -1))
+    prediction = pickle_model.predict(numpy.array(all_features).reshape(1, -1))
+    print("Predicted time: ", prediction[0])
+    # return Response("Predicted time: ", prediction)
+
+    return prediction[0]
 
 
 def GetStopModel(stop, route_model, outbound_yn):
@@ -187,19 +220,41 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     return relevant_stops
 
 
-@api_view(['GET'])
-def GetLists(self):
+def GetAllRequiredFeatures(required_features=None):
+    if required_features is None:
+        return None
+    # use current date for datetime features & weather features
     dt = datetime.datetime.today()
-    weatherlist = GetWeather(dt)
-    rainlist = weatherlist[0]
-    weatherlist = weatherlist[1]
-    dtlist = GetDatetimeFeatures(dt)
-    combined_lists = [*rainlist, *dtlist, *weatherlist]
-    output = numpy.array(combined_lists)
-    return Response(output)
+
+    # get datetime features
+    datetime_features_dict = GetDatetimeFeatures(dt)
+
+    # get weather features
+    weather_features_dict = GetWeatherFeatures(dt)
+
+    # combine datetime and weather features into one dictionary
+    all_features_dict = {**datetime_features_dict, **weather_features_dict}
+    # filter this dict with the required features
+    filtered_all_features_dict = {
+        k: v
+        for k, v in all_features_dict.items() if k in required_features
+    }
+
+    # reorder the list to match the model spec
+    reordered_all_features_dict = {
+        k: filtered_all_features_dict[k]
+        for k in required_features
+    }
+
+    # print("reordered_all_features_dict", reordered_all_features_dict)
+
+    # convert to numpy array to match model spec
+    numpy_features_array = numpy.array(
+        list(reordered_all_features_dict.values()))
+    return numpy_features_array
 
 
-def GetWeather(dt):
+def GetWeatherFeatures(dt):
     """
     Return a list for the binary weather features
     """
@@ -240,7 +295,7 @@ def GetWeather(dt):
         return "No weather data available for this day."
 
 
-def GetDatetimeFeaturesRoute(dt):
+def GetDatetimeFeatures(dt):
     """
     Returns a list (len 23), containing all the binary datetime features to be fed into the model
     """
@@ -275,24 +330,23 @@ def GetDatetimeFeaturesRoute(dt):
     datetime_features_dict["HOUR"] = datetime.datetime.now().hour
 
     for day in filter(lambda k: 'DAYOFWEEK_' in k, datetime_features_list):
-        print(day)
+        # print(day)
         if calendar.day_name[date.weekday()] in day:
             datetime_features_dict[day] = 1
 
     for month in filter(lambda k: 'MONTHOFSERVICE_' in k,
                         datetime_features_list):
-        print(month)
+        # print(month)
         if calendar.month_name[date.month] in month:
             datetime_features_dict[month] = 1
 
     # get holiday yes/no, need to pipenv install holidays
-    irish_holidays_2021 = []
-    for date in holidays.Ireland(years=2021).items():
-        irish_holidays_2021.append(str(date[0]))
-
-    datetime_features_dict["IS_HOLIDAY_1"] = (1 if str(date).split()[0]
-                                              in irish_holidays_2021 else 0)
-
+    # irish_holidays_2021 = []
+    # print(holidays.Ireland(years=2021).keys())
+    # for date in holidays.Ireland(years=2021).items():
+    #     irish_holidays_2021.append(str(date[0]))
+    datetime_features_dict["IS_HOLIDAY_1"] = (1 if date in holidays.Ireland(
+        years=2021).keys() else 0)
     # get weekday yes/no
     datetime_features_dict["IS_WEEKDAY_1"] = (1
                                               if int(dt.weekday()) < 5 else 0)
@@ -300,93 +354,3 @@ def GetDatetimeFeaturesRoute(dt):
     # print(datetime_features_dict)
 
     return datetime_features_dict
-
-
-def GetDatetimeFeatures(dt):
-    """
-    Returns a list (len 23), containing all the binary datetime features to be fed into the model
-    """
-    # get day of the week (0-6) and month (1-12)
-    date = dt.date()
-    print("Date: {}".format(date))
-    dayofweek = date.weekday()
-    month = dt.month
-    print("Month: {}, weekday: {}".format(month, dayofweek))
-
-    # get holiday yes/no, need to pipenv install holidays
-    irish_holidays_2021 = []
-    for date in holidays.Ireland(years=2021).items():
-        irish_holidays_2021.append(str(date[0]))
-
-    is_holiday = (1 if str(date).split()[0] in irish_holidays_2021 else 0)
-    print("Holiday?: {}".format(is_holiday))
-
-    # get weekday yes/no
-    is_weekday = (1 if int(dt.weekday()) < 5 else 0)
-    print("Weekday?: {}".format(is_weekday))
-
-    # 0s and 1 in weekday list
-    dayofweeklist = [0] * 7
-    order = [4, 0, 5, 6, 3, 1, 2]
-    dayofweeklist[order.index(dayofweek)] = 1
-    print("Dayofweek list: {}".format(dayofweeklist))
-
-    # 0s and 1 for month list
-    monthlist = [0] * 12
-    order = [4, 8, 12, 2, 1, 7, 6, 3, 5, 11, 10, 9]
-    monthlist[order.index(month)] = 1
-    print("Month list: {}".format(monthlist))
-
-    # 0 and 1 for is_holiday list
-    # if it is a holiday, column 0 is 0 and column 1 is 1, and vice versa
-    isholidaylist = [0] * 2
-    if is_holiday == 1:
-        isholidaylist[1] = 1
-    else:
-        isholidaylist[0] = 1
-    print("isholiday list: {}".format(isholidaylist))
-
-    # 0 and 1 for is_weekday list
-    # if it is a weekday, column 0 is 0 and column 1 is 1, and vice versa
-    isweekdaylist = [0] * 2
-    if is_weekday == 1:
-        isweekdaylist[1] = 1
-    else:
-        isweekdaylist[0] = 1
-    print("isweekday list: {}".format(isweekdaylist))
-
-    # combine all the lists in the right order for model input
-    output = [*dayofweeklist, *monthlist, *isholidaylist, *isweekdaylist]
-    return output
-
-
-# def GetNearestStopByRoute(start_stop, end_stop, route):
-#     relevant_stops = RouteStop.objects.filter(routeid=route)
-#     stops = []
-#     for i, stop in enumerate(relevant_stops):
-#         stops.append({'num': stop.stopnumber.number, 'lat': stop.stopnumber.latitude, 'lon': stop.stopnumber.longitude})
-#     closest_start = closest(stops, start_stop)['num']
-#     closest_end = closest(stops, end_stop)['num']
-#     print(closest(stops, end_stop))
-#     for i, stop in enumerate(stops):
-#         if stop['num'] == closest_start:
-#             start_stop = i
-#         if stop['num'] == closest_end:
-#             end_stop = i
-#     print(start_stop, end_stop)
-#     return stops[start_stop:end_stop]
-
-#     """
-#     Get the prediction for the stop
-#     """
-#     return []
-
-# from math import cos, asin, sqrt
-
-# def distance(lat1, lon1, lat2, lon2):
-#     p = 0.017453292519943295
-#     hav = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p)*cos(lat2*p) * (1-cos((lon2-lon1)*p)) / 2
-#     return 12742 * asin(sqrt(hav))
-
-# def closest(data, v):
-#     return min(data, key=lambda p: distance(v['lat'],v['lon'],p['lat'],p['lon']))
