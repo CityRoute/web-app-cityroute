@@ -96,30 +96,43 @@ def RoutePrediction(all_stops, all_features, route):
     """
     Retrieve the route model prediction
     """
-    print(all_stops, all_features)
+    # get first stop on route
     start_stop_model = Stop.objects.get(number=all_stops[0])
+
+    # check if route is outbound or not from routestop
     outbound_yn = start_stop_model.routestops.values(
         'outbound_yn')[0]['outbound_yn']
     direction = 'outbound' if outbound_yn else 'inbound'
+
+    # read in pickle file based on route and direction
     pkl_filename = f"backend/api/machine_learning/route_models/route_{route}_{direction}.pkl"
     with open(pkl_filename, 'rb') as file:
         pickle_model = pickle.load(file)
+
+    # run prediction
     prediction = pickle_model.predict(
         numpy.array(all_features).reshape(1, -1))
-    print("Predicted time: ", prediction[0])
+    # print("Predicted time: ", prediction[0])
+
+    # get the end stop
     end_stop_model = Stop.objects.get(number=all_stops[-1])
+
+    # get percentage of route used up to first stop on journey
     start_stop_pct = start_stop_model.routestops.values(
     'percent_of_route')[0]['percent_of_route']
+
+    # get percentage of route used up to last stop on journey
     end_stop_pct = end_stop_model.routestops.values(
         'percent_of_route')[0]['percent_of_route']
 
+    # calculate the total dwell time based on dwell time for each stop on journey
     total_dwell_time = 0
     for stop in all_stops:
         stop_model = Stop.objects.get(number=stop)
         dwell_time = getattr(stop_model, 'avg_dwelltime')
         total_dwell_time += dwell_time
-    # print("total_dwell_time", total_dwell_time)
-    # print("end_stop_pct",end_stop_pct,"start_stop_pct",start_stop_pct)
+
+    # get the final prediction by only keeping the percentage of route used on the journey and adding the dwell time
     final_prediction = prediction * ((end_stop_pct - start_stop_pct)/100) + total_dwell_time
     return final_prediction[0]
 
@@ -128,16 +141,14 @@ def StopPrediction(all_stops, all_features):
     """
     Retrieve the stop model prediction
     """
-
-    stop = 2
-    pkl_filename = "backend/api/machine_learning/stop_models/stop_{}.pkl".format(
-        stop)
-    with open(pkl_filename, 'rb') as file:
-        pickle_model = pickle.load(file)
-    # print(numpy.array(all_features).reshape(1, -1))
-    prediction = pickle_model.predict(numpy.array(all_features).reshape(1, -1))
-    print("Predicted time: ", prediction[0])
-    # return Response("Predicted time: ", prediction)
+    prediction = 0
+    for stop in all_stops:
+        # read in pickle file based on stop 
+        pkl_filename = f"backend/api/machine_learning/stop_models/stop_{stop}.pkl"
+        with open(pkl_filename, 'rb') as file:
+            pickle_model = pickle.load(file)
+        # run prediction
+        prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
 
     return prediction[0]
 
