@@ -8,6 +8,8 @@
           label="Origin"
           id="locationOrigin"
           outlined
+          :placeholder="placeholder"
+          ref="locationOrigin"
           clearable
           append-icon="mdi-map-marker"
           @click:append="currentLocation('origin')"
@@ -18,6 +20,8 @@
           label="Destination"
           id="locationDestination"
           outlined
+          :placeholder="placeholder"
+          ref="locationDestination"
           clearable
           append-icon="mdi-map-marker"
           @click:append="currentLocation('destination')"
@@ -39,25 +43,24 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-row align="center" v-if="directions" justify="space-around">
+          <v-btn id="close" @click="closeDirections()">
+            Close Directions
+          </v-btn>
+          <v-btn
+            >Our estimation:
+            {{
+              new Date(this.total_duration * 1000).toISOString().substr(11, 8)
+            }}
+          </v-btn>
+        </v-row>
+
         <v-card
           v-if="directions"
           style="height: 40vh; overflow-y:scroll; overflow-x:hidden;white-space: nowrap;"
           class="mt-5"
         >
           <v-card-text>
-            <v-row align="center" justify="space-around">
-              <v-btn id="close" @click="closeDirections()">
-                Close Directions
-              </v-btn>
-              <v-btn
-                >Our estimation:
-                {{
-                  new Date(this.total_duration * 1000)
-                    .toISOString()
-                    .substr(11, 8)
-                }}
-              </v-btn>
-            </v-row>
             <div id="card"></div>
           </v-card-text>
         </v-card>
@@ -80,7 +83,9 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-card flat v-if="isRouteViewer"></v-card>
+    <v-card flat v-if="isRouteViewer">
+      <RouteViewer></RouteViewer>
+    </v-card>
     <v-card flat v-if="isStopFinder">
       <BusStopSearch></BusStopSearch>
     </v-card>
@@ -120,6 +125,7 @@ import {
 import $ from "jquery";
 import VCalendar from "v-calendar";
 import axios from "axios";
+import RouteViewer from "./RouteViewer.vue";
 import BusStopSearch from "./BusStopSearch.vue";
 import BusScheduleViewer from "./BusScheduleViewer.vue";
 import DatePicker from "vue2-datepicker";
@@ -311,12 +317,18 @@ const vw = Math.max(
 let overlayWidth = 0.35 * vw;
 var leftMargin = 30; // Grace margin to avoid too close fits on the edge of the overlay
 var rightMargin = 80;
+
 export default {
   name: "BusMap",
   computed: {
+    placeholder() {
+      return "";
+    },
     isDirections() {
       // console.log(this.$route.fullPath);
-      return this.$route.fullPath.includes("directions");
+      return (
+        this.$route.fullPath.includes("directions") || this.$route.path == "/"
+      );
     },
     isRouteViewer() {
       return this.$route.fullPath.includes("route-viewer");
@@ -445,6 +457,12 @@ export default {
     },
   }),
   watch: {
+    placeholder: function() {
+      const inputOrigin = document.getElementById("locationOrigin");
+      const inputDestination = document.getElementById("locationDestination");
+      inputOrigin.placeholder = "";
+      inputDestination.placeholder = "";
+    },
     origin: function() {
       this.$router.push({
         query: { origin: this.origin, destination: this.destination },
@@ -556,8 +574,12 @@ export default {
           autocompleteDestination.setBounds(map.getBounds());
         });
 
-        inputOrigin.placeholder = "";
-        inputDestination.placeholder = "";
+        // timeout to set placeholder to allow for the api to load
+        setTimeout(function() {
+          inputOrigin.placeholder = "";
+          inputDestination.placeholder = "";
+        }, 500);
+
         this.autocompleteInit = true;
         var self = this;
 
@@ -576,29 +598,30 @@ export default {
       this.calcRoute(this.origin, this.destination);
     },
     async getDuration(step) {
-        await axios
-          .get("/api/model-prediction", {
-            params: {
-              model_type: "route",
-              route_num: step["transit"]["line"].short_name,
-              start_stop: step["transit"]["departure_stop"].name,
-              end_stop: step["transit"]["arrival_stop"].name,
-              num_stops: step["transit"]["num_stops"],
-            },
-          })
-          .then(response => {
-            console.log(
-              "prediction",
-              response.data,
-              "google",
-              step["duration"]["value"]
-            );
-            this.total_duration += response.data.prediction - step["duration"]["value"]
-          })
-          .catch((error) => {
-            console.log("error", error);
-          });
-      },
+      await axios
+        .get("/api/model-prediction", {
+          params: {
+            model_type: "route",
+            route_num: step["transit"]["line"].short_name,
+            start_stop: step["transit"]["departure_stop"].name,
+            end_stop: step["transit"]["arrival_stop"].name,
+            num_stops: step["transit"]["num_stops"],
+          },
+        })
+        .then((response) => {
+          console.log(
+            "prediction",
+            response.data,
+            "google",
+            step["duration"]["value"]
+          );
+          this.total_duration +=
+            response.data.prediction - step["duration"]["value"];
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    },
     calcRoute(start, end) {
       if (Array.isArray(start)) {
         start = new google.maps.LatLng(start[0], start[1]);
@@ -616,7 +639,7 @@ export default {
           departureTime: new Date(this.time),
           trafficModel: "pessimistic",
         },
-      }; 
+      };
       directionsService.route(request, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
           // console.log(response);
@@ -653,7 +676,7 @@ export default {
             // Offset map
             offsetMap();
           });
-
+          this.directions = true;
           // Listen for directions changes to update bounds and reapply offset
           google.maps.event.addListener(
             directionsDisplay,
@@ -698,12 +721,50 @@ export default {
         );
       }
     });
+    this.$root.$on("showMarkers", (stops) => {
+      console.log("text", stops);
+      var icon = {
+        url: require("@/assets/busstop.png"), // url
+        scaledSize: new google.maps.Size(12.5, 25), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0), // anchor
+      };
+      var bounds = new google.maps.LatLngBounds();
+
+      for (var key of Object.keys(stops)) {
+        console.log(stops[key]);
+
+        stopMarkers[stops[key].name] = new google.maps.Marker({
+          position: new google.maps.LatLng(
+            parseFloat(stops[key].latitude),
+            parseFloat(stops[key].longitude)
+          ),
+          map: map,
+          title: stops[key].name,
+          id: key,
+          visible: true,
+          icon: icon,
+        });
+        bounds.extend(
+          new google.maps.LatLng(
+            parseFloat(stops[key].latitude),
+            parseFloat(stops[key].longitude)
+          )
+        );
+      }
+      map.fitBounds(bounds);
+    });
+
     this.showRoute();
-  },
-  updated() {
     this.initAutocomplete();
   },
-  components: { DatePicker, BusStopSearch, Landmarks, Favourite },
+  updated() {
+    console.log("updated");
+    const inputOrigin = document.getElementById("locationOrigin");
+    const inputDestination = document.getElementById("locationDestination");
+    inputOrigin.placeholder = "";
+  },
+  components: { DatePicker, BusStopSearch, Landmarks, Favourite, RouteViewer },
 };
 let directionsDisplay;
 let map;

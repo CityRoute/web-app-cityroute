@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Weather, User, Stop, FavouriteStop, Review, Route
+from .models import Weather, User, Stop, FavouriteStop, Review, Route, FavouriteRoute
 import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
@@ -128,6 +128,20 @@ def GetAllRoutes(request):
 
 
 @api_view(['GET'])
+def GetRouteStops(request):
+    routeid = request.query_params.get('routeid')
+    outbound_yn = request.query_params.get('outbound_yn')
+
+    stop_models = Stop.objects.filter(
+        routestops__routeid=routeid,
+        routestops__outbound_yn=outbound_yn,
+    )
+
+    serializer = StopSerializer(stop_models, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def FavouriteStopsAll(request):
     """
     Retrieve all users' favourite bus stops
@@ -136,6 +150,51 @@ def FavouriteStopsAll(request):
     serializer = FavouriteStopSerializer(user, many=True)
     print(serializer.data)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def addFavRoute(request):
+    """ 
+    Add favourite stop of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
+    """
+
+    try:
+        user = request.user
+        print(user)
+        route = str(request.query_params.get('routeid'))
+        print(route)
+        if Route.objects.filter(routeid=route).exists():
+            route_model = Route.objects.get(routeid=route)
+            r = FavouriteRoute(user=user, routeid=route_model)
+            r.save()
+            return HttpResponse(status=status.HTTP_201_CREATED)
+        else:
+            print("Stop does not exist.")
+            return HttpResponse("Error: Stop number does not exist.")
+
+    except IntegrityError as e:
+        return HttpResponse(
+            "Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['GET'])
+def FavouriteRoutes(request):
+    """
+    Retrieve currently logged in user's favourited bus stops. 
+    To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
+    """
+    user = request.user
+    routes = user.favroutes.all()
+    data = []
+    for r in routes:
+        data.append({
+            'number': r.routeid.routeid,
+        })
+
+    return Response(data)
 
 
 @api_view(['GET'])

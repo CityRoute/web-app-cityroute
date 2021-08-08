@@ -8,7 +8,7 @@
 
     <v-list>
       <v-list-group
-        v-for="item in items"
+        v-for="item in busStops"
         :key="item.title"
         v-model="item.active"
         :prepend-icon="item.action"
@@ -22,7 +22,28 @@
 
         <v-list-item v-for="child in item.items" :key="child.title">
           <v-list-item-content>
-            <v-list-item-title v-text="child.stopid"></v-list-item-title>
+            <v-list-item-title v-text="child.number"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+    <v-list>
+      <v-list-group
+        v-for="item in busRoutes"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item v-for="child in item.items" :key="child.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -35,9 +56,11 @@ import axios from "axios";
 export default {
   data: () => ({
     favouriteStops: [],
+    favouriteRoutes: [],
   }),
   computed: {
-    items: function() {
+    busStops: function() {
+      console.log("favouriteStops", this.favouriteStops);
       return [
         {
           action: "mdi-bus-stop",
@@ -47,9 +70,20 @@ export default {
         },
       ];
     },
+    busRoutes: function() {
+      return [
+        {
+          action: "mdi-bus-stop",
+          active: true,
+          items: this.favouriteRoutes,
+          title: "Bus Routes",
+        },
+      ];
+    },
   },
   beforeMount() {
     this.getFavouriteStops();
+    this.getFavouriteRoutes();
   },
 
   methods: {
@@ -67,6 +101,25 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.favouriteStops = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getFavouriteRoutes() {
+      axios
+        .get(
+          "/api/favourite-routes/",
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.favouriteRoutes = response.data;
         })
         .catch((error) => {
           console.log(error);

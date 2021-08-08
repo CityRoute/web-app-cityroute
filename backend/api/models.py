@@ -116,6 +116,31 @@ class FavouriteStop(models.Model):
         pass
 
 
+class FavouriteRoute(models.Model):
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             default='Missing',
+                             related_name='favroutes')
+    routeid = models.ForeignKey('Route',
+                                on_delete=models.CASCADE,
+                                default='Missing',
+                                related_name='favroutes',
+                                to_field='routeid')
+
+    def __str__(self):
+        return f"{self.user}-{self.routeid}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'routeid'],
+                                    name='unique_favourite_route')
+        ]
+        pass
+
+    class Admin:
+        pass
+
+
 class Route(models.Model):
     routeid = models.CharField(default='Missing',
                                primary_key=True,
