@@ -8,7 +8,7 @@
 
     <v-list>
       <v-list-group
-        v-for="item in items"
+        v-for="item in busStops"
         :key="item.title"
         v-model="item.active"
         :prepend-icon="item.action"
@@ -19,17 +19,54 @@
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </template>
-        <v-list-item-group
-          v-model="selectedItem"
-          color="primary"
-        >
-          <v-list-item v-for="child in item.items" :key="child.title">
-            <v-list-item-content @add-marker="makeMarker(child)">
-              <v-list-item-title v-text="child.name"></v-list-item-title>
-              <p>Stop: {{ child.number }}</p>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
+
+        <v-list-item v-for="child in item.items" :key="child.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="child.number"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+    <v-list>
+      <v-list-group
+        v-for="item in busRoutes"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item v-for="child in item.items" :key="child.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="child.number"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+    <v-list>
+      <v-list-group
+        v-for="item in busDirections"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item v-for="child in item.items" :key="child.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="child.origin + '' + child.destination"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-group>
     </v-list>
   </v-card>
@@ -41,9 +78,24 @@ export default {
   data: () => ({
     selectedItem: 1,
     favouriteStops: [],
+    favouriteRoutes: [],
+    favouriteDirections: [],
   }),
   computed: {
-    items: function() {
+    busDirections: function() {
+      console.log("favouriteDirections", this.favouriteDirections);
+      return [
+        {
+          action: "mdi-bus-stop",
+          active: true,
+          items: this.favouriteDirections,
+          title: "Directions",
+        },
+      ];
+    },
+
+    busStops: function() {
+      console.log("favouriteStops", this.favouriteStops);
       return [
         {
           action: "mdi-bus-stop",
@@ -53,9 +105,21 @@ export default {
         },
       ];
     },
+    busRoutes: function() {
+      return [
+        {
+          action: "mdi-bus-stop",
+          active: true,
+          items: this.favouriteRoutes,
+          title: "Bus Routes",
+        },
+      ];
+    },
   },
   beforeMount() {
     this.getFavouriteStops();
+    this.getFavouriteRoutes();
+    this.getFavouriteDirections();
   },
   created(){
     EventBus.$on('add-marker', (data)=>{
@@ -88,6 +152,45 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.favouriteStops = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getFavouriteDirections() {
+      axios
+        .get(
+          "/api/favourite-directions/",
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.favouriteDirections = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    getFavouriteRoutes() {
+      axios
+        .get(
+          "/api/favourite-routes/",
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.favouriteRoutes = response.data;
         })
         .catch((error) => {
           console.log(error);

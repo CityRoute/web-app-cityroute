@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
-from .models import Weather, FavouriteStop, User, Stop
+from .models import Weather, FavouriteStop, User, Stop, Route, Review
 # Register serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,7 +46,19 @@ class StopSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Route
+        fields = '__all__'
+
+
 class FavouriteStopSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavouriteStop
+        fields = '__all__'
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
         fields = '__all__'

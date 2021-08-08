@@ -1,8 +1,8 @@
 <template>
   <div class="about">
-    <FilterByStop />
-    <SortBy />
-    <Rating v-for="index in 10" :key="index" />
+    <!-- <FilterByStop />
+    <SortBy /> -->
+    <Rating v-for="review in reviews" :content="review.content" :route="review.routeid" :key="review" />
     <v-fab-transition>
       <v-btn
         @click="sheet = !sheet"
@@ -28,18 +28,19 @@
 <script>
 import Rating from "../components/Rating.vue";
 import RatingInput from "../components/RatingInput";
-import FilterByStop from "../components/FilterByStop";
-import SortBy from "../components/SortBy";
-
+import axios from "axios";
 export default {
   name: "About",
   components: {
     Rating,
     RatingInput,
-    FilterByStop,
-    SortBy,
+  },
+  async mounted() {
+    const { data } = await axios.get(`/api/reviews-all/`);
+    this.reviews = data;
   },
   data: () => ({
+    reviews: [],
     sheet: false,
   }),
   methods: {
