@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Weather, User, Stop, FavouriteStop, Review, Route, FavouriteRoute
+from .models import Weather, User, Stop, FavouriteStop, Review, Route, FavouriteRoute, FavouriteDirections
 import pandas as pd
 from django.http import JsonResponse
 from rest_framework import generics, permissions, mixins
@@ -178,6 +178,52 @@ def addFavRoute(request):
             "Error: Stop is already a favourite for this user.")
     except AssertionError as e:
         return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['POST'])
+def addFavDirections(request):
+    """ 
+    Add favourite stop of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/add-fav-stop/<number> 
+    """
+
+    try:
+        user = request.user
+        origin = str(request.query_params.get('origin'))
+        destination = str(request.query_params.get('destination'))
+        url = str(request.query_params.get('url'))
+        r = FavouriteDirections(user=user,
+                                origin=origin,
+                                destination=destination,
+                                url=url)
+        r.save()
+        return HttpResponse(status=status.HTTP_201_CREATED)
+
+    except IntegrityError as e:
+        return HttpResponse(
+            "Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['GET'])
+def GetFavouriteDirections(request):
+    """
+    Retrieve currently logged in user's favourited bus stops. 
+    To test, get the accessToken from dev tools and use Postman: key= 'Authorization', value= 'Bearer {accessToken}'
+    """
+    user = request.user
+    directions = user.favdirections.all()
+    data = []
+    for r in directions:
+        data.append({
+            'origin': r.origin,
+            'destination': r.destination,
+            'url': r.url,
+
+        })
+
+    return Response(data)
 
 
 @api_view(['GET'])

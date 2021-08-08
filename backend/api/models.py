@@ -141,6 +141,30 @@ class FavouriteRoute(models.Model):
         pass
 
 
+class FavouriteDirections(models.Model):
+    directions_id = models.AutoField(primary_key=True, )
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             default='Missing',
+                             related_name='favdirections')
+    origin = models.TextField(default='Missing', )
+    destination = models.TextField(default='Missing', )
+    url = models.TextField(default='Missing', )
+
+    def __str__(self):
+        return f"{self.user}-{self.origin}-{self.destination}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'directions_id'],
+                                    name='unique_favourite_directions')
+        ]
+        pass
+
+    class Admin:
+        pass
+
+
 class Route(models.Model):
     routeid = models.CharField(default='Missing',
                                primary_key=True,

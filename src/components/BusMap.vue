@@ -47,6 +47,10 @@
           <v-btn id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
+          <v-btn id="fav" @click="addFavourite()">
+            Add Favourite
+          </v-btn>
+
           <v-btn
             >Our estimation:
             {{
@@ -475,6 +479,29 @@ export default {
     },
   },
   methods: {
+    addFavourite() {
+      axios
+        .post(
+          "/api/add-fav-directions/",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.accessToken}`,
+            },
+            params: {
+              origin: this.origin,
+              destination: this.destination,
+              url: window.location.href,
+            },
+          }
+        )
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     closeDirections() {
       this.directions = false;
       this.sheet = !this.sheet;

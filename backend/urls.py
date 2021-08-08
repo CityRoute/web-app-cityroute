@@ -14,7 +14,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .api.views import (index_view, BusStopTimes, RegisterApi,
                         ChangePasswordView, WeatherByDay, GetAllReviews,
                         writeReview, GetRouteStops, addFavRoute,
-                        FavouriteRoutes)
+                        FavouriteRoutes, addFavDirections,
+                        GetFavouriteDirections)
 from .api.views import index_view, BusStopTimes, RegisterApi, ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops, GetAllRoutes
 from .api.machine_learning.views import ModelPredictionView
 
@@ -79,6 +80,13 @@ urlpatterns = [
     path('api/add-fav-route/', addFavRoute, name='add-favourite-route'),
     # http://localhost:8000/api/favourite-stops/
     path('api/favourite-stops/', FavouriteStops, name='favourite-stops'),
+    path('api/add-fav-directions/',
+         addFavDirections,
+         name='add-favourite-directions'),
+    # http://localhost:8000/api/favourite-stops/
+    path('api/favourite-directions/',
+         GetFavouriteDirections,
+         name='favourite-directions'),
 
     # http://localhost:8000/api/add-fav-stop/<number>
     path('api/add-fav-stop/<int:number>',
