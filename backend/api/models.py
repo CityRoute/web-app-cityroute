@@ -221,7 +221,7 @@ class Review(models.Model):
                                 to_field='routeid')
 
     def __str__(self):
-        return f"{self.user}-{self.title}"
+        return f"{self.user}-{self.content}"
 
     class Meta:
         app_label = 'api'
