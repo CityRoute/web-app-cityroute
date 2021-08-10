@@ -168,7 +168,7 @@ class FavouriteDirections(models.Model):
 class Route(models.Model):
     routeid = models.CharField(default='Missing',
                                primary_key=True,
-                               max_length=5)
+                               max_length=20)
 
     def __str__(self):
         return self.routeid
