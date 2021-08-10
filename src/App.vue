@@ -11,10 +11,12 @@
     >
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          <v-icon large>
+            mdi-bus-articulated-front
+          </v-icon>
         </v-list-item-avatar>
 
-        <v-list-item-title>Brian Manning</v-list-item-title>
+        <v-list-item-title>CityRoute</v-list-item-title>
 
         <v-btn icon @click.stop="mini = !mini">
           <v-icon>mdi-chevron-left</v-icon>
@@ -25,7 +27,7 @@
 
       <v-list>
         <v-list-item
-          v-for="item in items"
+          v-for="item in filtered_items"
           :key="item.title"
           :to="item.link"
           link
@@ -122,29 +124,47 @@ export default {
     model: null,
     text: null,
     drawer: true,
+    mini: true,
     items: [
       {
         title: "Journey Planner",
         icon: "mdi-map-marker-distance",
         link: "/directions",
+        login: false,
       },
       {
         title: "Route Viewer",
         icon: "mdi-map-marker-path",
         link: "/route-viewer",
+        login: false,
       },
-      { title: "Stop Finder", icon: "mdi-bus-stop", link: "/stop-finder" },
+      {
+        title: "Stop Finder",
+        icon: "mdi-bus-stop",
+        link: "/stop-finder",
+        login: false,
+      },
       {
         title: "Landmarks",
         icon: "mdi-map-search-outline",
         link: "/landmarks",
+        login: false,
       },
-      { title: "Favourites", icon: "mdi-heart", link: "/favourites" },
-      { title: "Reviews", icon: "mdi-star", link: "/ratings" },
-      { title: "News", icon: "mdi-newspaper", link: "/news" },
-      { title: "My Account", icon: "mdi-account", link: "/myaccount" },
+      {
+        title: "Favourites",
+        icon: "mdi-heart",
+        link: "/favourites",
+        login: true,
+      },
+      { title: "Reviews", icon: "mdi-star", link: "/ratings", login: false },
+      { title: "News", icon: "mdi-newspaper", link: "/news", login: false },
+      {
+        title: "My Account",
+        icon: "mdi-account",
+        link: "/myaccount",
+        login: false,
+      },
     ],
-    mini: true,
   }),
   mounted: {},
   methods: {
@@ -152,7 +172,15 @@ export default {
       this.sheet = true;
     },
   },
-  computed: {},
+  computed: {
+    filtered_items: function() {
+      if (this.$store.getters.loggedIn) {
+        return this.items;
+      } else {
+        return this.items.filter((item) => !item.login);
+      }
+    },
+  },
 };
 </script>
 

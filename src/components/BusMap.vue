@@ -47,7 +47,7 @@
           <v-btn id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
-          <v-btn id="fav" @click="addFavourite()">
+          <v-btn id="fav" @click="addFavourite()" v-if="this.$store.getters.loggedIn">
             Add Favourite
           </v-btn>
 

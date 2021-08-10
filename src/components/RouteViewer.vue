@@ -59,6 +59,7 @@
         :disabled="!model"
         color="green darken-3"
         @click="saveToFavourites"
+        v-if="this.$store.getters.loggedIn"
       >
         Save to Favourites
         <v-icon right>
