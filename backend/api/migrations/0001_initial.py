@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Route',
             fields=[
-                ('routeid', models.CharField(default='Missing', max_length=5, primary_key=True, serialize=False)),
+                ('routeid', models.CharField(default='Missing', max_length=20, primary_key=True, serialize=False)),
             ],
         ),
         migrations.CreateModel(

@@ -13,6 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='route',
             name='routeid',
-            field=models.CharField(default='Missing', max_length=20, primary_key=True, serialize=False),
+            field=models.CharField(default='Missing',
+                                   max_length=20,
+                                   primary_key=True,
+                                   serialize=False),
         ),
     ]
