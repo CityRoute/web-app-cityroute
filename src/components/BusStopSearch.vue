@@ -114,6 +114,11 @@ export default {
     search: null,
     isFetching: true,
   }),
+  mounted() {
+    if (this.$route.query.number) {
+      this.model = this.$route.query.number;
+    }
+  },
   methods: {
     getDirections() {
       window.location.assign(

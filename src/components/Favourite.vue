@@ -24,6 +24,20 @@
           <v-list-item-content>
             <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn-toggle dense>
+              <v-btn icon>
+                <v-icon color="grey lighten-1">mdi-information</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon
+                  @click="getDirections(child.latitude, child.longitude)"
+                  color="grey lighten-1"
+                  >mdi-directions</v-icon
+                >
+              </v-btn>
+            </v-btn-toggle>
+          </v-list-item-action>
         </v-list-item>
       </v-list-group>
     </v-list>
@@ -45,6 +59,11 @@
           <v-list-item-content>
             <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon @click="getRoute(child.number)">
+              <v-icon color="grey lighten-1">mdi-information</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
       </v-list-group>
     </v-list>
@@ -64,8 +83,16 @@
 
         <v-list-item v-for="child in item.items" :key="child.title">
           <v-list-item-content>
-            <v-list-item-title v-text="child.origin + '' + child.destination"></v-list-item-title>
+            <v-list-item-title v-text="child.origin"></v-list-item-title>
+            <v-list-item-subtitle
+              v-text="child.destination"
+            ></v-list-item-subtitle>
           </v-list-item-content>
+          <v-list-item-action>
+            <v-btn @click="goToURL(child.url)" icon>
+              <v-icon color="grey lighten-1">mdi-directions</v-icon>
+            </v-btn>
+          </v-list-item-action>
         </v-list-item>
       </v-list-group>
     </v-list>
@@ -121,16 +148,30 @@ export default {
     this.getFavouriteRoutes();
     this.getFavouriteDirections();
   },
-  created(){
-    EventBus.$on('add-marker', (data)=>{
-       let marker = this.makeMarker(data.latitude, data.longitude);
-       this.$markers.push(marker);
-     });
+  created() {
+    EventBus.$on("add-marker", (data) => {
+      let marker = this.makeMarker(data.latitude, data.longitude);
+      this.$markers.push(marker);
+    });
   },
 
   methods: {
+    getRoute(number) {
+      this.$store.state.route_number = number
+    },
+    goToURL(URL) {
+      window.location.assign(URL);
+    },
+    getDirections(latitude, longitude) {
+      window.location.assign(
+        "http://localhost:8081/#/directions?lat=" +
+          latitude +
+          "&lng=" +
+          longitude
+      );
+    },
     makeMarker(latitude, longitude) {
-      console.log('hello latitude is ', latitude)
+      console.log("hello latitude is ", latitude);
       return new google.maps.Marker({
         position: new google.maps.LatLng(latitude, longitude),
         icon: null,
