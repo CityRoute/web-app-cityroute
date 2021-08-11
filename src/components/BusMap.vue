@@ -47,7 +47,11 @@
           <v-btn id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
-          <v-btn id="fav" @click="addFavourite()" v-if="this.$store.getters.loggedIn">
+          <v-btn
+            id="fav"
+            @click="addFavourite()"
+            v-if="this.$store.getters.loggedIn"
+          >
             Add Favourite
           </v-btn>
 
@@ -60,9 +64,9 @@
         </v-row>
 
         <v-card
-          v-if="directions"
           style="height: 40vh; overflow-y:scroll; overflow-x:hidden;white-space: nowrap;"
           class="mt-5"
+          id="directionsCard"
         >
           <v-card-text>
             <div id="card"></div>
@@ -131,7 +135,6 @@ import VCalendar from "v-calendar";
 import axios from "axios";
 import RouteViewer from "./RouteViewer.vue";
 import BusStopSearch from "./BusStopSearch.vue";
-import BusScheduleViewer from "./BusScheduleViewer.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import InfoWindowComponent from "./InfoWindow.vue";
@@ -621,7 +624,6 @@ export default {
 
     showRoute() {
       this.sheet = true;
-      this.directions = true;
       this.calcRoute(this.origin, this.destination);
     },
     async getDuration(step) {
@@ -669,6 +671,8 @@ export default {
       };
       directionsService.route(request, (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
+          this.directions = true;
+
           // console.log(response);
           let directions = response;
           this.total_duration =
@@ -689,7 +693,9 @@ export default {
             directionsDisplay.setMap(null);
             directionsDisplay.setPanel(null);
             map.setZoom(15);
+            document.getElementById("directionsCard").style.display = "none !important";
           });
+          document.getElementById("directionsCard").style.display = "block";
 
           directionsDisplay.setPanel(document.getElementById("card"));
 
@@ -703,7 +709,7 @@ export default {
             // Offset map
             offsetMap();
           });
-          this.directions = true;
+
           // Listen for directions changes to update bounds and reapply offset
           google.maps.event.addListener(
             directionsDisplay,
@@ -724,6 +730,10 @@ export default {
               offsetMap();
             }
           );
+          return true;
+        } else {
+          console.log("Directions not found. Please try again");
+          return false;
         }
       });
     },
@@ -914,6 +924,8 @@ function initMap() {
 <style>
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
+
+
 #MapOptions {
   position: absolute;
   top: 0;
