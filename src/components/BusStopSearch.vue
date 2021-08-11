@@ -48,7 +48,6 @@
       </div>
     </v-expand-transition>
     <v-card-actions class="justify-center">
-
       <v-btn
         :disabled="!model"
         color="green darken-3"
@@ -60,10 +59,19 @@
           mdi-star
         </v-icon>
       </v-btn>
-          </v-card-actions>
+      <v-btn
+        :disabled="!model"
+        color="blue darken-3"
+        v-on:click="getDirections()"
+      >
+        Get Directions
+        <v-icon right>
+          mdi-map
+        </v-icon>
+      </v-btn>
+    </v-card-actions>
 
-          <v-card-actions class="justify-center">
-
+    <v-card-actions class="justify-center">
       <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
         Show on Map
         <v-icon right>
@@ -107,6 +115,14 @@ export default {
     isFetching: true,
   }),
   methods: {
+    getDirections() {
+      window.location.assign(
+        "http://localhost:8081/#/directions?lat=" +
+          this.model.latitude +
+          "&lng=" +
+          this.model.longitude
+      );
+    },
     showOnMap() {
       this.$root.$emit("showStopMarker", this.model.Description);
     },
@@ -183,6 +199,7 @@ export default {
 
       // Lazily load input items
       this.entries = stops;
+      console.log(stops);
     },
   },
 };

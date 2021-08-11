@@ -458,6 +458,11 @@ export default {
     },
   }),
   watch: {
+    '$route.query.lat'() {
+      if (this.$route.query.lat != "") {
+        this.showRoute()
+      }
+    },
     placeholder: function() {
       const inputOrigin = document.getElementById("locationOrigin");
       const inputDestination = document.getElementById("locationDestination");
@@ -501,8 +506,11 @@ export default {
     },
     closeDirections() {
       this.directions = false;
-      this.sheet = !this.sheet;
+      this.sheet = false;
       $("#card").html("");
+      directionsDisplay.setMap(null);
+      this.origin = "";
+      this.destination = "";
     },
     flipLandmarkSwitch(val, item) {
       item.shown = !item.shown;
@@ -617,8 +625,31 @@ export default {
     },
 
     showRoute() {
-      this.sheet = true;
-      this.calcRoute(this.origin, this.destination);
+      if (this.$route.query.lat & this.$route.query.lng) {
+        myLatLng = {
+          lat: parseFloat(this.$route.query.lat),
+          lng: parseFloat(this.$route.query.lng),
+        };
+        geocoder.geocode({ location: myLatLng }, (results, status) => {
+          if (status === "OK") {
+            if (results[0]) {
+              console.log("geolocate", results);
+              this.destination = results[0].formatted_address;
+              this.currentLocation("origin");
+              this.sheet = true;
+              this.calcRoute(this.origin, this.destination);
+            } else {
+              window.alert("No results found");
+            }
+          } else {
+            window.alert("Geocoder failed due to: " + status);
+          }
+        });
+        this.currentLocation("origin");
+      } else {
+        this.sheet = true;
+        this.calcRoute(this.origin, this.destination);
+      }
     },
     async getDuration(step) {
       await axios
@@ -750,9 +781,11 @@ export default {
       const infowindow = new google.maps.InfoWindow({
         content:
           text +
-          '<button onclick="window[markerDirections](' +
-          [marker_position.lat(), marker_position.lng()] +
-          ')">Click me</button>',
+          '<a href="http://localhost:8081//#/directions?lat=' +
+          marker_position.lat() +
+          "&lng=" +
+          marker_position.lng() +
+          '">Get Directions</a>',
       });
 
       marker.addListener("click", () => {
@@ -790,6 +823,25 @@ export default {
           id: key,
           visible: true,
           icon: icon,
+        });
+        let marker = stopMarkers[stops[key].name];
+
+        const infowindow = new google.maps.InfoWindow({
+          content:
+            '<a href="http://localhost:8081//#/directions?lat=' +
+            stops[key].latitude +
+            "&lng=" +
+            stops[key].longitude +
+            '">Get Directions</a>',
+        });
+
+        marker.addListener("click", () => {
+          console.log("clicked");
+          infowindow.open({
+            anchor: marker,
+            map,
+            shouldFocus: false,
+          });
         });
 
         bounds.extend(
