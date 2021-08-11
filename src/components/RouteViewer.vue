@@ -25,7 +25,7 @@
         hide-selected
         item-text="routeid"
         item-value="routeid"
-        label="Bus Stops"
+        label="Bus Routes"
         placeholder="Start typing to Search"
         prepend-icon="mdi-bus-stop"
         return-object
