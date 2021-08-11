@@ -20,6 +20,7 @@ from .api.views import index_view, BusStopTimes, RegisterApi, ChangePasswordView
 from .api.machine_learning.views import ModelPredictionView
 
 router = routers.DefaultRouter()
+app_name ='smth'
 
 urlpatterns = [
     path('api/admin/', admin.site.urls),
@@ -92,5 +93,6 @@ urlpatterns = [
     path('api/add-fav-stop/<int:number>',
          addFavStop,
          name='add-favourite-stops'),
-    path('api/model-prediction', ModelPredictionView, name='model-prediction'),
+    path('api/model-prediction/', ModelPredictionView,
+         name='model-prediction'),
 ]

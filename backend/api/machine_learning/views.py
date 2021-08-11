@@ -74,6 +74,7 @@ def ModelPredictionView(request):
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
         print("all_stops", all_stops)
         model_type = request.query_params.get('model_type').lower()
+        print(model_type)
         if model_type == 'route':
             all_features = GetAllRequiredFeatures(
                 route_model_required_features)
@@ -110,8 +111,7 @@ def RoutePrediction(all_stops, all_features, route):
         pickle_model = pickle.load(file)
 
     # run prediction
-    prediction = pickle_model.predict(
-        numpy.array(all_features).reshape(1, -1))
+    prediction = pickle_model.predict(numpy.array(all_features).reshape(1, -1))
     # print("Predicted time: ", prediction[0])
 
     # get the end stop
@@ -119,7 +119,7 @@ def RoutePrediction(all_stops, all_features, route):
 
     # get percentage of route used up to first stop on journey
     start_stop_pct = start_stop_model.routestops.values(
-    'percent_of_route')[0]['percent_of_route']
+        'percent_of_route')[0]['percent_of_route']
 
     # get percentage of route used up to last stop on journey
     end_stop_pct = end_stop_model.routestops.values(
@@ -133,7 +133,10 @@ def RoutePrediction(all_stops, all_features, route):
         total_dwell_time += dwell_time
 
     # get the final prediction by only keeping the percentage of route used on the journey and adding the dwell time
-    final_prediction = prediction * ((end_stop_pct - start_stop_pct)/100) + total_dwell_time
+    final_prediction = prediction * (
+        (end_stop_pct - start_stop_pct) / 100) + total_dwell_time
+    print(f"Predicted time: {final_prediction}")
+
     return final_prediction[0]
 
 
@@ -143,12 +146,13 @@ def StopPrediction(all_stops, all_features):
     """
     prediction = 0
     for stop in all_stops:
-        # read in pickle file based on stop 
+        # read in pickle file based on stop
         pkl_filename = f"backend/api/machine_learning/stop_models/stop_{stop}.pkl"
         with open(pkl_filename, 'rb') as file:
             pickle_model = pickle.load(file)
         # run prediction
-        prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
+        prediction += pickle_model.predict(
+            numpy.array(all_features).reshape(1, -1))
 
     return prediction[0]
 
@@ -188,46 +192,71 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     # get the route model for the route
     route_model = Route.objects.get(routeid=route.upper())
 
+    start_stop_model = None
+    end_stop_model = None
     if start_stop.find('stop') != -1:
         start_stop_model = GetStopModel(start_stop, route_model, None)
     elif end_stop.find('stop') != -1:
-        start_stop_model = GetStopModel(end_stop, route_model, None)
+        end_stop_model = GetStopModel(end_stop, route_model, None)
     else:
         try:
             start_stop_model = GetStopModel(start_stop, route_model, None)
         except:
-            start_stop_model = GetStopModel(end_stop, route_model, None)
+            end_stop_model = GetStopModel(end_stop, route_model, None)
 
     # try outbound first
-    outbound_yn = start_stop_model.routestops.values(
-        'outbound_yn')[0]['outbound_yn']
-    relevant_stops = RouteStop.objects.filter(routeid=route_model,
-                                              outbound_yn=outbound_yn)
-    relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
+    if start_stop_model != None:
+        outbound_yn = start_stop_model.routestops.values(
+            'outbound_yn')[0]['outbound_yn']
+        relevant_stops = RouteStop.objects.filter(routeid=route_model,
+                                                  outbound_yn=outbound_yn)
+        relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
 
-    # print(relevant_start_stop.order, num_stops)
-    num_stops = int(num_stops)
-    if outbound_yn:
-        # print("outbound")
-        relevant_stops = RouteStop.objects.filter(
-            routeid=route_model,
-            outbound_yn=True,
-            order__range=(relevant_start_stop.order,
-                          relevant_start_stop.order + num_stops))
+        # print(relevant_start_stop.order, num_stops)
+        num_stops = int(num_stops)
+        if outbound_yn:
+            # print("outbound")
+            relevant_stops = RouteStop.objects.filter(
+                routeid=route_model,
+                outbound_yn=True,
+                order__range=(relevant_start_stop.order,
+                              relevant_start_stop.order + num_stops))
+        else:
+            # print("inbound")
+            relevant_stops = RouteStop.objects.filter(
+                routeid=route_model,
+                outbound_yn=False,
+                order__range=(relevant_start_stop.order - num_stops,
+                              relevant_start_stop.order))
     else:
-        # print("inbound")
-        relevant_stops = RouteStop.objects.filter(
-            routeid=route_model,
-            outbound_yn=False,
-            order__range=(relevant_start_stop.order - num_stops,
-                          relevant_start_stop.order))
+        outbound_yn = end_stop_model.routestops.values(
+            'outbound_yn')[0]['outbound_yn']
+        relevant_stops = RouteStop.objects.filter(routeid=route_model,
+                                                  outbound_yn=outbound_yn)
+        relevant_start_stop = relevant_stops.get(stopnumber=end_stop_model)
 
+        # print(relevant_start_stop.order, num_stops)
+        num_stops = int(num_stops)
+        if outbound_yn:
+            # print("outbound")
+            relevant_stops = RouteStop.objects.filter(
+                routeid=route_model,
+                outbound_yn=True,
+                order__range=(relevant_start_stop.order,
+                              relevant_start_stop.order + num_stops))
+        else:
+            # print("inbound")
+            relevant_stops = RouteStop.objects.filter(
+                routeid=route_model,
+                outbound_yn=False,
+                order__range=(relevant_start_stop.order - num_stops,
+                              relevant_start_stop.order))
     # get the stops as a list of dictionaries
     relevant_stops = relevant_stops.values("stopnumber_id")
 
     # convert list of dictionaries to list of ids
     relevant_stops = [d['stopnumber_id'] for d in relevant_stops]
-
+    print(relevant_stops)
     return relevant_stops
 
 
@@ -239,12 +268,16 @@ def GetAllRequiredFeatures(required_features=None):
 
     # get datetime features
     datetime_features_dict = GetDatetimeFeatures(dt)
+    print(datetime_features_dict)
 
     # get weather features
     weather_features_dict = GetWeatherFeatures(dt)
+    print(weather_features_dict)
 
     # combine datetime and weather features into one dictionary
     all_features_dict = {**datetime_features_dict, **weather_features_dict}
+    print(all_features_dict)
+
     # filter this dict with the required features
     filtered_all_features_dict = {
         k: v
@@ -271,17 +304,18 @@ def GetWeatherFeatures(dt):
     """
     today = datetime.datetime.today().date()
     dt = dt.date()  # assuming dt will be a datetime object
+    weather_features_list = [
+        'humidity', 'rain_1h', 'temp', 'wind_speed', 'weather_main_Clear',
+        'weather_main_Clouds', 'weather_main_Drizzle', 'weather_main_Fog',
+        'weather_main_Mist', 'weather_main_Rain', 'weather_main_Smoke',
+        'weather_main_Snow'
+    ]
+
     try:
         # find the latest instance of the relevant date in the Weather model
         weather_obj = Weather.objects.get(scraped_on__date=today,
                                           datetime__date=dt)
 
-        weather_features_list = [
-            'humidity', 'rain_1h', 'temp', 'wind_speed', 'weather_main_Clear',
-            'weather_main_Clouds', 'weather_main_Drizzle', 'weather_main_Fog',
-            'weather_main_Mist', 'weather_main_Rain', 'weather_main_Smoke',
-            'weather_main_Snow'
-        ]
         weather_features_dict = {el: 0 for el in weather_features_list}
         # print(weather_features_dict)
         weather_obj_values = model_to_dict(weather_obj)
@@ -301,9 +335,9 @@ def GetWeatherFeatures(dt):
                 weather_obj_values['main'] == feature)
             return weather_features_dict
         else:
-            return "Cannot make prediction as weather code is unknown to the model."
+            return {k: 0 for v, k in enumerate(weather_features_list)}
     except Weather.DoesNotExist:
-        return "No weather data available for this day."
+        return {k: 0 for v, k in enumerate(weather_features_list)}
 
 
 def GetDatetimeFeatures(dt):

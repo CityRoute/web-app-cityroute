@@ -48,12 +48,6 @@
       </div>
     </v-expand-transition>
     <v-card-actions class="justify-center">
-      <v-btn :disabled="!model" color="yellow darken-3" @click="showSchedule">
-        Schedule
-        <v-icon right>
-          mdi-clock
-        </v-icon>
-      </v-btn>
 
       <v-btn
         :disabled="!model"
@@ -114,7 +108,7 @@ export default {
   }),
   methods: {
     showOnMap() {
-      this.$root.$emit("marker", this.model.Description);
+      this.$root.$emit("showStopMarker", this.model.Description);
     },
     saveToFavourites() {
       axios

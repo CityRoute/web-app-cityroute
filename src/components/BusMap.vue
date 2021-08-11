@@ -44,22 +44,12 @@
           </v-col>
         </v-row>
         <v-row align="center" v-if="directions" justify="space-around">
-          <v-btn id="close" @click="closeDirections()">
-            Close Directions
-          </v-btn>
           <v-btn
             id="fav"
             @click="addFavourite()"
             v-if="this.$store.getters.loggedIn"
           >
             Add Favourite
-          </v-btn>
-
-          <v-btn
-            >Our estimation:
-            {{
-              new Date(this.total_duration * 1000).toISOString().substr(11, 8)
-            }}
           </v-btn>
         </v-row>
 
@@ -68,6 +58,13 @@
           class="mt-5"
           id="directionsCard"
         >
+          <v-banner v-if="directions"
+            >Our estimation:
+            {{
+              new Date(this.total_duration * 1000).toISOString().substr(11, 8)
+            }}
+          </v-banner>
+
           <v-card-text>
             <div id="card"></div>
           </v-card-text>
@@ -88,6 +85,9 @@
             <i :class="network.icon"></i>
             <span>{{ network.name }}</span>
           </ShareNetwork>
+          <v-btn id="close" @click="closeDirections()">
+            Close Directions
+          </v-btn>
         </div>
       </v-card-text>
     </v-card>
@@ -242,6 +242,7 @@ const getPositionErrorMessage = (code) => {
       return null;
   }
 };
+
 // https://stackoverflow.com/questions/24952593/how-to-add-my-location-button-in-google-maps
 function addYourLocationButton(map) {
   var controlDiv = document.createElement("div");
@@ -305,13 +306,6 @@ function addYourLocationButton(map) {
 
   controlDiv.index = 1;
   map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
-}
-
-function bindInfoWindow(marker, map, infowindow, html) {
-  marker.addListener("click", function() {
-    infowindow.setContent(html);
-    infowindow.open(map, this);
-  });
 }
 
 let directionsService = new google.maps.DirectionsService();
@@ -628,7 +622,7 @@ export default {
     },
     async getDuration(step) {
       await axios
-        .get("/api/model-prediction", {
+        .get("/api/model-prediction/", {
           params: {
             model_type: "route",
             route_num: step["transit"]["line"].short_name,
@@ -693,7 +687,8 @@ export default {
             directionsDisplay.setMap(null);
             directionsDisplay.setPanel(null);
             map.setZoom(15);
-            document.getElementById("directionsCard").style.display = "none !important";
+            document.getElementById("directionsCard").style.display =
+              "none !important";
           });
           document.getElementById("directionsCard").style.display = "block";
 
@@ -742,21 +737,35 @@ export default {
     (this.origin = this.$route.query.origin),
       (this.destination = this.$route.query.destination),
       initMap();
-    this.$root.$on("marker", (text) => {
+    this.$root.$on("showStopMarker", (text) => {
       console.log(stopMarkers);
-
+      let marker = stopMarkers[text.substr(text.indexOf(" ") + 1)];
+      let marker_position = marker.getPosition();
       console.log(text);
-      if (
-        !map
-          .getBounds()
-          .contains(
-            stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
-          )
-      ) {
-        map.setCenter(
-          stopMarkers[text.substr(text.indexOf(" ") + 1)].getPosition()
-        );
+      if (!map.getBounds().contains(marker_position)) {
+        map.setCenter(marker_position);
       }
+
+      stopMarkers[text.substr(text.indexOf(" ") + 1)].setVisible(true);
+      const infowindow = new google.maps.InfoWindow({
+        content:
+          text +
+          '<button onclick="window[markerDirections](' +
+          [marker_position.lat(), marker_position.lng()] +
+          ')">Click me</button>',
+      });
+
+      marker.addListener("click", () => {
+        console.log("clicked");
+        infowindow.open({
+          anchor: marker,
+          map,
+          shouldFocus: false,
+        });
+      });
+
+      map.setZoom(18);
+      map.setCenter(marker_position);
     });
     this.$root.$on("showMarkers", (stops) => {
       console.log("text", stops);
@@ -782,6 +791,7 @@ export default {
           visible: true,
           icon: icon,
         });
+
         bounds.extend(
           new google.maps.LatLng(
             parseFloat(stops[key].latitude),
@@ -809,6 +819,15 @@ let myLatLng = { lat: 53.3531, lng: -6.258 };
 let geocoder = null;
 var stopMarkers;
 var landmarkMarkers;
+
+function markerDirections(position) {
+  console.log("markerDirections");
+  geocoder.geocode({ location: position }, (results, status) => {
+    let destination = results[0].formatted_address;
+    console.log(destination);
+  });
+}
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: new google.maps.LatLng(53.3498, -6.2603),
@@ -925,7 +944,6 @@ function initMap() {
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
 
-
 #MapOptions {
   position: absolute;
   top: 0;
@@ -939,12 +957,12 @@ function initMap() {
   margin: 0px;
   padding: 0px;
 }
-.gm-style .gm-style-iw-d::-webkit-scrollbar-track,
+/* .gm-style .gm-style-iw-d::-webkit-scrollbar-track,
 .gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece,
 .gm-style .gm-style-iw-c,
 .gm-style .gm-style-iw-t::after {
   background: rgba(255, 255, 255, 0);
-}
+} */
 
 #landmarksContainer {
   margin: 5%;
