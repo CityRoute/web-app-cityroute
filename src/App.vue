@@ -42,13 +42,21 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-switch
-        ripple
-        append-icon="mdi-moon"
-        v-model="$vuetify.theme.dark"
-        v-on:change="darkMap()"
-        inset
-      ></v-switch>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block class="text-right" @click="darkMap()">
+            <v-icon left>
+              mdi-brightness-4
+            </v-icon>
+            <span v-if="!$vuetify.theme.dark">
+              Dark Mode
+            </span>
+            <span v-else>
+              Light Mode
+            </span>
+          </v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
     <v-main v-if="$vuetify.breakpoint.mdAndDown">
       <div height="30vh">
@@ -168,6 +176,9 @@ export default {
   }),
   mounted: {},
   methods: {
+    darkMap() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
     showSheet() {
       this.sheet = true;
     },
