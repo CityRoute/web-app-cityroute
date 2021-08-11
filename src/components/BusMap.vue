@@ -458,9 +458,9 @@ export default {
     },
   }),
   watch: {
-    '$route.query.lat'() {
+    "$route.query.lat"() {
       if (this.$route.query.lat != "") {
-        this.showRoute()
+        this.showRoute();
       }
     },
     placeholder: function() {
@@ -978,16 +978,27 @@ function initMap() {
       }),
       category: landmarks_data.markers[key].category,
     };
-    landmarkMarkers[landmarks_data.markers[key].address].marker.addListener(
-      "click",
-      () => {
-        infowindow.open({
-          anchor: landmarkMarkers[landmarks_data.markers[key].address].marker,
-          map,
-          shouldFocus: false,
-        });
-      }
-    );
+
+    let marker = landmarkMarkers[landmarks_data.markers[key].address].marker;
+
+    const landmarkinfowindow = new google.maps.InfoWindow({
+      content:
+        landmarks_data.markers[key].address +
+        '<a href="http://localhost:8081//#/directions?lat=' +
+        landmarks_data.markers[key].lat +
+        "&lng=" +
+        landmarks_data.markers[key].lng +
+        '">Get Directions</a>',
+    });
+
+    marker.addListener("click", () => {
+      console.log("clicked");
+      landmarkinfowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: false,
+      });
+    });
   }
 }
 </script>
