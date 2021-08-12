@@ -220,7 +220,6 @@ def GetFavouriteDirections(request):
             'origin': r.origin,
             'destination': r.destination,
             'url': r.url,
-
         })
 
     return Response(data)
@@ -281,6 +280,25 @@ def addFavStop(request, number):
             return Response(status=status.HTTP_201_CREATED)
         else:
             print("Stop does not exist.")
+    except IntegrityError as e:
+        return HttpResponse(
+            "Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['POST'])
+def deleteFavStop(request, number):
+    """ 
+    Delete favourite stop of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/delete-fav-stop/<number> 
+    """
+
+    try:
+        user = request.user
+        stop = Stop.objects.get(number=number)
+        FavouriteStop.objects.get(user=user, stopid=stop).delete()
+        return Response(status=status.HTTP_200_OK)
     except IntegrityError as e:
         return HttpResponse(
             "Error: Stop is already a favourite for this user.")

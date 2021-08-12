@@ -21,8 +21,6 @@
         :search-input.sync="search"
         color="white"
         @change="showSchedule()"
-        hide-no-data
-        hide-selected
         item-text="Description"
         item-value="API"
         label="Bus Stops"
@@ -114,11 +112,6 @@ export default {
     search: null,
     isFetching: true,
   }),
-  mounted() {
-    if (this.$route.query.number) {
-      this.model = this.$route.query.number;
-    }
-  },
   methods: {
     getDirections() {
       window.location.assign(
@@ -150,6 +143,7 @@ export default {
         });
     },
     showSchedule() {
+      console.log(this.model);
       this.isFetching = true;
       let stop_desc = this.model.Description + "";
       // console.log(this.model.number);
