@@ -194,7 +194,10 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 
     start_stop_model = None
     end_stop_model = None
-    if start_stop.find('stop') != -1:
+    if start_stop.find('stop') != -1 and end_stop.find('stop') != -1:
+        start_stop_model = GetStopModel(start_stop, route_model, None)
+        end_stop_model = GetStopModel(end_stop, route_model, None)
+    elif start_stop.find('stop') != -1:
         start_stop_model = GetStopModel(start_stop, route_model, None)
     elif end_stop.find('stop') != -1:
         end_stop_model = GetStopModel(end_stop, route_model, None)
@@ -202,10 +205,26 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
         try:
             start_stop_model = GetStopModel(start_stop, route_model, None)
         except:
-            end_stop_model = GetStopModel(end_stop, route_model, None)
+            pass
+        try:
+            end_stop_model = GetStopModel(start_stop, route_model, None)
+        except:
+            pass
 
     # try outbound first
-    if start_stop_model != None:
+    if start_stop_model != None and end_stop_model != None:
+        outbound_yn = start_stop_model.routestops.values(
+            'outbound_yn')[0]['outbound_yn']
+        relevant_stops = RouteStop.objects.filter(routeid=route_model,
+                                                  outbound_yn=outbound_yn)
+        relevant_start_stop = relevant_stops.get(stopnumber=start_stop_model)
+        relevant_end_stop = relevant_stops.get(stopnumber=end_stop_model)
+        relevant_stops = RouteStop.objects.filter(
+            routeid=route_model,
+            outbound_yn=True,
+            order__range=(relevant_start_stop.order,
+                            relevant_end_stop.order))
+    elif start_stop_model != None:
         outbound_yn = start_stop_model.routestops.values(
             'outbound_yn')[0]['outbound_yn']
         relevant_stops = RouteStop.objects.filter(routeid=route_model,
@@ -214,43 +233,27 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
 
         # print(relevant_start_stop.order, num_stops)
         num_stops = int(num_stops)
-        if outbound_yn:
-            # print("outbound")
-            relevant_stops = RouteStop.objects.filter(
-                routeid=route_model,
-                outbound_yn=True,
-                order__range=(relevant_start_stop.order,
-                              relevant_start_stop.order + num_stops))
-        else:
-            # print("inbound")
-            relevant_stops = RouteStop.objects.filter(
-                routeid=route_model,
-                outbound_yn=False,
-                order__range=(relevant_start_stop.order - num_stops,
-                              relevant_start_stop.order))
-    else:
+        relevant_stops = RouteStop.objects.filter(
+            routeid=route_model,
+            outbound_yn=True,
+            order__range=(relevant_start_stop.order,
+                            relevant_start_stop.order + num_stops))
+    elif relevant_end_stop != None:
         outbound_yn = end_stop_model.routestops.values(
             'outbound_yn')[0]['outbound_yn']
         relevant_stops = RouteStop.objects.filter(routeid=route_model,
                                                   outbound_yn=outbound_yn)
-        relevant_start_stop = relevant_stops.get(stopnumber=end_stop_model)
+        relevant_end_stop = relevant_stops.get(stopnumber=end_stop_model)
 
         # print(relevant_start_stop.order, num_stops)
         num_stops = int(num_stops)
-        if outbound_yn:
-            # print("outbound")
-            relevant_stops = RouteStop.objects.filter(
-                routeid=route_model,
-                outbound_yn=True,
-                order__range=(relevant_start_stop.order,
-                              relevant_start_stop.order + num_stops))
-        else:
-            # print("inbound")
-            relevant_stops = RouteStop.objects.filter(
-                routeid=route_model,
-                outbound_yn=False,
-                order__range=(relevant_start_stop.order - num_stops,
-                              relevant_start_stop.order))
+        relevant_stops = RouteStop.objects.filter(
+            routeid=route_model,
+            outbound_yn=False,
+            order__range=(relevant_end_stop.order - num_stops,
+                            relevant_end_stop.order))
+    else:
+        return []
     # get the stops as a list of dictionaries
     relevant_stops = relevant_stops.values("stopnumber_id")
 

@@ -13,14 +13,14 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .api.views import (index_view, BusStopTimes, RegisterApi,
                         ChangePasswordView, WeatherByDay, GetAllReviews,
-                        writeReview, GetRouteStops, addFavRoute,
+                        writeReview, GetRouteStops, addFavRoute, deleteFavStop,
                         FavouriteRoutes, addFavDirections,
                         GetFavouriteDirections)
 from .api.views import index_view, BusStopTimes, RegisterApi, ChangePasswordView, WeatherByDay, FavouriteStopsAll, FavouriteStops, addFavStop, getAllStops, GetAllRoutes
 from .api.machine_learning.views import ModelPredictionView
 
 router = routers.DefaultRouter()
-app_name ='smth'
+app_name = 'smth'
 
 urlpatterns = [
     path('api/admin/', admin.site.urls),
@@ -95,6 +95,9 @@ urlpatterns = [
          name='add-favourite-stops'),
 
          
+    path('api/delete-fav-stop/<int:number>',
+         deleteFavStop,
+         name='add-favourite-stops'),
     path('api/model-prediction/', ModelPredictionView,
          name='model-prediction'),
 ]

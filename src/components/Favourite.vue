@@ -6,7 +6,7 @@
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-list>
+    <v-list v-if="this.favouriteStops.length > 0">
       <v-list-group
         v-for="item in busStops"
         :key="item.title"
@@ -27,13 +27,17 @@
           <v-list-item-action>
             <v-btn-toggle dense>
               <v-btn icon>
-                <v-icon color="grey lighten-1">mdi-information</v-icon>
-              </v-btn>
-              <v-btn icon>
                 <v-icon
                   @click="getDirections(child.latitude, child.longitude)"
                   color="grey lighten-1"
                   >mdi-directions</v-icon
+                >
+              </v-btn>
+              <v-btn icon>
+                <v-icon
+                  @click="deleteFavourite('stop', child.number)"
+                  color="grey lighten-1"
+                  >mdi-delete</v-icon
                 >
               </v-btn>
             </v-btn-toggle>
@@ -41,7 +45,7 @@
         </v-list-item>
       </v-list-group>
     </v-list>
-    <v-list>
+    <v-list v-if="this.favouriteRoutes.length > 0">
       <v-list-group
         v-for="item in busRoutes"
         :key="item.title"
@@ -60,14 +64,23 @@
             <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn icon @click="getRoute(child.number)">
-              <v-icon color="grey lighten-1">mdi-information</v-icon>
-            </v-btn>
+            <v-btn-toggle dense>
+              <v-btn icon @click="getRoute(child.number)">
+                <v-icon color="grey lighten-1">mdi-information</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon
+                  @click="deleteFavourite('route', child.number)"
+                  color="grey lighten-1"
+                  >mdi-delete</v-icon
+                >
+              </v-btn>
+            </v-btn-toggle>
           </v-list-item-action>
         </v-list-item>
       </v-list-group>
     </v-list>
-    <v-list>
+    <v-list v-if="this.favouriteDirections.length > 0">
       <v-list-group
         v-for="item in busDirections"
         :key="item.title"
@@ -89,9 +102,18 @@
             ></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn @click="goToURL(child.url)" icon>
-              <v-icon color="grey lighten-1">mdi-directions</v-icon>
-            </v-btn>
+            <v-btn-toggle dense>
+              <v-btn @click="goToURL(child.url)" icon>
+                <v-icon color="grey lighten-1">mdi-directions</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon
+                  @click="deleteFavourite('directions', child.url)"
+                  color="grey lighten-1"
+                  >mdi-delete</v-icon
+                >
+              </v-btn>
+            </v-btn-toggle>
           </v-list-item-action>
         </v-list-item>
       </v-list-group>
@@ -156,8 +178,28 @@ export default {
   },
 
   methods: {
-    getRoute(number) {
-      this.$store.state.route_number = number
+    deleteFavourite(type, number) {
+      let self = this;
+      if (type == "stop") {
+        console.log(`Bearer ${this.$store.state.accessToken}`);
+        axios
+          .post(
+            "/api/delete-fav-stop/" + number,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.accessToken}`,
+              },
+            }
+          )
+          .then(function(response) {
+            console.log(response);
+            self.getFavouriteStops();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     },
     goToURL(URL) {
       window.location.assign(URL);
