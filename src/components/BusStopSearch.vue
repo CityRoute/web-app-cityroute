@@ -90,6 +90,8 @@
 <script>
 import stops from "../assets/stops.json";
 import axios from "axios";
+const baseUrl = window.location.protocol + "//" + window.location.host;
+
 export default {
   name: "BusStopSearch",
   data: () => ({
@@ -115,7 +117,7 @@ export default {
   methods: {
     getDirections() {
       window.location.assign(
-        "http://localhost:8081/#/directions?lat=" +
+        '<a href="+baseUrl+"/#/directions?lat=' +
           this.model.latitude +
           "&lng=" +
           this.model.longitude

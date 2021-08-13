@@ -123,6 +123,8 @@
 
 <script>
 import axios from "axios";
+const baseUrl = window.location.protocol + "//" + window.location.host;
+
 export default {
   data: () => ({
     selectedItem: 1,
@@ -241,10 +243,7 @@ export default {
     },
     getDirections(latitude, longitude) {
       window.location.assign(
-        "http://localhost:8081/#/directions?lat=" +
-          latitude +
-          "&lng=" +
-          longitude
+        "/#/directions?lat=" + latitude + "&lng=" + longitude
       );
     },
     makeMarker(latitude, longitude) {

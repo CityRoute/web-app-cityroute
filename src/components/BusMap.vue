@@ -778,10 +778,11 @@ export default {
       }
 
       stopMarkers[text.substr(text.indexOf(" ") + 1)].setVisible(true);
+
       const infowindow = new google.maps.InfoWindow({
         content:
           text +
-          '<a href="http://localhost:8081//#/directions?lat=' +
+          '<a href="/#/directions?lat=' +
           marker_position.lat() +
           "&lng=" +
           marker_position.lng() +
@@ -828,7 +829,7 @@ export default {
 
         const infowindow = new google.maps.InfoWindow({
           content:
-            '<a href="http://localhost:8081//#/directions?lat=' +
+            '<a href="/#/directions?lat=' +
             stops[key].latitude +
             "&lng=" +
             stops[key].longitude +
@@ -984,7 +985,7 @@ function initMap() {
     const landmarkinfowindow = new google.maps.InfoWindow({
       content:
         landmarks_data.markers[key].address +
-        '<a href="http://localhost:8081//#/directions?lat=' +
+        '<a href="/#/directions?lat=' +
         landmarks_data.markers[key].lat +
         "&lng=" +
         landmarks_data.markers[key].lng +
