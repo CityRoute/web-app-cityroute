@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 from backend.api.models import (Weather, User, Stop, FavouriteStop, 
                                 Review, Route, RouteStop, FavouriteRoute, FavouriteDirections)
 
@@ -171,3 +172,29 @@ class TestFavouriteModels(TestCase):
                 destination="UCD O'Reilly Hall, Belfield, Dublin, Ireland",
                 url="xxx"
             )
+
+
+
+    def test_username_unique(self):
+        with self.assertRaises(Exception):
+            user_with_same_username = User.objects.create(
+                username='johnsmith',
+                password='password',
+                email='john@email.com',
+                first_name='John',
+                last_name='Smith'
+
+                )
+
+    def test_email_not_unique(self):
+        try:
+            user_with_same_email = User.objects.create(
+                username='john',
+                password='password',
+                email='john@email.com',
+                first_name='John',
+                last_name='Smith'
+
+                )
+        except Exception:
+            self.fail("Exception incorrectly raised. Email should not be unique. ")

@@ -108,9 +108,11 @@ def WeatherByDay(request, day_number):
 
 @api_view(['GET'])
 def getAllStops(request):
+    # get all stops
     stops = Stop.objects.all()
     serializer = StopSerializer(stops, many=True)
     return Response(serializer.data)
+
 
 
 @api_view(['GET'])
