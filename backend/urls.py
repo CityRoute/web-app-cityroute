@@ -36,6 +36,7 @@ urlpatterns = [
 
     # http://localhost:8000/
     path("", index_view, name="index"),
+
     path("api/bus-stop-times/<int:bus_stop>", BusStopTimes),
 
     # http://localhost:8000/api/<router-viewsets>
@@ -53,10 +54,7 @@ urlpatterns = [
         "api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
     ),
-    # http://localhost:8000/api/weather/<day>
-    path("api/weather-forecast/<int:day_number>",
-         WeatherByDay,
-         name="weather-forecast"),
+   
 
     # http://localhost:8000/api/weather-forecast/<day>
     path('api/weather-forecast/<int:day_number>',
@@ -65,8 +63,10 @@ urlpatterns = [
 
     # http://localhost:8000/api/stops-all/
     path('api/stops-all/', getAllStops, name='stops-all'),
+
     path('api/routes-all/', GetAllRoutes, name='routes-all'),
-    path('api/route-stops/', GetRouteStops, name='routes-all'),
+#     path('api/route-stops/', GetRouteStops, name='routes-all'),
+    path('api/route-stops/', GetRouteStops, name='route-stops'),
     path('api/reviews-all/', GetAllReviews, name='reviews-all'),
     path('api/write-review/', writeReview, name='write-review'),
 
@@ -74,7 +74,7 @@ urlpatterns = [
     path('api/favourite-stops-all/',
          FavouriteStopsAll,
          name='favourite-stops-all'),
-    # http://localhost:8000/api/favourite-stops/
+    # http://localhost:8000/api/favourite-routes/
     path('api/favourite-routes/', FavouriteRoutes, name='favourite-routes'),
 
     # http://localhost:8000/api/add-fav-stop/<number>
@@ -93,6 +93,8 @@ urlpatterns = [
     path('api/add-fav-stop/<int:number>',
          addFavStop,
          name='add-favourite-stops'),
+
+         
     path('api/delete-fav-stop/<int:number>',
          deleteFavStop,
          name='delete-favourite-stops'),

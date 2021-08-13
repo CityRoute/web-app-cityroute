@@ -28,7 +28,8 @@ class Command(BaseCommand):
                 unix_timestamp = day["dt"]
                 timestamp = make_aware(datetime.fromtimestamp(unix_timestamp))
                 today = make_aware(datetime.fromtimestamp(time.time()))
-                
+                print(timestamp)
+                print(today)
                 w = Weather(
                     day_number = number, 
                     datetime = timestamp,
