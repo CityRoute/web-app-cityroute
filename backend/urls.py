@@ -97,7 +97,7 @@ urlpatterns = [
          
     path('api/delete-fav-stop/<int:number>',
          deleteFavStop,
-         name='add-favourite-stops'),
+         name='delete-favourite-stops'),
     path('api/model-prediction/', ModelPredictionView,
          name='model-prediction'),
 ]
