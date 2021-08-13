@@ -108,7 +108,7 @@
               </v-btn>
               <v-btn icon>
                 <v-icon
-                  @click="deleteFavourite('directions', child.url)"
+                  @click="deleteFavourite('directions', child.directions_id)"
                   color="grey lighten-1"
                   >mdi-delete</v-icon
                 >
@@ -181,7 +181,6 @@ export default {
     deleteFavourite(type, number) {
       let self = this;
       if (type == "stop") {
-        console.log(`Bearer ${this.$store.state.accessToken}`);
         axios
           .post(
             "/api/delete-fav-stop/" + number,
@@ -195,6 +194,42 @@ export default {
           .then(function(response) {
             console.log(response);
             self.getFavouriteStops();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else if (type == "route") {
+        axios
+          .post(
+            "/api/delete-fav-route/" + number,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.accessToken}`,
+              },
+            }
+          )
+          .then(function(response) {
+            console.log(response);
+            self.getFavouriteRoutes();
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else if (type == "directions") {
+        axios
+          .post(
+            "/api/delete-fav-directions/" + number,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.state.accessToken}`,
+              },
+            }
+          )
+          .then(function(response) {
+            console.log(response);
+            self.getFavouriteDirections();
           })
           .catch(function(error) {
             console.log(error);

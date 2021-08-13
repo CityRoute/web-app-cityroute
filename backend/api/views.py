@@ -222,6 +222,7 @@ def GetFavouriteDirections(request):
             'origin': r.origin,
             'destination': r.destination,
             'url': r.url,
+            'directions_id': r.directions_id
         })
 
     return Response(data)
@@ -300,6 +301,45 @@ def deleteFavStop(request, number):
         user = request.user
         stop = Stop.objects.get(number=number)
         FavouriteStop.objects.get(user=user, stopid=stop).delete()
+        return Response(status=status.HTTP_200_OK)
+    except IntegrityError as e:
+        return HttpResponse(
+            "Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['POST'])
+def deleteFavRoute(request, number):
+    """ 
+    Delete favourite route of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/delete-fav-route/<number> 
+    """
+
+    try:
+        user = request.user
+        route = Route.objects.get(routeid=number)
+        FavouriteRoute.objects.get(user=user, routeid=route).delete()
+        return Response(status=status.HTTP_200_OK)
+    except IntegrityError as e:
+        return HttpResponse(
+            "Error: Stop is already a favourite for this user.")
+    except AssertionError as e:
+        return HttpResponse("Error: Stop number does not exist.")
+
+
+@api_view(['POST'])
+def deleteFavDirections(request, number):
+    """ 
+    Delete favourite directions of currently logged in user by number. 
+    Currently works with the URL: http://localhost:8000/api/delete-fav-directions/<number> 
+    """
+
+    try:
+        user = request.user
+        url = request.query_params.get('url')
+        FavouriteDirections.objects.get(user=user,
+                                        directions_id=number).delete()
         return Response(status=status.HTTP_200_OK)
     except IntegrityError as e:
         return HttpResponse(
