@@ -1,4 +1,4 @@
-name: Continous Integration Django
+name: Testing and Linting on Dev Branch
 
 on:
   push:
