@@ -173,10 +173,10 @@ export default {
     this.getFavouriteDirections();
   },
   created() {
-    EventBus.$on("add-marker", (data) => {
-      let marker = this.makeMarker(data.latitude, data.longitude);
-      this.$markers.push(marker);
-    });
+    // EventBus.$on("add-marker", (data) => {
+    //   let marker = this.makeMarker(data.latitude, data.longitude);
+    //   this.$markers.push(marker);
+    // });
   },
 
   methods: {
