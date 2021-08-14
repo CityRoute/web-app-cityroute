@@ -53,14 +53,12 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Build Dockerfile.base
-        run: docker build . --file Dockerfile.base --tag jakejarvis/chrome-headless:latest
-      - name: Run audit on https://github.com/
-        uses: ./
-        with:
-          url: "https://cityroute.ml/"
-      - uses: actions/upload-artifact@master
-        with:
-          name: report
-          path: "./report"
+    - name: Audit live URL
+      uses: jakejarvis/lighthouse-action@master
+      with:
+        url: 'https://cityroute.ml/'
+    - name: Upload results as an artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: report
+        path: './report'
