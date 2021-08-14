@@ -50,3 +50,17 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: yarn test:unit
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build Dockerfile.base
+        run: docker build . --file Dockerfile.base --tag jakejarvis/chrome-headless:latest
+      - name: Run audit on https://github.com/
+        uses: ./
+        with:
+          url: "https://cityroute.ml/"
+      - uses: actions/upload-artifact@master
+        with:
+          name: report
+          path: "./report"
