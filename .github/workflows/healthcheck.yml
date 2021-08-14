@@ -2,7 +2,7 @@ name: Website Health Check
 
 on:
   schedule:
-    - cron: "15 12 * * *"
+    - cron: "20 11 * * *"
 
 jobs:
   healthcheck:
