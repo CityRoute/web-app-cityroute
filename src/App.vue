@@ -174,6 +174,7 @@ export default {
       },
     ],
   }),
+  
   mounted: {},
   methods: {
     darkMap() {
