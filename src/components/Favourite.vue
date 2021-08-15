@@ -122,6 +122,8 @@
 </template>
 
 <script>
+const { google } = require("@/plugins/googleAPI.js");
+
 import axios from "axios";
 
 export default {

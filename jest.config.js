@@ -3,7 +3,8 @@ module.exports = {
   setupFiles: ["./tests/unit/setup.js"],
   collectCoverage: true,
   collectCoverageFrom: [
-    "src/**/*.{js,vue}",
+    "src/components/*.{js,vue}",
+    "src/views/*.{js,vue}",
     "!src/main.js", // No need to cover bootstrap file
   ],
 };

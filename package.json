@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit ",
+    "test:unit": "vue-cli-service test:unit",
     "test:unit:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
@@ -22,7 +22,7 @@
     "vue-rss-feed": "^0.2.4",
     "vue-social-sharing": "^3.0.8",
     "vue2-datepicker": "^3.9.1",
-    "vuetify": "^2.4.0",
+    "vuetify": "^2.5.8",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^4.0.0-beta.3"
   },
