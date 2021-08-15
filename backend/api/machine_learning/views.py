@@ -97,6 +97,9 @@ stop_pair_model_required_features = [
     'weather_main_Snow'
 ]
 
+# First stops - all unique stopids that contained PROGRNUMBER = 1
+first_stopids = ['1016', '1073', '1105', '1174', '1176', '1184', '1233', '1375', '1380', '1423', '1491', '1730', '1772', '1791', '1828', '1858', '2024', '2037', '2038', '2039', '2060', '2064', '208', '215', '2210', '2243', '226', '2270', '2353', '2437', '248', '2492', '264', '265', '2670', '279', '281', '2825', '284', '288', '289', '292', '2934', '2955', '297', '298', '300', '302', '3057', '3085', '3088', '3099', '3143', '318', '319', '3222', '324', '326', '328', '3283', '3333', '334', '3400', '342', '346', '3514', '3544', '3605', '3624', '3640', '3677', '3720', '3732', '381', '3815', '385', '3890', '3917', '3921', '395', '3980', '3985', '3994', '4003', '407', '4096', '4108', '4151', '4167', '4168', '4202', '422', '4260', '4307', '4316', '4320', '4330', '4341', '4342', '4344', '4359', '4380', '4381', '4391', '4392', '4420', '449', '4495', '4525', '4533', '4564', '4591', '4592', '4595', '4606', '4619', '4620', '4657', '4664', '4686', '4713', '4745', '4747', '4795', '4843', '485', '4863', '4923', '4952', '4953', '4962', '5013', '5044', '5111', '5161', '5171', '557', '567', '6004', '6030', '6041', '6048', '6057', '6122', '6164', '6185', '6200', '621', '6235', '6282', '6285', '6290', '6318', '686', '7026', '7044', '7067', '707', '7073', '7132', '7144', '7149', '7158', '7188', '7229', '7230', '7270', '7289', '7330', '7333', '7340', '7347', '7348', '7391', '7392', '7433', '7491', '7514', '7560', '7564', '7571', '7574', '7591', '7592', '760', '763', '7639', '765', '7654', '7662', '767', '7672', '768', '773', '807', '848', '849', '877', '896', '928', '943', '950', '956']
+
 
 @api_view(['GET'])
 def ModelPredictionView(request):
@@ -224,7 +227,6 @@ def StopPairPrediction(all_stops, all_features):
     """
     prediction = 0
     # List of stops that are the first stop for any route
-    first_stops_list = []
     first_stop =  RouteStop.objects.filter(stopnumber=all_stops[0]).first() # many RouteStops with the same number, only need to look at 1 (eg. first)
     
     # check if route is outbound or not from routestop
@@ -241,6 +243,11 @@ def StopPairPrediction(all_stops, all_features):
             filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
             with open(filename, 'rb') as file:
                 pickle_model = pickle.load(file)
+            
+            # Get dwell time
+            current_stop = Stop.objects.get(number=current)
+            dwell_time = getattr(current_stop, 'avg_dwelltime')
+            all_features = np.insert(all_features, 0, dwell_time)
             # Running prediction
             prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
     
@@ -250,6 +257,11 @@ def StopPairPrediction(all_stops, all_features):
             with open(filename, 'rb') as file:
                 pickle_model = pickle.load(file)
             
+            # Get dwell time
+            current_stop = Stop.objects.get(number=current)
+            dwell_time = getattr(current_stop, 'avg_dwelltime')
+            all_features = np.insert(all_features, 0, dwell_time)
+            # Running prediction
             prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
     
     return prediction[0]
