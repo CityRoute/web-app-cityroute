@@ -50,6 +50,7 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: yarn test:unit
+      - run: yarn test:e2e
   lighthouse:
     runs-on: ubuntu-latest
     steps:
