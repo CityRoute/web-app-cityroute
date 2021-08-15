@@ -39,7 +39,7 @@ describe("Favourite.vue", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("Does H1 exist", () => {
+  it("Does header exist", () => {
     expect(wrapper.find("header")).toEqual({ selector: "header" });
   });
 });

@@ -4,7 +4,6 @@
  * official documentation https://router.vuejs.org/en/
  */
 import Home from "@/views/Home.vue";
-import Messages from "@/views/Messages";
 import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
@@ -42,11 +41,6 @@ export default [
     path: "/",
     name: "home",
     component: Home,
-  },
-  {
-    path: "/messages",
-    name: "messages",
-    component: Messages,
   },
   {
     path: "/ratings",

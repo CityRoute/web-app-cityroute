@@ -1,15 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import messages from "./modules/messages";
 import axios from "axios";
 Vue.use(Vuex);
 import createPersistedState from "vuex-persistedstate";
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
-  modules: {
-    messages,
-  },
+  modules: {},
   state: {
     accessToken: null,
     refreshToken: null,
