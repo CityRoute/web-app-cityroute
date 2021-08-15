@@ -1,4 +1,4 @@
-import BusMap from "@/components/BusMap.vue";
+import MyAccount from "@/views/MyAccount.vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vuetify from "@/plugins/vuetify"; // path to vuetify export
@@ -6,9 +6,10 @@ import Vuetify from "@/plugins/vuetify"; // path to vuetify export
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(Vuetify);
+
 var expect = require("expect");
 
-describe("BusMap.vue", () => {
+describe("MyAccount.vue", () => {
   let actions;
   let store;
   let state;
@@ -22,7 +23,7 @@ describe("BusMap.vue", () => {
       actions,
       state,
     });
-    wrapper = shallowMount(BusMap, {
+    wrapper = shallowMount(MyAccount, {
       store,
       localVue,
       methods: {},

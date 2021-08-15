@@ -1,4 +1,4 @@
-import Favourite from "@/components/Favourite.vue";
+import Rating from "@/views/Rating.vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vuetify from "@/plugins/vuetify"; // path to vuetify export
@@ -9,7 +9,7 @@ localVue.use(Vuetify);
 
 var expect = require("expect");
 
-describe("Favourite.vue", () => {
+describe("Rating.vue", () => {
   let actions;
   let store;
   let state;
@@ -23,7 +23,7 @@ describe("Favourite.vue", () => {
       actions,
       state,
     });
-    wrapper = shallowMount(Favourite, {
+    wrapper = shallowMount(Rating, {
       store,
       localVue,
       methods: {},

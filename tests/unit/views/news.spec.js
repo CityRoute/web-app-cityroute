@@ -1,4 +1,4 @@
-import template_name from "@/views/template_name.vue";
+import News from "@/views/News.vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
 import Vuex from "vuex";
 import Vuetify from "@/plugins/vuetify"; // path to vuetify export
@@ -9,7 +9,7 @@ localVue.use(Vuetify);
 
 var expect = require("expect");
 
-describe("template_name.vue", () => {
+describe("News.vue", () => {
   let actions;
   let store;
   let state;
@@ -23,7 +23,7 @@ describe("template_name.vue", () => {
       actions,
       state,
     });
-    wrapper = shallowMount(template_name, {
+    wrapper = shallowMount(News, {
       store,
       localVue,
       methods: {},
