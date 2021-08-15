@@ -238,7 +238,7 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
             outbound_yn=True,
             order__range=(relevant_start_stop.order,
                             relevant_start_stop.order + num_stops))
-    elif relevant_end_stop != None:
+    elif end_stop_model != None:
         outbound_yn = end_stop_model.routestops.values(
             'outbound_yn')[0]['outbound_yn']
         relevant_stops = RouteStop.objects.filter(routeid=route_model,
