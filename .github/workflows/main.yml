@@ -50,7 +50,15 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: yarn test:unit
-      - run: yarn test:e2e
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
+        with:
+          start: npm run serve
+          wait-on: http://localhost:8080/
+          config_file: cypress.json
+          spec: "tests/e2e/**/*"
+        env:
+          CYPRESS_baseUrl: http://localhost:8080/
   lighthouse:
     runs-on: ubuntu-latest
     steps:
