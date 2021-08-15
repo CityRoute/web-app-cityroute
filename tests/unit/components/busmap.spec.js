@@ -8,7 +8,6 @@ localVue.use(Vuex);
 localVue.use(Vuetify);
 var expect = require("expect");
 
-
 describe("BusMap.vue", () => {
   let actions;
   let store;
