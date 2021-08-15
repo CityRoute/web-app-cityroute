@@ -42,6 +42,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      
       <template v-slot:append>
         <div class="pa-2">
           <v-btn block class="text-right" @click="darkMap()">
