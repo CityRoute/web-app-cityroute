@@ -27,7 +27,8 @@
     "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.0",
+    "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
@@ -47,6 +48,9 @@
     "vuetify-loader": "^1.7.0"
   },
   "babel": {
+    "plugins": [
+      "@babel/plugin-transform-modules-commonjs"
+    ],
     "presets": [
       "@vue/app"
     ]

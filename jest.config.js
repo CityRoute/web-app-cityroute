@@ -7,4 +7,7 @@ module.exports = {
     "src/views/*.{js,vue}",
     "!src/main.js", // No need to cover bootstrap file
   ],
+  moduleNameMapper: {
+    "\\.(css)$": "<rootDir>/tests/unit/mock.js",
+  },
 };
