@@ -58,6 +58,45 @@ stop_model_required_features = [
     'weather_main_Mist', 'weather_main_Rain', 'weather_main_Snow'
 ]
 
+stop_pair_model_required_features = [
+    'DWELLTIME',
+    'rain_1h',
+    'MONTHOFSERVICE_April',
+    'MONTHOFSERVICE_August',
+    'MONTHOFSERVICE_December',
+    'MONTHOFSERVICE_February',
+    'MONTHOFSERVICE_January',
+    'MONTHOFSERVICE_July',
+    'MONTHOFSERVICE_June',
+    'MONTHOFSERVICE_March',
+    'MONTHOFSERVICE_May',
+    'MONTHOFSERVICE_November',
+    'MONTHOFSERVICE_October',
+    'MONTHOFSERVICE_September',
+    'DAYOFWEEK_Friday',
+    'DAYOFWEEK_Monday',
+    'DAYOFWEEK_Saturday',
+    'DAYOFWEEK_Sunday',
+    'DAYOFWEEK_Thursday',
+    'DAYOFWEEK_Tuesday',
+    'DAYOFWEEK_Wednesday',
+    'IS_HOLIDAY_0',
+    'IS_HOLIDAY_1',
+    'IS_WEEKDAY_0',
+    'IS_WEEKDAY_1',
+    'eve_rushour_0',
+    'eve_rushour_1',
+    'morn_rushour_0',
+    'morn_rushour_1',
+    'weather_main_Clear',
+    'weather_main_Clouds',
+    'weather_main_Drizzle',
+    'weather_main_Fog',
+    'weather_main_Mist',
+    'weather_main_Rain',
+    'weather_main_Snow'
+]
+
 
 @api_view(['GET'])
 def ModelPredictionView(request):
@@ -72,15 +111,18 @@ def ModelPredictionView(request):
         num_stops = request.query_params.get('num_stops')
 
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+
         print("all_stops", all_stops)
         model_type = request.query_params.get('model_type').lower()
         print(model_type)
+        
         if model_type == 'route':
             all_features = GetAllRequiredFeatures(
                 route_model_required_features)
             print("all_features", all_features, " length of array:",
                   len(all_features))
             prediction = RoutePrediction(all_stops, all_features, route_num)
+
         else:
             all_features = GetAllRequiredFeatures(stop_model_required_features)
             print("all_features", all_features, " length of array:",
@@ -89,9 +131,29 @@ def ModelPredictionView(request):
         return Response({"prediction": prediction}, status=status.HTTP_200_OK)
     except Exception as e:
         print(e)
-        return Response({"error": "Error in getting journey time"},
+        # Try to predict with Stop Pair model instead
+        try:
+            # print(request.query_params)
+            start_stop = request.query_params.get('start_stop').lower()
+            end_stop = request.query_params.get('end_stop').lower()
+            route_num = request.query_params.get('route_num')
+            num_stops = request.query_params.get('num_stops')
+            # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+            all_stops = [7363, 4588, 4589, 7364, 7365]
+            print("all_stops", all_stops)
+
+            model_type = request.query_params.get('model_type').lower()
+            print(model_type)
+            
+            all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
+            pred = StopPairPrediction(all_stops, all_features)
+            print('Stop Pair Model prediction:', pred)
+            return Response({"prediction:": pred}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": "Error in getting journey time"},
                         status=status.HTTP_404_NOT_FOUND)
 
+    
 
 def RoutePrediction(all_stops, all_features, route):
     """
@@ -156,6 +218,41 @@ def StopPrediction(all_stops, all_features):
 
     return prediction[0]
 
+def StopPairPrediction(all_stops, all_features):
+    """
+    Retrieve the stop pair model prediction
+    """
+    prediction = 0
+    # List of stops that are the first stop for any route
+    first_stops_list = []
+    first_stop =  RouteStop.objects.filter(stopnumber=all_stops[0]).first() # many RouteStops with the same number, only need to look at 1 (eg. first)
+    
+    # check if route is outbound or not from routestop
+    # outbound_yn = start_stop_model.routestops.values(
+    #     'outbound_yn')[0]['outbound_yn']
+    outbound_yn = getattr(first_stop, 'outbound_yn')
+    direction = 'outbound' if outbound_yn == 1 else 'inbound'
+    
+    # Remove first element of all_stops if first_stop in all_stops
+    if all_stops[0] == first_stop:
+        all_stops = all_stops[1:]
+        
+        for previous, current in zip(all_stops, all_stops[1:]):
+            filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
+            with open(filename, 'rb') as file:
+                pickle_model = pickle.load(file)
+            # Running prediction
+            prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
+    
+    else:
+        for previous, current in zip(all_stops, all_stops[1:]):
+            filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
+            with open(filename, 'rb') as file:
+                pickle_model = pickle.load(file)
+            
+            prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
+    
+    return prediction[0]
 
 def GetStopModel(stop, route_model, outbound_yn):
     """
@@ -343,7 +440,7 @@ def GetWeatherFeatures(dt):
         return {k: 0 for v, k in enumerate(weather_features_list)}
 
 
-def GetDatetimeFeatures(dt):
+def GetDatetimeFeatures(dt, stop_number=7365): # stop arg only applies to stop-pair model
     """
     Returns a list (len 23), containing all the binary datetime features to be fed into the model
     """
@@ -371,7 +468,14 @@ def GetDatetimeFeatures(dt):
         'MONTHOFSERVICE_November',
         'MONTHOFSERVICE_December',
         'IS_HOLIDAY_1',
+        'IS_HOLIDAY_0',
         'IS_WEEKDAY_1',
+        'IS_WEEKDAY_0',
+        'DWELLTIME',
+        'eve_rushour_0',
+        'eve_rushour_1',
+        'morn_rushour_0',
+        'morn_rushour_1'
     ]
     datetime_features_dict = {el: 0 for el in datetime_features_list}
     date = dt.date()
@@ -395,10 +499,23 @@ def GetDatetimeFeatures(dt):
     #     irish_holidays_2021.append(str(date[0]))
     datetime_features_dict["IS_HOLIDAY_1"] = (1 if date in holidays.Ireland(
         years=2021).keys() else 0)
+
+    datetime_features_dict["IS_HOLIDAY_0"] = (0 if date in holidays.Ireland(
+        years=2021).keys() else 1)
     # get weekday yes/no
     datetime_features_dict["IS_WEEKDAY_1"] = (1
                                               if int(dt.weekday()) < 5 else 0)
 
+    datetime_features_dict["IS_WEEKDAY_0"] = (0
+                                              if int(dt.weekday()) < 5 else 1)
+
+
+    stop = Stop.objects.get(number=stop_number)
+    datetime_features_dict["DWELLTIME"] = getattr(stop, 'avg_dwelltime')
+    # print(getattr(stop, 'avg_dwelltime'))
+
+    datetime_features_dict['eve_rushour'] = (1 if int(dt.hour) >= 16 and int(dt.hour) <= 19 else 0)
+    datetime_features_dict['morn_rushour'] = (1 if int(dt.hour) >= 7 and int(dt.hour) <= 9 else 0)
     # print(datetime_features_dict)
 
     return datetime_features_dict
