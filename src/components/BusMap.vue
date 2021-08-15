@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 <template>
   <div class="map-container">
     <v-card flat v-if="isDirections">
@@ -131,14 +132,11 @@ import {
   mdiBasketball,
 } from "@mdi/js";
 import $ from "jquery";
-import VCalendar from "v-calendar";
 import axios from "axios";
 import RouteViewer from "./RouteViewer.vue";
 import BusStopSearch from "./BusStopSearch.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import { EventBus } from "./EventBus";
-import Vue from "vue";
 import Landmarks from "./Landmarks.vue";
 import landmarks_data from "../assets/landmarks.json";
 import Favourite from "./Favourite.vue";
@@ -542,10 +540,10 @@ export default {
             if (status === "OK") {
               if (results[0]) {
                 map.setZoom(11);
-                const marker = new google.maps.Marker({
-                  position: myLatLng,
-                  map: map,
-                });
+                // const marker = new google.maps.Marker({
+                //   position: myLatLng,
+                //   map: map,
+                // });
               } else {
                 window.alert("No results found");
               }
@@ -558,20 +556,9 @@ export default {
               this.destination = results[0].formatted_address;
             }
           });
-
-          // Print out the user's location.
-          // $info.textContent = `Current Location Found!`;
-          // // Don't forget to remove any error class name.
-          // $info.classList.remove("error");
-          // $info.classList.add("success");
         },
         onError: (err) => {
-          // Print out the error message.
-          // $info.textContent = `Error: ${getPositionErrorMessage(err.code) ||
-          //   err.message}`;
-          // // Add error class name.
-          // $info.classList.add("error");
-          // $info.classList.remove("success");
+          console.log(err);
         },
       });
     },
@@ -856,12 +843,7 @@ export default {
     this.showRoute();
     this.initAutocomplete();
   },
-  updated() {
-    console.log("updated");
-    const inputOrigin = document.getElementById("locationOrigin");
-    const inputDestination = document.getElementById("locationDestination");
-    inputOrigin.placeholder = "";
-  },
+  updated() {},
   components: { DatePicker, BusStopSearch, Landmarks, Favourite, RouteViewer },
 };
 let directionsDisplay;
@@ -870,14 +852,6 @@ let myLatLng = { lat: 53.3531, lng: -6.258 };
 let geocoder = null;
 var stopMarkers;
 var landmarkMarkers;
-
-function markerDirections(position) {
-  console.log("markerDirections");
-  geocoder.geocode({ location: position }, (results, status) => {
-    let destination = results[0].formatted_address;
-    console.log(destination);
-  });
-}
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -904,20 +878,9 @@ function initMap() {
       current_marker.setPosition({ lat, lng });
       map.panTo({ lat, lng });
       myLatLng = { lat: lat, lng: lng };
-
-      // Print out the user's location.
-      // $info.textContent = `Current Location Found!`;
-      // // Don't forget to remove any error class name.
-      // $info.classList.remove("error");
-      // $info.classList.add("success");
     },
     onError: (err) => {
-      // Print out the error message.
-      // $info.textContent = `Error: ${getPositionErrorMessage(err.code) ||
-      //   err.message}`;
-      // // Add error class name.
-      // $info.classList.add("error");
-      // $info.classList.remove("success");
+      console.log(err);
     },
   });
 
@@ -952,18 +915,8 @@ function initMap() {
   landmarkMarkers = [];
   // var new_infowindows = [];
   // var instances = [];
-  for (var key of Object.keys(landmarks_data.markers)) {
+  for (key of Object.keys(landmarks_data.markers)) {
     // // console.log(stops[key].longitude);
-    const contentString =
-      '<div id="content">' +
-      '<div id="siteNotice">' +
-      "</div>" +
-      `<h1 id="firstHeading">${landmarks_data.markers[key].address}</h1>` +
-      '<div id="bodyContent">';
-    const infowindow = new google.maps.InfoWindow({
-      content: contentString,
-    });
-
     landmarkMarkers[landmarks_data.markers[key].address] = {
       marker: new google.maps.Marker({
         position: new google.maps.LatLng(
@@ -982,7 +935,11 @@ function initMap() {
 
     const landmarkinfowindow = new google.maps.InfoWindow({
       content:
-        landmarks_data.markers[key].address +
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        "</div>" +
+        `<h1 id="firstHeading">${landmarks_data.markers[key].address}</h1>` +
+        '<div id="bodyContent">' +
         '<a href="/#/directions?lat=' +
         landmarks_data.markers[key].lat +
         "&lng=" +
@@ -1003,9 +960,6 @@ function initMap() {
 </script>
 
 <style>
-/* Always set the map height explicitly to define the size of the div
-* element that contains the map. */
-
 #MapOptions {
   position: absolute;
   top: 0;
@@ -1019,12 +973,6 @@ function initMap() {
   margin: 0px;
   padding: 0px;
 }
-/* .gm-style .gm-style-iw-d::-webkit-scrollbar-track,
-.gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece,
-.gm-style .gm-style-iw-c,
-.gm-style .gm-style-iw-t::after {
-  background: rgba(255, 255, 255, 0);
-} */
 
 #landmarksContainer {
   margin: 5%;

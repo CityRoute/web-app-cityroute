@@ -123,7 +123,6 @@
 
 <script>
 import axios from "axios";
-const baseUrl = window.location.protocol + "//" + window.location.host;
 
 export default {
   data: () => ({
@@ -172,13 +171,6 @@ export default {
     this.getFavouriteRoutes();
     this.getFavouriteDirections();
   },
-  created() {
-    // EventBus.$on("add-marker", (data) => {
-    //   let marker = this.makeMarker(data.latitude, data.longitude);
-    //   this.$markers.push(marker);
-    // });
-  },
-
   methods: {
     deleteFavourite(type, number) {
       let self = this;

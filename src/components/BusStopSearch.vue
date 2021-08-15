@@ -90,7 +90,6 @@
 <script>
 import stops from "../assets/stops.json";
 import axios from "axios";
-const baseUrl = window.location.protocol + "//" + window.location.host;
 
 export default {
   name: "BusStopSearch",
@@ -117,7 +116,7 @@ export default {
   methods: {
     getDirections() {
       window.location.assign(
-        '<a href="+baseUrl+"/#/directions?lat=' +
+        '<a href="/#/directions?lat=' +
           this.model.latitude +
           "&lng=" +
           this.model.longitude
@@ -138,10 +137,10 @@ export default {
           }
         )
         .then(function(response) {
-          // console.log(response);
+          console.log(response);
         })
         .catch(function(error) {
-          // console.log(error);
+          console.log(error);
         });
     },
     showSchedule() {
@@ -151,17 +150,17 @@ export default {
       // console.log(this.model.number);
       stop_desc = stop_desc.split(" ");
 
-      let stop_num = stop_desc[stop_desc.length - 1];
       var self = this;
 
       axios
         .get("api/bus-stop-times/" + this.model.number)
         .then(function(response) {
           self.info = response.data;
-          bus_stop_times_div += 1;
           this.$parent.refresh();
         })
-        .catch((e) => {});
+        .catch((e) => {
+          console.log(e);
+        });
       this.isFetching = false;
     },
   },
@@ -189,16 +188,8 @@ export default {
   },
 
   watch: {
-    search(val) {
-      // Items have already been loaded
+    search() {
       if (this.items.length > 0) return;
-
-      // Items have already been requested
-      //   if (this.isLoading) return;
-
-      //   this.isLoading = true;
-
-      // Lazily load input items
       this.entries = stops;
       console.log(stops);
     },

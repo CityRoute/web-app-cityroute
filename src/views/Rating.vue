@@ -48,7 +48,7 @@ export default {
   }),
   methods: {
     updateInput(value, id) {
-      // console.log(value, id);
+      console.log(value, id);
     },
     updateSheet() {
       this.sheet = !this.sheet;
@@ -57,7 +57,6 @@ export default {
 };
 </script>
 <style>
-/* This is for documentation purposes and will not be needed in your application */
 .v-btn--example {
   bottom: 0;
   margin: 0 0 64px 16px;

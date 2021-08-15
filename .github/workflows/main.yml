@@ -49,16 +49,16 @@ jobs:
           node-version: 14
       - run: yarn install
       - run: yarn build
-      - run: yarn test:unit
+      - run: yarn jest
   lighthouse:
     runs-on: ubuntu-latest
     steps:
-    - name: Audit live URL
-      uses: jakejarvis/lighthouse-action@master
-      with:
-        url: 'https://cityroute.ml/'
-    - name: Upload results as an artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: report
-        path: './report'
+      - name: Audit live URL
+        uses: jakejarvis/lighthouse-action@master
+        with:
+          url: "https://cityroute.ml/"
+      - name: Upload results as an artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: report
+          path: "./report"

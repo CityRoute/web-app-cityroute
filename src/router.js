@@ -1,8 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import VueDemo from "@/views/VueDemo";
 import BusMap from "@/components/BusMap.vue";
-import Favourite from "@/components/Favourite.vue";
 import News from "@/views/News.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
