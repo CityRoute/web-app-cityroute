@@ -146,7 +146,7 @@ export default {
     showSchedule() {
       console.log(this.model);
       this.isFetching = true;
-      let stop_desc = this.model.Description + "";
+      // let stop_desc = this.model.Description + "";
       // console.log(this.model.number);
       stop_desc = stop_desc.split(" ");
 

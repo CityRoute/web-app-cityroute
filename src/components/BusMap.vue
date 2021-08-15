@@ -117,6 +117,8 @@
 </template>
 
 <script>
+const { google } = require("@/plugins/googleAPI.js");
+
 import {
   mdiHospitalBuilding,
   mdiShopping,
@@ -528,6 +530,7 @@ export default {
     currentLocation(textBox) {
       trackLocation({
         onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+          // eslint-disable-next-line no-undef
           let current_marker = new google.maps.Marker({
             position: { lat: lat, lng: lng },
             icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
