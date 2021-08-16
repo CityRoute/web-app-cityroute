@@ -752,9 +752,15 @@ export default {
               offsetMap();
             }
           );
+          this.$root.$emit("showAlert", "Directions found!", "success");
+
           return true;
         } else {
-          console.log("Directions not found. Please try again");
+          this.$root.$emit(
+            "showAlert",
+            "Directions not found. Please try again.",
+            "failure"
+          );
           return false;
         }
       });

@@ -1,4 +1,4 @@
-import { en } from 'vuetify/lib/locale'
+import { en } from "vuetify/lib/locale";
 
 export default {
   ...en,
@@ -7,7 +7,7 @@ export default {
     "sign-in": {
       "create-account": "Create account",
       "forgot-email": "Forgot email?",
-      label: "Email or phone",
+      label: "Username",
       "learn-more": "Learn more",
       next: "Next",
       private: "Not your computer? Use a Private Window to sign in.",

@@ -1,6 +1,6 @@
 <template>
   <v-container
-    class="fill-height justify-center"
+    class="justify-center"
     :class="{ 'align-start': $vuetify.breakpoint.xsOnly }"
     fluid
   >

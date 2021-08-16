@@ -124,13 +124,13 @@
         <div id="map"></div>
         <v-alert
           :value="alert"
-          color="success"
+          :color="type"
           dark
           border="top"
           icon="mdi-bus-stop"
           transition="slide-y-transition"
         >
-          {{ alert }}
+          {{ message }}
         </v-alert>
       </v-main>
     </v-app>
@@ -142,6 +142,7 @@ export default {
   name: "App",
   components: {},
   data: () => ({
+    type: "success",
     message: "show alert? - ",
     alert: false,
     countDown: {
@@ -197,18 +198,19 @@ export default {
   }),
 
   mounted() {
-    this.$store.state.alert = {};
-    this.show_alert_and_fade();
-    this.$store.state.alert.show = true;
-    this.$store.state.alert.message = "test";
+    this.$root.$on("showAlert", (message, type) => {
+      this.show_alert_and_fade(message, type);
+    });
   },
   methods: {
-    show_alert_and_fade: function() {
+    show_alert_and_fade: function(message, type) {
+      this.message = message;
+      this.type = type;
       /* toogle alert on click */
       this.alert = !this.alert;
       /* hide alert after 3 seconds */
       this.resetTimer();
-      let myTimer
+      let myTimer;
       this.countDownTimer();
       /*  If alert visible - setTimeout() => only executed once */
       if (this.alert == true) {

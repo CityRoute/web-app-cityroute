@@ -2,13 +2,6 @@
   <div>
     <div class="text-center mb-4">
       <span class="text-h6 text--secondary">
-        <img
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          alt="Vuetify Logo"
-          width="24"
-          style="vertical-align: middle;"
-          class="mr-1"
-        >
         <span class="font-family-body">CityRoute</span>
       </span>
     </div>

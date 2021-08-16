@@ -35,14 +35,6 @@
       > -->
     </v-form>
 
-    <div class="text-body-2 text--secondary mb-8">
-      {{ $vuetify.lang.t("$vuetify.auth.sign-in.private") }}
-      <a
-        href="#"
-        class="d-inline-block text-none text-decoration-none font-weight-bold"
-        >{{ $vuetify.lang.t("$vuetify.auth.sign-in.learn-more") }}</a
-      >
-    </div>
     <div class="d-flex justify-space-between">
       <v-btn
         class="text-none letter-spacing-0"

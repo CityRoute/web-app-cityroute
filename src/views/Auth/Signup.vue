@@ -2,7 +2,7 @@
   <div>
     <v-container class="pa-0">
       <v-row align="center" justify="space-between">
-        <v-col cols="7">
+        <v-col>
           <div class="mb-4">
             <span class="text-h6 text--secondary">
               <img
@@ -135,14 +135,6 @@
               <router-view @next="$emit('next', $event)" />
             </transition> -->
           </div>
-        </v-col>
-
-        <v-col cols="4">
-          <img
-            src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-            alt="Vuetify Logo"
-            class="w-100 h-auto"
-          />
         </v-col>
       </v-row>
     </v-container>

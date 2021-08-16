@@ -3,16 +3,9 @@
     <div class="flex-grow-1">
       <slot />
     </div>
-    <login-footer />
   </div>
 </template>
 
 <script>
-import LoginFooter from './LoginFooter'
-
-export default {
-  components: {
-    LoginFooter
-  }
-}
+export default {};
 </script>

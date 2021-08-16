@@ -21,7 +21,7 @@
 
       <v-form v-on:submit.prevent="login">
         <v-text-field
-          class="mb-10"
+          class="mb-2"
           v-model="password"
           :append-icon="show ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
           :label="
@@ -35,22 +35,12 @@
         />
       </v-form>
 
-      <div class="d-flex justify-space-between">
-        <v-btn
-          class="text-none letter-spacing-0 font-weight-bold"
-          style="margin-left: -16px"
-          color="primary"
-          text
-          to="forgot-password"
-        >
-          {{
-            $vuetify.lang.t("$vuetify.auth.sign-in-password.forgot-password")
-          }}
-        </v-btn>
+      <div class="">
         <v-btn
           class="text-none"
-          style="min-width: 88px"
+          style="min-width: 88px;float: right;"
           color="primary"
+          align="right"
           depressed
           @click="login"
         >
