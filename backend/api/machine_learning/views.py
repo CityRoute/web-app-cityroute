@@ -135,27 +135,27 @@ def ModelPredictionView(request):
     # except Exception as e:
     #     print(e)
     #     # Try to predict with Stop Pair model instead
-    try:
+    # try:
         # print(request.query_params)
-        start_stop = request.query_params.get('start_stop').lower()
-        end_stop = request.query_params.get('end_stop').lower()
-        route_num = request.query_params.get('route_num')
-        num_stops = request.query_params.get('num_stops')
-        all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-        # all_stops = [7363, 4588, 4589, 7364, 7365]
-        print("all_stops", all_stops)
+    start_stop = request.query_params.get('start_stop').lower()
+    end_stop = request.query_params.get('end_stop').lower()
+    route_num = request.query_params.get('route_num')
+    num_stops = request.query_params.get('num_stops')
+    all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+    # all_stops = [7363, 4588, 4589, 7364, 7365]
+    print("all_stops", all_stops)
 
-        model_type = request.query_params.get('model_type').lower()
-        print(model_type)
-        
-        all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
-        print('pre-final features:', all_features)
-        pred = StopPairPrediction(all_stops, all_features)
-        print('Final Stop Pair Model prediction:', pred)
-        return Response({"prediction:": pred}, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({"error": "Error in getting journey time"},
-                    status=status.HTTP_404_NOT_FOUND)
+    model_type = request.query_params.get('model_type').lower()
+    print(model_type)
+    
+    all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
+    print('pre-final features:', all_features)
+    pred = StopPairPrediction(all_stops, all_features)
+    print('Final Stop Pair Model prediction:', pred)
+    return Response({"prediction:": pred}, status=status.HTTP_200_OK)
+    # except Exception as e:
+    #     return Response({"error": "Error in getting journey time"},
+    #                 status=status.HTTP_404_NOT_FOUND)
 
     
 
