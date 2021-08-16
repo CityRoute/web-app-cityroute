@@ -1,6 +1,18 @@
 /* eslint-disable no-undef */
 <template>
   <div class="map-container">
+    <v-alert
+      v-model="alert"
+      dismissible
+      color="cyan"
+      border="left"
+      elevation="2"
+      colored-border
+      icon="mdi-twitter"
+    >
+      You've got <strong>5</strong> new updates on your timeline!.
+    </v-alert>
+
     <v-card flat v-if="isDirections">
       <v-card-text>
         <v-text-field
@@ -43,7 +55,7 @@
             ></v-col
           >
           <v-col>
-            <v-btn @click="showRoute()">
+            <v-btn @click="showRoute()" :disabled="!(time && origin && destination)">
               Get Directions
             </v-btn>
           </v-col>
@@ -348,6 +360,7 @@ export default {
     },
   },
   data: () => ({
+    alert: true,
     total_duration: 0,
     sharing: {
       url: window.location.href,
@@ -877,6 +890,7 @@ function initMap() {
   directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
     map,
+    polylineOptions: { strokeColor: "#2962ff" },
     panel: document.getElementById("card"),
   });
   directionsDisplay.setMap(map);
