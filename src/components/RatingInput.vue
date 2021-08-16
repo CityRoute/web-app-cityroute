@@ -157,6 +157,7 @@ export default {
   },
   methods: {
     writeReview() {
+      let self = this;
       axios
         .post("/api/write-review/", null, {
           headers: {
@@ -173,8 +174,15 @@ export default {
         })
         .then(function(response) {
           console.log(response);
+          self.$root.$emit("showAlert", "Review has been posted!", "success");
         })
         .catch(function(error) {
+          self.$root.$emit(
+            "showAlert",
+            "Review could not be posted. Please try again.",
+            "failure"
+          );
+
           console.log(error);
         });
     },

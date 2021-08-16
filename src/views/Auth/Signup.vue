@@ -5,12 +5,6 @@
         <v-col>
           <div class="mb-4">
             <span class="text-h6 text--secondary">
-              <img
-                src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-                alt=""
-                width="24"
-                style="vertical-align: middle"
-              />
               {{ $vuetify.lang.t("$vuetify.auth.sign-up.title") }}
             </span>
           </div>
@@ -69,7 +63,6 @@
                 name="login"
                 type="text"
                 hide-details="auto"
-                :hint="$vuetify.lang.t('$vuetify.auth.sign-up.email-hint')"
                 persistent-hint
                 outlined
                 :error-messages="error"
@@ -168,9 +161,20 @@ export default {
         })
         .then(() => {
           this.$router.push({ name: "signin" });
+          this.$root.$emit(
+            "showAlert",
+            "Sign up successful. Please login!",
+            "success"
+          );
         })
         .catch((err) => {
           // console.log(err);
+          this.$root.$emit(
+            "showAlert",
+            "Sign up unsuccessful. Please try again.",
+            "success"
+          );
+
           this.incorrectAuth = true;
         });
     },

@@ -643,6 +643,8 @@ export default {
         this.currentLocation("origin");
       } else {
         this.sheet = true;
+        this.$forceUpdate();
+
         this.calcRoute(this.origin, this.destination);
       }
     },

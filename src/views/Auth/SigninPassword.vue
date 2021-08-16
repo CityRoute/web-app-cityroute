@@ -75,9 +75,15 @@ export default {
         })
         .then(() => {
           this.$router.push({ name: "MyAccount" });
+          this.$root.$emit("showAlert", "Welcome back!", "success");
         })
         .catch((err) => {
           // console.log(err);
+          this.$root.$emit(
+            "showAlert",
+            "Could not login. Please try again.",
+            "failure"
+          );
           this.incorrectAuth = true;
         });
     },
