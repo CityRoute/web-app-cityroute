@@ -59,7 +59,7 @@ stop_model_required_features = [
 ]
 
 stop_pair_model_required_features = [
-    'DWELLTIME',
+    # 'DWELLTIME', # added into array right before prediciton
     'rain_1h',
     'MONTHOFSERVICE_April',
     'MONTHOFSERVICE_August',
@@ -106,55 +106,56 @@ def ModelPredictionView(request):
     """
     Retrieve the stop to stop model result
     """
+    # try:
+    #     # print(request.query_params)
+    #     start_stop = request.query_params.get('start_stop').lower()
+    #     end_stop = request.query_params.get('end_stop').lower()
+    #     route_num = request.query_params.get('route_num')
+    #     num_stops = request.query_params.get('num_stops')
+
+    #     all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
+
+    #     print("all_stops", all_stops)
+    #     model_type = request.query_params.get('model_type').lower()
+    #     print(model_type)
+        
+    #     if model_type == 'route':
+    #         all_features = GetAllRequiredFeatures(
+    #             route_model_required_features)
+    #         print("all_features", all_features, " length of array:",
+    #               len(all_features))
+    #         prediction = RoutePrediction(all_stops, all_features, route_num)
+
+    #     else:
+    #         all_features = GetAllRequiredFeatures(stop_model_required_features)
+    #         print("all_features", all_features, " length of array:",
+    #               len(all_features))
+    #         prediction = StopPrediction(all_stops, all_features)
+    #     return Response({"prediction": prediction}, status=status.HTTP_200_OK)
+    # except Exception as e:
+    #     print(e)
+    #     # Try to predict with Stop Pair model instead
     try:
         # print(request.query_params)
         start_stop = request.query_params.get('start_stop').lower()
         end_stop = request.query_params.get('end_stop').lower()
         route_num = request.query_params.get('route_num')
         num_stops = request.query_params.get('num_stops')
-
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-
+        # all_stops = [7363, 4588, 4589, 7364, 7365]
         print("all_stops", all_stops)
+
         model_type = request.query_params.get('model_type').lower()
         print(model_type)
         
-        if model_type == 'route':
-            all_features = GetAllRequiredFeatures(
-                route_model_required_features)
-            print("all_features", all_features, " length of array:",
-                  len(all_features))
-            prediction = RoutePrediction(all_stops, all_features, route_num)
-
-        else:
-            all_features = GetAllRequiredFeatures(stop_model_required_features)
-            print("all_features", all_features, " length of array:",
-                  len(all_features))
-            prediction = StopPrediction(all_stops, all_features)
-        return Response({"prediction": prediction}, status=status.HTTP_200_OK)
+        all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
+        print('pre-final features:', all_features)
+        pred = StopPairPrediction(all_stops, all_features)
+        print('Final Stop Pair Model prediction:', pred)
+        return Response({"prediction:": pred}, status=status.HTTP_200_OK)
     except Exception as e:
-        print(e)
-        # Try to predict with Stop Pair model instead
-        try:
-            # print(request.query_params)
-            start_stop = request.query_params.get('start_stop').lower()
-            end_stop = request.query_params.get('end_stop').lower()
-            route_num = request.query_params.get('route_num')
-            num_stops = request.query_params.get('num_stops')
-            # all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-            all_stops = [7363, 4588, 4589, 7364, 7365]
-            print("all_stops", all_stops)
-
-            model_type = request.query_params.get('model_type').lower()
-            print(model_type)
-            
-            all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
-            pred = StopPairPrediction(all_stops, all_features)
-            print('Stop Pair Model prediction:', pred)
-            return Response({"prediction:": pred}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": "Error in getting journey time"},
-                        status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "Error in getting journey time"},
+                    status=status.HTTP_404_NOT_FOUND)
 
     
 
@@ -225,6 +226,9 @@ def StopPairPrediction(all_stops, all_features):
     """
     Retrieve the stop pair model prediction
     """
+    if all_stops == []:
+        print("Could not make prediction")
+        return None
     prediction = 0
     # List of stops that are the first stop for any route
     first_stop =  RouteStop.objects.filter(stopnumber=all_stops[0]).first() # many RouteStops with the same number, only need to look at 1 (eg. first)
@@ -247,10 +251,13 @@ def StopPairPrediction(all_stops, all_features):
             # Get dwell time
             current_stop = Stop.objects.get(number=current)
             dwell_time = getattr(current_stop, 'avg_dwelltime')
-            all_features = np.insert(all_features, 0, dwell_time)
+            print('dwelltime:', dwell_time)
+            all_features = numpy.insert(all_features, 0, dwell_time)
+            print('final features:', all_features)
             # Running prediction
             prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
-    
+            print(prediction)
+            all_features = numpy.delete(all_features, 0) # remove the dwelltime that was inserted
     else:
         for previous, current in zip(all_stops, all_stops[1:]):
             filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
@@ -260,9 +267,13 @@ def StopPairPrediction(all_stops, all_features):
             # Get dwell time
             current_stop = Stop.objects.get(number=current)
             dwell_time = getattr(current_stop, 'avg_dwelltime')
-            all_features = np.insert(all_features, 0, dwell_time)
+            print('dwelltime:', dwell_time)
+            all_features = numpy.insert(all_features, 0, dwell_time)
+            print('final features:', all_features)
             # Running prediction
             prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
+            print(prediction)
+            all_features = numpy.delete(all_features, 0) # remove the dwelltime that was inserted
     
     return prediction[0]
 
@@ -483,7 +494,6 @@ def GetDatetimeFeatures(dt, stop_number=7365): # stop arg only applies to stop-p
         'IS_HOLIDAY_0',
         'IS_WEEKDAY_1',
         'IS_WEEKDAY_0',
-        'DWELLTIME',
         'eve_rushour_0',
         'eve_rushour_1',
         'morn_rushour_0',
@@ -522,8 +532,8 @@ def GetDatetimeFeatures(dt, stop_number=7365): # stop arg only applies to stop-p
                                               if int(dt.weekday()) < 5 else 1)
 
 
-    stop = Stop.objects.get(number=stop_number)
-    datetime_features_dict["DWELLTIME"] = getattr(stop, 'avg_dwelltime')
+    # stop = Stop.objects.get(number=stop_number)
+    # datetime_features_dict["DWELLTIME"] = getattr(stop, 'avg_dwelltime')
     # print(getattr(stop, 'avg_dwelltime'))
 
     datetime_features_dict['eve_rushour'] = (1 if int(dt.hour) >= 16 and int(dt.hour) <= 19 else 0)
