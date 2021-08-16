@@ -1,127 +1,140 @@
 <template>
-  <v-app>
-    <v-navigation-drawer
-      app
-      v-model="drawer"
-      :mini-variant.sync="mini"
-      permanent
-      :expand-on-hover="$vuetify.breakpoint.mdAndUp"
-      class="blue accent-4"
-      dark
-    >
-      <v-list-item class="px-2">
-        <v-list-item-avatar>
-          <v-icon large>
-            mdi-bus-articulated-front
-          </v-icon>
-        </v-list-item-avatar>
-
-        <v-list-item-title>CityRoute</v-list-item-title>
-
-        <v-btn icon @click.stop="mini = !mini">
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item
-          v-for="item in filtered_items"
-          :key="item.title"
-          :to="item.link"
-          link
-          @click="showSheet()"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      
-      <template v-slot:append>
-        <div class="pa-2">
-          <v-btn block class="text-right" @click="darkMap()">
-            <v-icon left>
-              mdi-brightness-4
-            </v-icon>
-            <span v-if="!$vuetify.theme.dark">
-              Dark Mode
-            </span>
-            <span v-else>
-              Light Mode
-            </span>
-          </v-btn>
-        </div>
-      </template>
-    </v-navigation-drawer>
-    <v-main v-if="$vuetify.breakpoint.mdAndDown">
-      <div height="30vh">
-        <div id="map" style="height:30vh;"></div>
-        <div style="height:70vh; overflow-y: auto;">
-          <router-view />
-        </div>
-      </div>
-    </v-main>
-
-    <v-main v-else>
+  <div>
+    <v-app>
       <v-navigation-drawer
-        v-if="$vuetify.breakpoint.mdAndUp"
-        absolute
-        width="30vw"
-        id="MapOptions"
+        app
+        v-model="drawer"
+        :mini-variant.sync="mini"
+        permanent
+        :expand-on-hover="$vuetify.breakpoint.mdAndUp"
+        class="blue accent-4"
+        dark
       >
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-h4">
-              <v-icon large>mdi-bus-stop-covered</v-icon>
-              CityRoute
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              Dublin Bus Directions Service
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-spacer></v-spacer>
-        <router-view />
-      </v-navigation-drawer>
+        <v-list-item class="px-2">
+          <v-list-item-avatar>
+            <v-icon large>
+              mdi-bus-articulated-front
+            </v-icon>
+          </v-list-item-avatar>
 
-      <div class="text-center" v-else>
-        <v-bottom-sheet scrollable v-model="sheet" inset>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              id="thebutton"
-              fab
-              fixed
-              bottom
-              dark
-              v-bind="attrs"
-              v-on="on"
-              color="blue darken-2"
-            >
-              <v-icon>
-                mdi-account-circle
+          <v-list-item-title>CityRoute</v-list-item-title>
+
+          <v-btn icon @click.stop="mini = !mini">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
+        <v-list>
+          <v-list-item
+            v-for="item in filtered_items"
+            :key="item.title"
+            :to="item.link"
+            link
+            @click="showSheet()"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+
+        <template v-slot:append>
+          <div class="pa-2">
+            <v-btn block class="text-right" @click="darkMap()">
+              <v-icon left>
+                mdi-brightness-4
               </v-icon>
+              <span v-if="!$vuetify.theme.dark">
+                Dark Mode
+              </span>
+              <span v-else>
+                Light Mode
+              </span>
             </v-btn>
-          </template>
-          <v-card class="text-center">
-            <v-card-title>Select Country</v-card-title>
-            <v-card-text style="height: 50vh;">
-              <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
-                close
+          </div>
+        </template>
+      </v-navigation-drawer>
+      <v-main v-if="$vuetify.breakpoint.mdAndDown">
+        <div height="30vh">
+          <div id="map" style="height:30vh;"></div>
+          <div style="height:70vh; overflow-y: auto;">
+            <router-view />
+          </div>
+        </div>
+      </v-main>
+
+      <v-main v-else>
+        <v-navigation-drawer
+          v-if="$vuetify.breakpoint.mdAndUp"
+          absolute
+          width="30vw"
+          id="MapOptions"
+        >
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-h4">
+                <v-icon large>mdi-bus-stop-covered</v-icon>
+                CityRoute
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                Dublin Bus Directions Service
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-spacer></v-spacer>
+          <router-view />
+        </v-navigation-drawer>
+
+        <div class="text-center" v-else>
+          <v-bottom-sheet scrollable v-model="sheet" inset>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                id="thebutton"
+                fab
+                fixed
+                bottom
+                dark
+                v-bind="attrs"
+                v-on="on"
+                color="blue darken-2"
+              >
+                <v-icon>
+                  mdi-account-circle
+                </v-icon>
               </v-btn>
-              <router-view />
-            </v-card-text>
-          </v-card>
-        </v-bottom-sheet>
-      </div>
-      <div id="map"></div>
-    </v-main>
-  </v-app>
+            </template>
+            <v-card class="text-center">
+              <v-card-title>Select Country</v-card-title>
+              <v-card-text style="height: 50vh;">
+                <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
+                  close
+                </v-btn>
+                <router-view />
+              </v-card-text>
+            </v-card>
+          </v-bottom-sheet>
+        </div>
+
+        <div id="map"></div>
+        <v-alert
+          :value="alert"
+          color="success"
+          dark
+          border="top"
+          icon="mdi-bus-stop"
+          transition="slide-y-transition"
+        >
+          {{ alert }}
+        </v-alert>
+      </v-main>
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -129,6 +142,13 @@ export default {
   name: "App",
   components: {},
   data: () => ({
+    message: "show alert? - ",
+    alert: false,
+    countDown: {
+      timer: "10",
+      show: false,
+    },
+
     sheet: true,
     model: null,
     text: null,
@@ -175,9 +195,58 @@ export default {
       },
     ],
   }),
-  
-  mounted: {},
+
+  mounted() {
+    this.$store.state.alert = {};
+    this.show_alert_and_fade();
+    this.$store.state.alert.show = true;
+    this.$store.state.alert.message = "test";
+  },
   methods: {
+    show_alert_and_fade: function() {
+      /* toogle alert on click */
+      this.alert = !this.alert;
+      /* hide alert after 3 seconds */
+      this.resetTimer();
+      let myTimer
+      this.countDownTimer();
+      /*  If alert visible - setTimeout() => only executed once */
+      if (this.alert == true) {
+        myTimer = window.setTimeout(() => {
+          this.alert = false;
+          console.log("Case 1: Time ends - hide alert");
+        }, 3000);
+      } else {
+        /* If alert hidden - clear setTimeout */
+        console.log("Case 2: User Hide alert by click - stop setTimeout");
+        clearTimeout(myTimer);
+        this.resetTimer();
+      }
+    },
+    dismissible_close(value) {
+      this.alert = value;
+      this.resetTimer();
+    },
+    /*  recursion function - run time if remain time and alert if visible */
+    countDownTimer() {
+      if (this.countDown.timer > 0 && this.alert) {
+        this.countDown.show = true;
+        var myTimer = setTimeout(() => {
+          this.countDown.timer -= 1;
+          this.countDownTimer();
+        }, 1000);
+      } else {
+        /* do something */
+        this.resetTimer();
+      }
+    },
+    resetTimer() {
+      this.countDown.timer = 3;
+    },
+    hideTimer() {
+      this.countDown.show = false;
+    },
+
     darkMap() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
@@ -198,6 +267,15 @@ export default {
 </script>
 
 <style>
+.v-alert {
+  left: 75%;
+  width: 20vw;
+  position: fixed !important;
+  top: 50px;
+  /* transform: translate(-50%, -50%); */
+  margin: 0 auto;
+}
+
 html {
   scrollbar-width: none; /* For Firefox */
   -ms-overflow-style: none; /* For Internet Explorer and Edge */

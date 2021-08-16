@@ -1,18 +1,6 @@
 /* eslint-disable no-undef */
 <template>
   <div class="map-container">
-    <v-alert
-      v-model="alert"
-      dismissible
-      color="cyan"
-      border="left"
-      elevation="2"
-      colored-border
-      icon="mdi-twitter"
-    >
-      You've got <strong>5</strong> new updates on your timeline!.
-    </v-alert>
-
     <v-card flat v-if="isDirections">
       <v-card-text>
         <v-text-field
@@ -55,7 +43,10 @@
             ></v-col
           >
           <v-col>
-            <v-btn @click="showRoute()" :disabled="!(time && origin && destination)">
+            <v-btn
+              @click="showRoute()"
+              :disabled="!(time && origin && destination)"
+            >
               Get Directions
             </v-btn>
           </v-col>
@@ -151,13 +142,8 @@ import {
 } from "@mdi/js";
 import $ from "jquery";
 import axios from "axios";
-import RouteViewer from "./RouteViewer.vue";
-import BusStopSearch from "./BusStopSearch.vue";
-import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import Landmarks from "./Landmarks.vue";
 import landmarks_data from "../assets/landmarks.json";
-import Favourite from "./Favourite.vue";
 import stops from "../assets/stops.json";
 function offsetMap() {
   if (routeBounds !== false) {
@@ -869,7 +855,12 @@ export default {
     this.initAutocomplete();
   },
   updated() {},
-  components: { DatePicker, BusStopSearch, Landmarks, Favourite, RouteViewer },
+  components: {
+    DatePicker: () => import("vue2-datepicker"),
+    BusStopSearch: () => import("./BusStopSearch.vue"),
+    Favourite: () => import("./Favourite.vue"),
+    RouteViewer: () => import("./RouteViewer.vue"),
+  },
 };
 let directionsDisplay;
 let map;

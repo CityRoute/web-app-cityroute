@@ -1,19 +1,20 @@
 import Vue from "vue";
-import Router from "vue-router";
-import BusMap from "@/components/BusMap.vue";
-import News from "@/views/News.vue";
-import Login from "@/views/Login.vue";
-import Logout from "@/views/Logout.vue";
-import MyAccount from "@/views/MyAccount.vue";
+import Router from "vue-router"
+const News = () => import("@/views/News.vue");
+const Login = () => import("@/views/Login.vue");
+const Logout = () => import("@/views/Logout.vue");
+const MyAccount = () => import("@/views/MyAccount.vue");
+const Auth = () => import("@/views/Auth/Auth.vue");
+const Signin = () => import("@/views/Auth/Signin.vue");
+const SigninIdentifier = () => import("@/views/Auth/SigninIdentifier.vue");
+const SigninPassword = () => import("@/views/Auth/SigninPassword.vue");
+const SigninForgotPassword = () =>
+  import("@/views/Auth/SigninForgotPassword.vue");
+const SigninForgotPasswordReset = () =>
+  import("@/views/Auth/SigninForgotPasswordReset.vue");
+const Signup = () => import("@/views/Auth/Signup.vue");
 
-import Auth from "@/views/Auth/Auth";
-import Signin from "@/views/Auth/Signin";
-import SigninIdentifier from "@/views/Auth/SigninIdentifier";
-import SigninPassword from "@/views/Auth/SigninPassword";
-import SigninForgotPassword from "@/views/Auth/SigninForgotPassword";
-import SigninForgotPasswordReset from "@/views/Auth/SigninForgotPasswordReset";
-
-import Signup from "@/views/Auth/Signup";
+const BusMap = () => import("@/components/BusMap.vue");
 
 Vue.use(Router);
 
