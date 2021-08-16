@@ -36,8 +36,12 @@
               type="datetime"
               close-on-complete
               format="DD, MMM - hh:mm"
-            ></date-picker
-          ></v-col>
+              clearable
+              :disabled-date="disabledRange"
+            >
+              ></date-picker
+            ></v-col
+          >
           <v-col>
             <v-btn @click="showRoute()">
               Get Directions
@@ -376,7 +380,7 @@ export default {
     mapCenter: (0, 0),
     origin: "",
     destination: "",
-    time: null,
+    time: new Date(),
     open: false,
     sheet: false,
     date: "new Date()",
@@ -479,6 +483,10 @@ export default {
     },
   },
   methods: {
+    disabledRange: function(date) {
+      return date > new Date(Date.now() + 12096e5) || date < new Date();
+    },
+
     addFavourite() {
       axios
         .post(
@@ -648,6 +656,7 @@ export default {
             start_stop: step["transit"]["departure_stop"].name,
             end_stop: step["transit"]["arrival_stop"].name,
             num_stops: step["transit"]["num_stops"],
+            date_time: this.time,
           },
         })
         .then((response) => {
@@ -678,7 +687,7 @@ export default {
         destination: end,
         travelMode: travel_mode,
         drivingOptions: {
-          departureTime: new Date(this.time),
+          departureTime: this.time,
           trafficModel: "pessimistic",
         },
       };

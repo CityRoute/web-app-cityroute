@@ -70,19 +70,22 @@ def ModelPredictionView(request):
         end_stop = request.query_params.get('end_stop').lower()
         route_num = request.query_params.get('route_num')
         num_stops = request.query_params.get('num_stops')
-
+        date_time = request.query_params.get('date_time')
+        py_date_time = datetime.datetime.strptime(date_time,
+                                                  '%Y-%m-%dT%H:%M:%S.%fZ')
         all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
         print("all_stops", all_stops)
         model_type = request.query_params.get('model_type').lower()
         print(model_type)
         if model_type == 'route':
             all_features = GetAllRequiredFeatures(
-                route_model_required_features)
+                route_model_required_features, py_date_time)
             print("all_features", all_features, " length of array:",
                   len(all_features))
             prediction = RoutePrediction(all_stops, all_features, route_num)
         else:
-            all_features = GetAllRequiredFeatures(stop_model_required_features)
+            all_features = GetAllRequiredFeatures(stop_model_required_features,
+                                                  py_date_time)
             print("all_features", all_features, " length of array:",
                   len(all_features))
             prediction = StopPrediction(all_stops, all_features)
@@ -222,8 +225,7 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
         relevant_stops = RouteStop.objects.filter(
             routeid=route_model,
             outbound_yn=True,
-            order__range=(relevant_start_stop.order,
-                            relevant_end_stop.order))
+            order__range=(relevant_start_stop.order, relevant_end_stop.order))
     elif start_stop_model != None:
         outbound_yn = start_stop_model.routestops.values(
             'outbound_yn')[0]['outbound_yn']
@@ -237,7 +239,7 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
             routeid=route_model,
             outbound_yn=True,
             order__range=(relevant_start_stop.order,
-                            relevant_start_stop.order + num_stops))
+                          relevant_start_stop.order + num_stops))
     elif end_stop_model != None:
         outbound_yn = end_stop_model.routestops.values(
             'outbound_yn')[0]['outbound_yn']
@@ -251,7 +253,7 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
             routeid=route_model,
             outbound_yn=False,
             order__range=(relevant_end_stop.order - num_stops,
-                            relevant_end_stop.order))
+                          relevant_end_stop.order))
     else:
         return []
     # get the stops as a list of dictionaries
@@ -263,11 +265,14 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     return relevant_stops
 
 
-def GetAllRequiredFeatures(required_features=None):
+def GetAllRequiredFeatures(required_features=None, date_time=None):
     if required_features is None:
         return None
     # use current date for datetime features & weather features
-    dt = datetime.datetime.today()
+    if date_time is None:
+        dt = datetime.datetime.now()
+    else:
+        dt = date_time
 
     # get datetime features
     datetime_features_dict = GetDatetimeFeatures(dt)
