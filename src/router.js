@@ -1,20 +1,5 @@
 import Vue from "vue";
-import Router from "vue-router"
-const News = () => import("@/views/News.vue");
-const Login = () => import("@/views/Login.vue");
-const Logout = () => import("@/views/Logout.vue");
-const MyAccount = () => import("@/views/MyAccount.vue");
-const Auth = () => import("@/views/Auth/Auth.vue");
-const Signin = () => import("@/views/Auth/Signin.vue");
-const SigninIdentifier = () => import("@/views/Auth/SigninIdentifier.vue");
-const SigninPassword = () => import("@/views/Auth/SigninPassword.vue");
-const SigninForgotPassword = () =>
-  import("@/views/Auth/SigninForgotPassword.vue");
-const SigninForgotPasswordReset = () =>
-  import("@/views/Auth/SigninForgotPasswordReset.vue");
-const Signup = () => import("@/views/Auth/Signup.vue");
-
-const BusMap = () => import("@/components/BusMap.vue");
+import Router from "vue-router";
 
 Vue.use(Router);
 
@@ -23,53 +8,49 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: BusMap,
+      component: () => import("@/components/BusMap.vue"),
       children: [
         {
           path: "directions",
-          component: BusMap,
+          component: () => import("@/components/BusMap.vue"),
         },
         {
           path: "route-viewer",
-          component: BusMap,
+          component: () => import("@/components/BusMap.vue"),
         },
         {
           path: "stop-finder",
-          component: BusMap,
+          component: () => import("@/components/BusMap.vue"),
         },
         {
           path: "landmarks",
-          component: BusMap,
+          component: () => import("@/components/BusMap.vue"),
         },
         {
           path: "favourites",
-          component: BusMap,
+          component: () => import("@/components/BusMap.vue"),
         },
       ],
     },
     {
       path: "/ratings",
       name: "Ratings",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "@/views/Rating.vue"),
+      component: () => import("@/views/Rating.vue"),
     },
     {
       path: "/news",
       name: "News",
-      component: News,
+      component: () => import("@/views/News.vue"),
     },
     {
       path: "/login",
       name: "Login",
-      component: Login,
+      component: () => import("@/views/Login.vue"),
     },
     {
       path: "/logout",
       name: "Logout",
-      component: Logout,
+      component: () => import("@/views/Logout.vue"),
       meta: {
         requiresLogin: true,
       },
@@ -77,44 +58,45 @@ export default new Router({
     {
       path: "/myaccount",
       name: "MyAccount",
-      component: MyAccount,
+      component: () => import("@/views/MyAccount.vue"),
       meta: {
         requiresLogin: true,
       },
     },
     {
       path: "/auth",
-      component: Auth,
+      component: () => import("@/views/Auth/Auth.vue"),
       children: [
         {
           path: "signin",
-          component: Signin,
+          component: () => import("@/views/Auth/Signin.vue"),
           children: [
             {
               path: "identifier",
               name: "signin",
-              component: SigninIdentifier,
+              component: () => import("@/views/Auth/SigninIdentifier.vue"),
             },
             {
               path: "password",
               name: "password",
-              component: SigninPassword,
+              component: () => import("@/views/Auth/SigninPassword.vue"),
             },
             {
               path: "forgot-password",
               name: "forgot-password",
-              component: SigninForgotPassword,
+              component: () => import("@/views/Auth/SigninForgotPassword.vue"),
             },
             {
               path: "forgot-password-reset",
               name: "forgot-password-reset",
-              component: SigninForgotPasswordReset,
+              component: () =>
+                import("@/views/Auth/SigninForgotPasswordReset.vue"),
             },
           ],
         },
         {
           path: "signup",
-          component: Signup,
+          component: () => import("@/views/Auth/Signup.vue"),
           name: "signup",
         },
       ],
