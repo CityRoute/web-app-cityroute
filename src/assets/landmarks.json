@@ -3687,6 +3687,14 @@
       "lng": "-6.26640729999997",
       "category": "Arts, Theatre & Comedy|Music|",
       "is_venue": "True"
+    },
+    {
+      "name": "University College Dublin",
+      "address": "University College Dublin, Belfield, Dublin 4",
+      "lat": "53.30632996513296",
+      "lng": "-6.225022912755017",
+      "category": "College",
+      "is_venue": "False"
     }
   ]
 }
