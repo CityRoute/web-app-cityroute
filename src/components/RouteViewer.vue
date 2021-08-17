@@ -54,6 +54,7 @@
       <v-btn
         :disabled="!model"
         color="green darken-3"
+        style="color:white"
         @click="saveToFavourites"
         v-if="this.$store.getters.loggedIn"
       >
@@ -65,14 +66,24 @@
     </v-card-actions>
 
     <v-card-actions class="justify-center">
-      <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
+      <v-btn
+        style="color:white"
+        :disabled="!model"
+        color="blue darken-3"
+        @click="showOnMap"
+      >
         Show on Map
         <v-icon right>
           mdi-map
         </v-icon>
       </v-btn>
 
-      <v-btn :disabled="!model" color="grey darken-3" @click="model = null">
+      <v-btn
+        style="color:white"
+        :disabled="!model"
+        color="grey darken-3"
+        @click="model = null"
+      >
         Clear
         <v-icon right>
           mdi-close-circle

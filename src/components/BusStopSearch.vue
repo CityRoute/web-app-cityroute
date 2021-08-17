@@ -6,10 +6,7 @@
     <v-card-text>
       Explore hundreds of bus stops in and around Dublin! For more information
       visit
-      <a
-        class=""
-        href="https://www.dublinbus.ie"
-        target="_blank"
+      <a class="" href="https://www.dublinbus.ie" target="_blank"
         >the Official Wesbite</a
       >.
     </v-card-text>
@@ -59,7 +56,8 @@
       </v-btn>
       <v-btn
         :disabled="!model"
-        color="blue darken-3"
+        color="green darken-3"
+        style="color:white"
         v-on:click="getDirections()"
       >
         Get Directions
@@ -70,14 +68,24 @@
     </v-card-actions>
 
     <v-card-actions class="justify-center">
-      <v-btn :disabled="!model" color="blue darken-3" @click="showOnMap">
+      <v-btn
+        :disabled="!model"
+        color="blue darken-3"
+        style="color:white"
+        @click="showOnMap"
+      >
         Show on Map
         <v-icon right>
           mdi-map
         </v-icon>
       </v-btn>
 
-      <v-btn :disabled="!model" color="grey darken-3" @click="model = null">
+      <v-btn
+        :disabled="!model"
+        color="grey darken-3"
+        style="color:white"
+        @click="model = null"
+      >
         Clear
         <v-icon right>
           mdi-close-circle
@@ -146,21 +154,19 @@ export default {
     showSchedule() {
       console.log(this.model);
       this.isFetching = true;
-      // let stop_desc = this.model.Description + "";
+      let stop_desc = this.model.Description + "";
       // console.log(this.model.number);
       stop_desc = stop_desc.split(" ");
-
+      let stop_num = stop_desc[stop_desc.length - 1];
       var self = this;
-
       axios
         .get("api/bus-stop-times/" + this.model.number)
         .then(function(response) {
           self.info = response.data;
+          bus_stop_times_div += 1;
           this.$parent.refresh();
         })
-        .catch((e) => {
-          console.log(e);
-        });
+        .catch((e) => {});
       this.isFetching = false;
     },
   },
