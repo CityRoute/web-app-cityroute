@@ -1,10 +1,17 @@
 <template>
   <v-container>
+    <v-card-title class="text-h5">
+      Reviews
+    </v-card-title>
+
     <Rating
       v-for="review in reviews"
       :content="review.content"
       :route="review.routeid"
       :key="review"
+      :accuracy_rating="review.accuracy_rating"
+      :clean_rating="review.clean_rating"
+      :speed_rating="review.speed_rating"
     />
     <v-fab-transition>
       <v-btn
@@ -52,7 +59,8 @@ export default {
   },
   async mounted() {
     const { data } = await axios.get(`/api/reviews-all/`);
-    this.reviews = data;
+    console.log(data);
+    this.reviews = data.reverse();
   },
   data: () => ({
     reviews: [],
@@ -65,7 +73,7 @@ export default {
     async updateSheet() {
       this.sheet = !this.sheet;
       const { data } = await axios.get(`/api/reviews-all/`);
-      this.reviews = data;
+      this.reviews = data.reverse();
     },
   },
 };
