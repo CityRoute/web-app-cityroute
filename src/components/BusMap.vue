@@ -83,7 +83,7 @@
             :network="network.network"
             :key="network.network"
             :style="{ backgroundColor: network.color }"
-            :url="sharing.url"
+            :url="sharingLink"
             :title="sharing.title"
             :description="sharing.description"
             :quote="sharing.quote"
@@ -322,6 +322,9 @@ var rightMargin = 80;
 export default {
   name: "BusMap",
   computed: {
+    sharingLink() {
+      return window.location.href;
+    },
     placeholder() {
       return "";
     },
@@ -349,7 +352,6 @@ export default {
     alert: true,
     total_duration: 0,
     sharing: {
-      url: window.location.href,
       title: "CityRoute directions",
       description: "Thanks for your using our route planner!",
       hashtags: "cityroute,dublinbus",
