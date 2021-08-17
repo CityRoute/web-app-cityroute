@@ -3,9 +3,15 @@
     <v-card-title class="text-h5">
       Reviews
     </v-card-title>
+          <v-text-field
+            v-model="search"
+            solo
+            label="Search"
+            clearable
+          ></v-text-field>
 
     <Rating
-      v-for="review in reviews"
+      v-for="review in filteredItems"
       :content="review.content"
       :route="review.routeid"
       :key="review"
@@ -42,7 +48,10 @@
       transition="dialog-bottom-transition"
       max-width="600"
     >
-      <RatingInput v-on:submit-review="updateSheet()" />
+      <RatingInput
+        v-on:submit-review="updateSheet()"
+        v-on:close-sheet="closeSheet()"
+      />
     </v-dialog>
   </v-container>
 </template>
@@ -64,9 +73,26 @@ export default {
   },
   data: () => ({
     reviews: [],
+    search: "",
     sheet: false,
   }),
+  computed: {
+    filteredItems() {
+      let filtered_items = this.reviews.filter((item) => {
+        if (!this.search) return this.reviews;
+        return (
+          item.content.toLowerCase().includes(this.search.toLowerCase()) ||
+          item.routeid.toLowerCase().includes(this.search.toLowerCase())
+        );
+      });
+      return filtered_items;
+    },
+  },
+
   methods: {
+    closeSheet() {
+      this.sheet = false;
+    },
     updateInput(value, id) {
       console.log(value, id);
     },
