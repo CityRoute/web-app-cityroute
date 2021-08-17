@@ -18,6 +18,17 @@
       >
         <v-icon>mdi-bus</v-icon> Rate
       </v-btn>
+      <v-btn
+        v-else
+        @click="$router.push({ name: 'MyAccount' })"
+        large
+        dark
+        bottom
+        left
+        class="v-btn--example"
+      >
+        <v-icon>mdi-bus</v-icon> Login to review
+      </v-btn>
     </v-fab-transition>
     <v-dialog
       v-model="sheet"
