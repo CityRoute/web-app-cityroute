@@ -1,13 +1,13 @@
 <template>
-  <v-card color="blue lighten-2" dark>
-    <v-card-title class="text-h5 blue lighten-3">
+  <v-card color="yellow lighten-2">
+    <v-card-title class="text-h5 yellow">
       Search for your Stop
     </v-card-title>
     <v-card-text>
       Explore hundreds of bus stops in and around Dublin! For more information
       visit
       <a
-        class="grey--text text--lighten-3"
+        class=""
         href="https://www.dublinbus.ie"
         target="_blank"
         >the Official Wesbite</a

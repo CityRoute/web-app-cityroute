@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <v-container>
     <Rating
       v-for="review in reviews"
       :content="review.content"
@@ -8,6 +8,7 @@
     />
     <v-fab-transition>
       <v-btn
+        v-if="this.$store.getters.loggedIn"
         @click="sheet = !sheet"
         large
         dark
@@ -25,7 +26,7 @@
     >
       <RatingInput v-on:submit-review="updateSheet()" />
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -50,8 +51,10 @@ export default {
     updateInput(value, id) {
       console.log(value, id);
     },
-    updateSheet() {
+    async updateSheet() {
       this.sheet = !this.sheet;
+      const { data } = await axios.get(`/api/reviews-all/`);
+      this.reviews = data;
     },
   },
 };

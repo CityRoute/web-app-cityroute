@@ -1,16 +1,12 @@
 <template>
-  <v-card color="blue lighten-2" dark>
-    <v-card-title class="text-h5 blue lighten-3">
+  <v-card color="yellow lighten-2">
+    <v-card-title class="text-h5 yellow">
       Search for your Route
     </v-card-title>
     <v-card-text>
       Explore hundreds of bus routes in and around Dublin! For more information
       visit
-      <a
-        class="grey--text text--lighten-3"
-        href="https://www.dublinbus.ie"
-        target="_blank"
-        >the Official Wesbite</a
+      <a href="https://www.dublinbus.ie" target="_blank">the Official Wesbite</a
       >.
     </v-card-text>
     <v-card-text>

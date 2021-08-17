@@ -10,16 +10,16 @@
         class="blue accent-4"
         dark
       >
-        <v-list-item class="px-2">
+        <v-list-item class="yellow px-2">
           <v-list-item-avatar>
-            <v-icon large>
+            <v-icon light large>
               mdi-bus-articulated-front
             </v-icon>
           </v-list-item-avatar>
 
-          <v-list-item-title>CityRoute</v-list-item-title>
+          <v-list-item-title style="color:black">CityRoute</v-list-item-title>
 
-          <v-btn icon @click.stop="mini = !mini">
+          <v-btn light icon @click.stop="mini = !mini">
             <v-icon>mdi-chevron-left</v-icon>
           </v-btn>
         </v-list-item>
@@ -294,6 +294,28 @@ body {
   padding: 0;
   margin: 0;
   overflow: hidden;
+}
+
+@media only screen and (min-width: 600px) {
+  main {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(41, 98, 255, 1) 100%
+    );
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #map {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(41, 98, 255, 1) 100%
+    );
+  }
 }
 
 #MapOptions {

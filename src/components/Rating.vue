@@ -1,12 +1,12 @@
 <template>
-  <v-card class="ma-10 mx-auto" color="#26c6da" dark max-width="80vw">
+  <v-card class="ma-4 mx-auto" color="#ffdd55" max-width="80vw">
     <v-card-title>
       <v-icon large left>
         mdi-bus
       </v-icon>
       <span class="text-h6 font-weight-light">{{ route }}</span>
     </v-card-title>
-    <v-card-subtitle>{{ date }}}</v-card-subtitle>
+    <v-card-subtitle>{{ date }}</v-card-subtitle>
     <v-card-text class="text-h6 font-weight-bold">
       {{ content }}
     </v-card-text>
@@ -24,18 +24,6 @@
         <v-list-item-content>
           <v-list-item-title>Anonymous</v-list-item-title>
         </v-list-item-content>
-
-        <!-- <v-row align="center" justify="end">
-          <v-icon class="mr-1">
-            mdi-heart
-          </v-icon>
-          <span class="subheading mr-2">4</span>
-          <span class="mr-1">·</span>
-          <v-icon class="mr-1">
-            mdi-share-variant
-          </v-icon>
-          <span class="subheading">5</span>
-        </v-row> -->
       </v-list-item>
     </v-card-actions>
   </v-card>

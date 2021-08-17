@@ -489,6 +489,8 @@ export default {
     },
 
     addFavourite() {
+      let self = this;
+
       axios
         .post(
           "/api/add-fav-directions/",
@@ -506,9 +508,15 @@ export default {
         )
         .then(function(response) {
           console.log(response);
+          self.$root.$emit("showAlert", "Favourite journey added.", "success");
         })
         .catch(function(error) {
           console.log(error);
+          self.$root.$emit(
+            "showAlert",
+            "Favourite journey could not be added.",
+            "failure"
+          );
         });
     },
     closeDirections() {
@@ -518,6 +526,7 @@ export default {
       directionsDisplay.setMap(null);
       this.origin = "";
       this.destination = "";
+      this.$root.$emit("showAlert", "Directions closed!", "success");
     },
     flipLandmarkSwitch(val, item) {
       item.shown = !item.shown;
