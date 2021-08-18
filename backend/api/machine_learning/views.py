@@ -133,7 +133,7 @@ def ModelPredictionView(request):
             prediction = RoutePrediction(all_stops, all_features, route_num)
         # else use stop model
         else:
-            all_features = GetAllRequiredFeatures(stop_model_required_features,
+            all_features = GetAllRequiredFeatures(stop_pair_model_required_features,
                                                   py_date_time)
             print("all_features", all_features, " length of array:",
                   len(all_features))
