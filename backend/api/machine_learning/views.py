@@ -106,56 +106,37 @@ def ModelPredictionView(request):
     """
     Retrieve the stop to stop model result
     """
-    # try:
-    #     # print(request.query_params)
-    #     start_stop = request.query_params.get('start_stop').lower()
-    #     end_stop = request.query_params.get('end_stop').lower()
-    #     route_num = request.query_params.get('route_num')
-    #     num_stops = request.query_params.get('num_stops')
-
-    #     all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-
-    #     print("all_stops", all_stops)
-    #     model_type = request.query_params.get('model_type').lower()
-    #     print(model_type)
-        
-    #     if model_type == 'route':
-    #         all_features = GetAllRequiredFeatures(
-    #             route_model_required_features)
-    #         print("all_features", all_features, " length of array:",
-    #               len(all_features))
-    #         prediction = RoutePrediction(all_stops, all_features, route_num)
-
-    #     else:
-    #         all_features = GetAllRequiredFeatures(stop_model_required_features)
-    #         print("all_features", all_features, " length of array:",
-    #               len(all_features))
-    #         prediction = StopPrediction(all_stops, all_features)
-    #     return Response({"prediction": prediction}, status=status.HTTP_200_OK)
-    # except Exception as e:
-    #     print(e)
-    #     # Try to predict with Stop Pair model instead
-    # try:
+    try:
         # print(request.query_params)
-    start_stop = request.query_params.get('start_stop').lower()
-    end_stop = request.query_params.get('end_stop').lower()
-    route_num = request.query_params.get('route_num')
-    num_stops = request.query_params.get('num_stops')
-    all_stops = GetAllStops(start_stop, end_stop, route_num, num_stops)
-    # all_stops = [7363, 4588, 4589, 7364, 7365]
-    print("all_stops", all_stops)
+        start_stop = request.query_params.get('start_stop').lower()
+        end_stop = request.query_params.get('end_stop').lower()
+        route_num = request.query_params.get('route_num')
+        num_stops = request.query_params.get('num_stops')
 
-    model_type = request.query_params.get('model_type').lower()
-    print(model_type)
-    
-    all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
-    print('pre-final features:', all_features)
-    pred = StopPairPrediction(all_stops, all_features)
-    print('Final Stop Pair Model prediction:', pred)
-    return Response({"prediction:": pred}, status=status.HTTP_200_OK)
-    # except Exception as e:
-    #     return Response({"error": "Error in getting journey time"},
-    #                 status=status.HTTP_404_NOT_FOUND)
+        all_stops, stop_pct = GetAllStops(start_stop, end_stop, route_num, num_stops)
+
+        print("all_stops", all_stops, "stop_pct", stop_pct)
+        model_type = request.query_params.get('model_type').lower()
+        print(model_type)
+        
+        # if the percentage of stops used is greater than 50% use route model
+        if stop_pct > .5:
+            all_features = GetAllRequiredFeatures(
+                route_model_required_features)
+            print("all_features", all_features, " length of array:",
+                  len(all_features))
+            prediction = RoutePrediction(all_stops, all_features, route_num)
+        # else use stop model
+        else:
+            all_features = GetAllRequiredFeatures(stop_pair_model_required_features)
+            print("all_features", all_features, " length of array:",
+                  len(all_features))
+            prediction = StopPairPrediction(all_stops, all_features)
+            print(prediction)
+        return Response({"prediction": prediction}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": "Error in getting journey time"},
+                    status=status.HTTP_404_NOT_FOUND)
 
     
 
@@ -242,39 +223,18 @@ def StopPairPrediction(all_stops, all_features):
     # Remove first element of all_stops if first_stop in all_stops
     if all_stops[0] == first_stop:
         all_stops = all_stops[1:]
-        
-        for previous, current in zip(all_stops, all_stops[1:]):
-            filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
+    for previous, current in zip(all_stops, all_stops[1:]):
+        try:
+            print(current)
+            filename = f"backend/api/machine_learning/stop_pair_models_{direction}/stop_{current}_{previous}_{direction}.pkl"
             with open(filename, 'rb') as file:
                 pickle_model = pickle.load(file)
-            
-            # Get dwell time
-            current_stop = Stop.objects.get(number=current)
-            dwell_time = getattr(current_stop, 'avg_dwelltime')
-            print('dwelltime:', dwell_time)
-            all_features = numpy.insert(all_features, 0, dwell_time)
-            print('final features:', all_features)
-            # Running prediction
             prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
-            print(prediction)
-            all_features = numpy.delete(all_features, 0) # remove the dwelltime that was inserted
-    else:
-        for previous, current in zip(all_stops, all_stops[1:]):
-            filename = f"backend/api/machine_learning/stop_pair_models/stop_{current}_{previous}_{direction}.pkl"
-            with open(filename, 'rb') as file:
-                pickle_model = pickle.load(file)
-            
-            # Get dwell time
-            current_stop = Stop.objects.get(number=current)
-            dwell_time = getattr(current_stop, 'avg_dwelltime')
-            print('dwelltime:', dwell_time)
-            all_features = numpy.insert(all_features, 0, dwell_time)
-            print('final features:', all_features)
-            # Running prediction
-            prediction += pickle_model.predict(numpy.array(all_features).reshape(1, -1))
-            print(prediction)
-            all_features = numpy.delete(all_features, 0) # remove the dwelltime that was inserted
-    
+        except Exception as e:
+            print(e)
+            # if stop model fails, use average time between two stops (69s)
+            prediction += 69
+    print("returning",prediction[0])
     return prediction[0]
 
 def GetStopModel(stop, route_model, outbound_yn):
@@ -380,7 +340,8 @@ def GetAllStops(start_stop, end_stop, route, num_stops):
     # convert list of dictionaries to list of ids
     relevant_stops = [d['stopnumber_id'] for d in relevant_stops]
     print(relevant_stops)
-    return relevant_stops
+    return relevant_stops, len(relevant_stops)/len(RouteStop.objects.filter(routeid=route_model,
+                                                  outbound_yn=outbound_yn))
 
 
 def GetAllRequiredFeatures(required_features=None):
