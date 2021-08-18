@@ -71,7 +71,7 @@
           Continue
         </v-btn>
 
-        <v-btn text>
+        <v-btn @click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
@@ -94,7 +94,7 @@
           Continue
         </v-btn>
 
-        <v-btn text>
+        <v-btn @click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
@@ -126,7 +126,7 @@
           Submit
         </v-btn>
 
-        <v-btn text>
+        <v-btn @click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
@@ -140,6 +140,7 @@ import axios from "axios";
 export default {
   name: "RatingInput",
   data: () => ({
+    search: "",
     review: "",
     ratings: {
       clean: 0,
@@ -155,6 +156,7 @@ export default {
     const { data } = await axios.get(`/api/routes-all/`);
     this.route_numbers = data;
   },
+
   methods: {
     writeReview() {
       let self = this;
