@@ -140,7 +140,6 @@ import {
   mdiMusicNoteOutline,
   mdiBasketball,
 } from "@mdi/js";
-import $ from "jquery";
 import axios from "axios";
 import "vue2-datepicker/index.css";
 import landmarks_data from "../assets/landmarks.json";
@@ -522,7 +521,8 @@ export default {
     closeDirections() {
       this.directions = false;
       this.sheet = false;
-      $("#card").html("");
+      var card = document.getElementById("card");
+      card.innerHTML = "";
       directionsDisplay.setMap(null);
       this.origin = "";
       this.destination = "";
@@ -723,7 +723,9 @@ export default {
 
           directionsDisplay.setDirections(response);
           directionsDisplay.setMap(map);
-          $("#close").on("click", function() {
+          var close = document.getElementById("close");
+
+          close.addEventListener("click", function() {
             directionsDisplay.setMap(null);
             directionsDisplay.setPanel(null);
             map.setZoom(15);
@@ -780,6 +782,10 @@ export default {
     },
   },
   mounted() {
+    import('../assets/stops.json').then(m => {
+      let stops = m;
+  });
+
     (this.origin = this.$route.query.origin),
       (this.destination = this.$route.query.destination),
       initMap();
