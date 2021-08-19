@@ -43,7 +43,7 @@
       </div>
     </v-expand-transition>
     <v-card-actions class="justify-center">
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         :disabled="!model"
         color="green darken-3"
         @click="saveToFavourites"
@@ -54,7 +54,7 @@
           mdi-star
         </v-icon>
       </v-btn>
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         :disabled="!model"
         color="green darken-3"
         style="color:white"
@@ -68,7 +68,7 @@
     </v-card-actions>
 
     <v-card-actions class="justify-center">
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         :disabled="!model"
         color="blue darken-3"
         style="color:white"
@@ -80,7 +80,7 @@
         </v-icon>
       </v-btn>
 
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         :disabled="!model"
         color="grey darken-3"
         style="color:white"

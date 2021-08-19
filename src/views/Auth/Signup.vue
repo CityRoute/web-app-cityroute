@@ -105,7 +105,7 @@
           </v-form>
           <div class="transition-wrapper">
             <div class="d-flex justify-space-between mt-8">
-              <v-btn
+              <v-btn aria-label="vuetify-button"
                 class="text-none letter-spacing-0"
                 style="margin-left: -16px"
                 color="primary"
@@ -114,7 +114,7 @@
               >
                 {{ $vuetify.lang.t("$vuetify.auth.sign-up.instead") }}
               </v-btn>
-              <v-btn
+              <v-btn aria-label="vuetify-button"
                 class="text-none letter-spacing-0"
                 style="min-width: 88px"
                 color="primary"

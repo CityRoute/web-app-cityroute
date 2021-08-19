@@ -36,7 +36,7 @@
     </v-form>
 
     <div class="d-flex justify-space-between">
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         class="text-none letter-spacing-0"
         style="margin-left: -16px"
         color="primary"
@@ -45,7 +45,7 @@
       >
         {{ $vuetify.lang.t("$vuetify.auth.sign-in.create-account") }}
       </v-btn>
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         class="text-none"
         style="min-width: 88px"
         color="primary"

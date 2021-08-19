@@ -43,7 +43,7 @@
             ></v-col
           >
           <v-col>
-            <v-btn
+            <v-btn aria-label="vuetify-button"
               @click="showRoute()"
               :disabled="!(time && origin && destination)"
             >
@@ -52,7 +52,7 @@
           </v-col>
         </v-row>
         <v-row align="center" v-if="directions" justify="space-around">
-          <v-btn
+          <v-btn aria-label="vuetify-button"
             id="fav"
             @click="addFavourite()"
             v-if="this.$store.getters.loggedIn"
@@ -93,7 +93,7 @@
             <i :class="network.icon"></i>
             <span>{{ network.name }}</span>
           </ShareNetwork>
-          <v-btn id="close" @click="closeDirections()">
+          <v-btn aria-label="vuetify-button" id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
         </div>
@@ -142,8 +142,11 @@ import {
 } from "@mdi/js";
 import axios from "axios";
 import "vue2-datepicker/index.css";
-import landmarks_data from "../assets/landmarks.json";
-import stops from "../assets/stops.json";
+
+// const landmarks_data = () => import("../assets/landmarks.json")
+// const stops = () => import("../assets/stops.json")
+
+
 function offsetMap() {
   if (routeBounds !== false) {
     // Clear listener defined in directions results
@@ -781,10 +784,87 @@ export default {
       });
     },
   },
-  mounted() {
-    import('../assets/stops.json').then(m => {
-      let stops = m;
-  });
+  async mounted() {
+    
+  // const landmarks_data = async  () =>  await  import("../assets/landmarks.json");
+  // const stops = async () =>  await import("../assets/stops.json");
+
+
+fetch("../assets/stops.json")
+.then(res => res.json())
+.then(data => console.log(data))
+
+  fetch("../assets/stops.json").then(response => response.json()).then(stops => {
+    console.log(stops)
+  for (var key of Object.keys(stops)) {
+        console.log(key)
+
+    var myLatLng = {
+      lat: parseFloat(stops[key].latitude),
+      lng: parseFloat(stops[key].longitude),
+    };
+    // // console.log(stops[key].longitude);
+    stopMarkers[stops[key].name] = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        parseFloat(stops[key].latitude),
+        parseFloat(stops[key].longitude)
+      ),
+      map: map,
+      title: stops[key].name,
+      icon: icon,
+      id: key,
+      visible: false,
+    });
+  }
+});
+  fetch("../assets/landmarks.json").then(landmarks_data => {
+  landmarkMarkers = [];
+  // var new_infowindows = [];
+  // var instances = [];
+  for (key of Object.keys(landmarks_data.markers)) {
+    // // console.log(stops[key].longitude);
+    landmarkMarkers[landmarks_data.markers[key].address] = {
+      marker: new google.maps.Marker({
+        position: new google.maps.LatLng(
+          parseFloat(landmarks_data.markers[key].lat),
+          parseFloat(landmarks_data.markers[key].lng)
+        ),
+        map: map,
+        title: landmarks_data.markers[key].address,
+        id: key,
+        visible: false,
+      }),
+      category: landmarks_data.markers[key].category,
+    };
+
+    let marker = landmarkMarkers[landmarks_data.markers[key].address].marker;
+
+    const landmarkinfowindow = new google.maps.InfoWindow({
+      content:
+        '<div id="content">' +
+        '<div id="siteNotice">' +
+        "</div>" +
+        `<h1 id="firstHeading">${landmarks_data.markers[key].address}</h1>` +
+        '<div id="bodyContent">' +
+        '<a href="/#/directions?lat=' +
+        landmarks_data.markers[key].lat +
+        "&lng=" +
+        landmarks_data.markers[key].lng +
+        '">Get Directions</a>',
+    });
+
+    marker.addListener("click", () => {
+      console.log("clicked");
+      landmarkinfowindow.open({
+        anchor: marker,
+        map,
+        shouldFocus: false,
+      });
+    });
+  }
+
+});
+
 
     (this.origin = this.$route.query.origin),
       (this.destination = this.$route.query.destination),
@@ -921,69 +1001,6 @@ function initMap() {
   stopMarkers = [];
   // var new_infowindows = [];
   // var instances = [];
-  for (var key of Object.keys(stops)) {
-    var myLatLng = {
-      lat: parseFloat(stops[key].latitude),
-      lng: parseFloat(stops[key].longitude),
-    };
-    // // console.log(stops[key].longitude);
-    stopMarkers[stops[key].name] = new google.maps.Marker({
-      position: new google.maps.LatLng(
-        parseFloat(stops[key].latitude),
-        parseFloat(stops[key].longitude)
-      ),
-      map: map,
-      title: stops[key].name,
-      icon: icon,
-      id: key,
-      visible: false,
-    });
-  }
-
-  landmarkMarkers = [];
-  // var new_infowindows = [];
-  // var instances = [];
-  for (key of Object.keys(landmarks_data.markers)) {
-    // // console.log(stops[key].longitude);
-    landmarkMarkers[landmarks_data.markers[key].address] = {
-      marker: new google.maps.Marker({
-        position: new google.maps.LatLng(
-          parseFloat(landmarks_data.markers[key].lat),
-          parseFloat(landmarks_data.markers[key].lng)
-        ),
-        map: map,
-        title: landmarks_data.markers[key].address,
-        id: key,
-        visible: false,
-      }),
-      category: landmarks_data.markers[key].category,
-    };
-
-    let marker = landmarkMarkers[landmarks_data.markers[key].address].marker;
-
-    const landmarkinfowindow = new google.maps.InfoWindow({
-      content:
-        '<div id="content">' +
-        '<div id="siteNotice">' +
-        "</div>" +
-        `<h1 id="firstHeading">${landmarks_data.markers[key].address}</h1>` +
-        '<div id="bodyContent">' +
-        '<a href="/#/directions?lat=' +
-        landmarks_data.markers[key].lat +
-        "&lng=" +
-        landmarks_data.markers[key].lng +
-        '">Get Directions</a>',
-    });
-
-    marker.addListener("click", () => {
-      console.log("clicked");
-      landmarkinfowindow.open({
-        anchor: marker,
-        map,
-        shouldFocus: false,
-      });
-    });
-  }
 }
 </script>
 

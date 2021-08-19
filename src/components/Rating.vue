@@ -18,19 +18,19 @@
     <v-card-text class="text-h6 font-weight-bold">
       {{ content }}
     </v-card-text>
-    <v-btn class="ma-2" color="primary" elevation="0" disabled>
+    <v-btn aria-label="vuetify-button" class="ma-2" color="primary" elevation="0" disabled>
       {{ speed_rating }}
       <v-icon dark right>
         mdi-speedometer-medium
       </v-icon>
     </v-btn>
-    <v-btn class="ma-2" color="primary" elevation="0" disabled>
+    <v-btn aria-label="vuetify-button" class="ma-2" color="primary" elevation="0" disabled>
       {{ accuracy_rating }}
       <v-icon dark right>
         mdi-bullseye-arrow
       </v-icon>
     </v-btn>
-    <v-btn class="ma-2" color="primary" elevation="0" disabled>
+    <v-btn aria-label="vuetify-button" class="ma-2" color="primary" elevation="0" disabled>
       {{ clean_rating }}
       <v-icon dark right>
         mdi-spray-bottle

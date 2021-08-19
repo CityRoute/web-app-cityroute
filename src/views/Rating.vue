@@ -20,7 +20,7 @@
       :speed_rating="review.speed_rating"
     />
     <v-fab-transition>
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         v-if="this.$store.getters.loggedIn"
         @click="sheet = !sheet"
         large
@@ -31,7 +31,7 @@
       >
         <v-icon>mdi-bus</v-icon> Rate
       </v-btn>
-      <v-btn
+      <v-btn aria-label="vuetify-button"
         v-else
         @click="$router.push({ name: 'MyAccount' })"
         large

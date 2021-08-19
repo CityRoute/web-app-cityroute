@@ -8,7 +8,7 @@
         <v-list-item-subtitle>Signed In</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-btn @click="logout" elevation="2">Logout</v-btn>
+    <v-btn aria-label="vuetify-button" @click="logout" elevation="2">Logout</v-btn>
   </v-card>
 </template>
 

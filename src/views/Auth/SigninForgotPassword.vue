@@ -31,7 +31,7 @@
       </v-form>
 
       <div class="text-right">
-        <v-btn
+        <v-btn aria-label="vuetify-button"
           class="text-none"
           style="min-width: 88px"
           color="primary"
