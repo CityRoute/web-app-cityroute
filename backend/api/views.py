@@ -19,6 +19,25 @@ from django.http import HttpResponse
 
 # Serve Vue Application
 index_view = never_cache(TemplateView.as_view(template_name='index.html'))
+from django.http import FileResponse
+
+
+def send_file_stops(response):
+
+    img = open('backend/api/assets/stops.json', 'rb')
+
+    response = FileResponse(img)
+
+    return response
+
+
+def send_file_landmarks(response):
+
+    img = open('backend/api/assets/landmarks.json', 'rb')
+
+    response = FileResponse(img)
+
+    return response
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -112,7 +131,6 @@ def getAllStops(request):
     stops = Stop.objects.all()
     serializer = StopSerializer(stops, many=True)
     return Response(serializer.data)
-
 
 
 @api_view(['GET'])

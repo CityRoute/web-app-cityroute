@@ -1,0 +1,3692 @@
+{
+  "markers": [
+    {
+      "name": "Attraction",
+      "address": "Jameson Distillery Bow St.",
+      "lat": "53.348893",
+      "lng": "-6.276327",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "3 Arena",
+      "lat": "53.347384",
+      "lng": "-6.228288",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Abbey Street Luas Station",
+      "lat": "53.348438",
+      "lng": "-6.259021",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Abbey Theatre",
+      "lat": "53.3486891651345",
+      "lng": "-6.25712836508183",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Airside Business Park",
+      "lat": "53.445593",
+      "lng": "-6.22374",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Airside Shopping Centre",
+      "lat": "53.445289",
+      "lng": "-6.226387",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Andrews Lane Theatre",
+      "lat": "53.3435495709633",
+      "lng": "-6.26239315001521",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Applerock Studios",
+      "lat": "53.346994",
+      "lng": "6.263484",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Ardgillan Castle",
+      "lat": "53.6054586",
+      "lng": "-6.18304880000005",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Artane Shopping Centre",
+      "lat": "53.383964",
+      "lng": "-6.216499",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Ashling Hotel",
+      "lat": "53.347975",
+      "lng": "-6.290551",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Aviva Stadium",
+      "lat": "53.3348304",
+      "lng": "-6.22618239999997",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Axis-Ballymun",
+      "lat": "53.395948810649",
+      "lng": "-6.26277416665653",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Balally Luas Station",
+      "lat": "53.286127",
+      "lng": "-6.236801",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Ballycoolin Business Park",
+      "lat": "53.404451",
+      "lng": "-6.352225",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Ballymount Industrial Estate",
+      "lat": "53.317731",
+      "lng": "-6.352595",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Bayside DART Station",
+      "lat": "53.39152",
+      "lng": "-6.136785",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Beacon Clinic",
+      "lat": "53.276981",
+      "lng": "-6.219479",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Beaumont  Hospital",
+      "lat": "53.390283",
+      "lng": "-6.223636",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Beechwood Luas Station",
+      "lat": "53.320851",
+      "lng": "-6.254826",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Belgard Luas Station",
+      "lat": "53.29878",
+      "lng": "-6.374517",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Bewleys Café Theatre",
+      "lat": "53.3416931",
+      "lng": "-6.26038159999996",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Blackhorse Luas Station",
+      "lat": "53.334205",
+      "lng": "-6.32791",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Blackrock Clinic",
+      "lat": "53.3043",
+      "lng": "-6.18785",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Blackrock DART Station",
+      "lat": "53.302823",
+      "lng": "-6.178797",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Blackrock Shopping Centre",
+      "lat": "53.3020818",
+      "lng": "-6.17995529999996",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Blanchardstown Centre",
+      "lat": "53.3934229",
+      "lng": "-6.38581420000003",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Blanchardstown Corporate Park",
+      "lat": "53.410028",
+      "lng": "-6.372221",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Blanchardstown Corporate Park No. 2",
+      "lat": "53.412371",
+      "lng": "-6.363156",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Blanchardstown Industrial Park",
+      "lat": "53.405306",
+      "lng": "-6.370428",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Bluebell Luas Station",
+      "lat": "53.329287",
+      "lng": "-6.334031",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Bon Secours Hospital",
+      "lat": "53.375559",
+      "lng": "-6.267914",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Booterstown DART Station",
+      "lat": "53.309925",
+      "lng": "-6.195286",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Bord Gáis Energy Theatre",
+      "lat": "53.3436381",
+      "lng": "-6.23996579999994",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Bray",
+      "lat": "53.201",
+      "lng": "6.1114",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Bray DART Station",
+      "lat": "53.204517",
+      "lng": "-6.100851",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Busaras",
+      "lat": "53.349954",
+      "lng": "-6.251366",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Busáras Luas Station",
+      "lat": "53.350289",
+      "lng": "-6.252755",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Button Factory Curved Street",
+      "lat": "53.344867",
+      "lng": "-6.264573",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Cabinteely House",
+      "lat": "53.2599",
+      "lng": "6.1604",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Cabinteely Park",
+      "lat": "53.2655292",
+      "lng": "-6.15490190000003",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Cappagh Orthopaediac Hospital",
+      "lat": "53.394174",
+      "lng": "-6.324458",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Central Mental Hospital (Dundrum)",
+      "lat": "53.300691",
+      "lng": "-6.242966",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Century Business Park Finglas",
+      "lat": "53.40234",
+      "lng": "-6.300183",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Charlemont Luas Station",
+      "lat": "53.330681",
+      "lng": "-6.258849",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Charlestown",
+      "lat": "0",
+      "lng": "0",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Charlestown Shopping Centre",
+      "lat": "42.3782065",
+      "lng": "-71.0602131",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Cherry Orchard Hospital",
+      "lat": "53.344001",
+      "lng": "-6.376949",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Christ Church Cathedral",
+      "lat": "53.34343",
+      "lng": "-6.270964",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Christchurch Cathedral",
+      "lat": "53.343205",
+      "lng": "-6.271549",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "City Centre",
+      "lat": "53.349844",
+      "lng": "-6.260304",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Civic Theatre",
+      "lat": "53.2886",
+      "lng": "-6.3572",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Clarehall Shopping Centre",
+      "lat": "53.40159",
+      "lng": "-6.180817",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Clayton Hotel Ballsbridge",
+      "lat": "53.326117",
+      "lng": "-6.224068",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Clearwater Shopping Centre",
+      "lat": "53.384039",
+      "lng": "-6.294657",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Clongriffin DART Station",
+      "lat": "53.40342",
+      "lng": "-6.149092",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Clonskeagh Hospital (Vergemont)",
+      "lat": "53.316486",
+      "lng": "-6.239183",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Clontarf Road DART Station",
+      "lat": "53.363062",
+      "lng": "-6.227001",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Connolly DART (and Rail) Station",
+      "lat": "53.351269",
+      "lng": "-6.249757",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Connolly Luas Station",
+      "lat": "53.351361",
+      "lng": "-6.250067",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Cookstown Luas Station",
+      "lat": "53.29442",
+      "lng": "-6.385996",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Coolmine Industrial Estate",
+      "lat": "53.384922",
+      "lng": "-6.397058",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Coombe Hospital",
+      "lat": "53.334799",
+      "lng": "-6.28914",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Corkagh Park Pet Farm",
+      "lat": "53.34240017542",
+      "lng": "-6.27576713491817",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Cornelscourt Shopping Centre",
+      "lat": "53.265564",
+      "lng": "-6.159366",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "County Hall Dún Laoghaire",
+      "lat": "53.2944217",
+      "lng": "-6.13488610000002",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Cowper Luas Station",
+      "lat": "53.316474",
+      "lng": "-6.253592",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Crawdaddy",
+      "lat": "53.3357069",
+      "lng": "-6.2696692",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Croke Park",
+      "lat": "53.360712",
+      "lng": "-6.25120900000002",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Croke Park Hotel Joness Road",
+      "lat": "53.360633",
+      "lng": "-6.253454",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Crumlin",
+      "lat": "0",
+      "lng": "0",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Crumlin Village",
+      "lat": "0",
+      "lng": "0",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Custom House Quay",
+      "lat": "0",
+      "lng": "0",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Custom House Quay (IFSC)",
+      "lat": "0",
+      "lng": "0",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Custom House Quay (Jurys Inn)",
+      "lat": "0",
+      "lng": "0",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dalkey Castle & Heritage Centre",
+      "lat": "53.2779079711833",
+      "lng": "-6.1055835025162",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Dalkey DART Station",
+      "lat": "53.275614",
+      "lng": "-6.102796",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dalymount Park",
+      "lat": "53.361448",
+      "lng": "-6.275042",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Damastown Industrial Estate",
+      "lat": "53.412877",
+      "lng": "-6.425179",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Damastown Industrial Park",
+      "lat": "53.40962",
+      "lng": "-6.408307",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Dental Hospital (Lincoln Place)",
+      "lat": "53.342302",
+      "lng": "-6.252061",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Aungier Street",
+      "lat": "53.338388",
+      "lng": "-6.266304",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Bolton Street",
+      "lat": "53.3514",
+      "lng": "-6.269",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Cathal Brugha",
+      "lat": "53.3521",
+      "lng": "-6.2596",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Kevin Street",
+      "lat": "53.337463",
+      "lng": "-6.267111",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Mountjoy Square",
+      "lat": "53.3558",
+      "lng": "-6.25671",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "DIT Rathmines",
+      "lat": "53.324443",
+      "lng": "-6.265646",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "dlr LexIcon",
+      "lat": "53.2929145",
+      "lng": "-6.13189239999997",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Do Dublin",
+      "lat": "53.3505211296813",
+      "lng": "-6.2607091625656",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Donaghmede Shopping Centre",
+      "lat": "53.395419",
+      "lng": "-6.162834",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Doubletree Hotel",
+      "lat": "53.33",
+      "lng": "-6.249",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Draíocht",
+      "lat": "53.3913168445647",
+      "lng": "-6.39197323497922",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Draíocht The Blanchardstown Centre Draiocht",
+      "lat": "53.391249",
+      "lng": "-6.391932",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Drimnagh Luas Station",
+      "lat": "53.335371",
+      "lng": "-6.318351",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Dublin Airport",
+      "lat": "53.42775",
+      "lng": "-6.244167",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Dublin Airport",
+      "lat": "53.428015",
+      "lng": "-6.242344",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Dublin Business School",
+      "lat": "53.340232",
+      "lng": "-6.265514",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublin Castle",
+      "lat": "53.343593",
+      "lng": "-6.267666",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublin City Tours",
+      "lat": "53.352048",
+      "lng": "-6.260431",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Dublin City University (DCU)",
+      "lat": "53.384777",
+      "lng": "-6.264641",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublin Writers Museum",
+      "lat": "53.354343",
+      "lng": "-6.263906",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublin Zoo",
+      "lat": "53.353537",
+      "lng": "-6.303866",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublin Zoo",
+      "lat": "53.3561384364012",
+      "lng": "-6.30535155378425",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Dublinia",
+      "lat": "53.3431242",
+      "lng": "-6.27200229999994",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Dun Laoghaire",
+      "lat": "53.2943958",
+      "lng": "-6.13386660000003",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Dun Laoghaire Institute of Art and Design",
+      "lat": "53.280874",
+      "lng": "-6.155793",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Dun Laoghaire Rail Station",
+      "lat": "53.295004",
+      "lng": "-6.134772",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Dun Laoghaire Shopping Centre",
+      "lat": "53.2924659066576",
+      "lng": "-6.13528846137694",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Dundrum Luas Station",
+      "lat": "53.293766",
+      "lng": "-6.246951",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Dundrum Town Centre",
+      "lat": "53.286365",
+      "lng": "-6.240464",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Dundrum Town Centre",
+      "lat": "53.2869194011543",
+      "lng": "-6.24227724708248",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "East Point Business Park",
+      "lat": "53.355985",
+      "lng": "-6.22194",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Energia Park",
+      "lat": "53.321",
+      "lng": "6.2331",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "EPIC The Irish Emigration Museum",
+      "lat": "53.348083",
+      "lng": "-6.248325",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Eye and Ear Hospital (Royal Victoria)",
+      "lat": "53.332693",
+      "lng": "-6.255966",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Farmleigh House",
+      "lat": "53.3652",
+      "lng": "-6.3598",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Fatima Luas Station",
+      "lat": "53.338388",
+      "lng": "-6.292806",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Finglas Business Park",
+      "lat": "53.37906",
+      "lng": "-6.291552",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Frascatti Shopping Centre",
+      "lat": "53.301418",
+      "lng": "-6.18067",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "GAA Museum",
+      "lat": "53.360712",
+      "lng": "-6.25120900000002",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Gaiety Theatre",
+      "lat": "53.340333",
+      "lng": "-6.261657",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Gate Theatre",
+      "lat": "53.353056",
+      "lng": "-6.26194399999997",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Georges Dock Luas Station",
+      "lat": "53.349518",
+      "lng": "-6.247444",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Glasnevin Cemetery",
+      "lat": "53.372705",
+      "lng": "-6.276739",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Glenageary DART Station",
+      "lat": "53.281203",
+      "lng": "-6.123164",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Goldenbridge Luas Station",
+      "lat": "53.335902",
+      "lng": "-6.313641",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Grafton Street",
+      "lat": "53.343596",
+      "lng": "-6.259181",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Grand Canal Dock DART Station",
+      "lat": "53.339524",
+      "lng": "-6.237561",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Grange Castle Business Park",
+      "lat": "53.328122",
+      "lng": "-6.449068",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Greystones DART Station",
+      "lat": "53.144031",
+      "lng": "-6.060861",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Griffith College Dublin",
+      "lat": "53.331188",
+      "lng": "-6.279191",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Guinness Storehouse",
+      "lat": "53.341858",
+      "lng": "-6.286562",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Harcourt Luas Station",
+      "lat": "53.333583",
+      "lng": "-6.262883",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Harmonstown DART Station",
+      "lat": "53.3785",
+      "lng": "-6.192171",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Henry Street and surrounds",
+      "lat": "53.3494594641145",
+      "lng": "-6.26224089049072",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Hermitage Hospital",
+      "lat": "53.359076",
+      "lng": "-6.405581",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Heuston Luas Station",
+      "lat": "53.346555",
+      "lng": "-6.291883",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Heuston Station",
+      "lat": "53.34662",
+      "lng": "-6.292158",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Highfield Hospital",
+      "lat": "53.379646",
+      "lng": "-6.245619",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Holiday Inn Express",
+      "lat": "53.352113",
+      "lng": "-6.260959",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Holles Street Hospital",
+      "lat": "53.340347",
+      "lng": "-6.246145",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Hospital Luas Station",
+      "lat": "53.289629",
+      "lng": "-6.379387",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Howth",
+      "lat": "53.386",
+      "lng": "6.066",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Howth DART Station",
+      "lat": "53.388996",
+      "lng": "-6.074209",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Howth Junction Donaghmede DART Station",
+      "lat": "53.391611",
+      "lng": "-6.15544",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "IFSC",
+      "lat": "53.349907",
+      "lng": "-6.250786",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "IKEA",
+      "lat": "53.40759",
+      "lng": "-6.2768",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Ilac Shopping Centre",
+      "lat": "53.3497558915557",
+      "lng": "-6.26466246748964",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Imaginosity",
+      "lat": "53.277435",
+      "lng": "-6.21656600000006",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Institute of Technology Blanchardstown",
+      "lat": "53.4047",
+      "lng": "-6.37826",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Institute of Technology Tallaght",
+      "lat": "53.289822",
+      "lng": "-6.366447",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Irish Film Institute",
+      "lat": "53.3446",
+      "lng": "6.2649",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Irish Museum of Modern Art",
+      "lat": "53.3429397",
+      "lng": "-6.30004239999994",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Irish Whiskey Museum",
+      "lat": "53.344185",
+      "lng": "-6.259343",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Iveagh Gardens",
+      "lat": "53.3353119",
+      "lng": "-6.2608692",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "James Connolly Memorial Hospital",
+      "lat": "53.3889",
+      "lng": "-6.36878",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "James Joyce Tower",
+      "lat": "53.288654",
+      "lng": "6.113623",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Jamess Luas Station",
+      "lat": "53.342026",
+      "lng": "-6.293626",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Jeanie Johnston Tallship and Famine Museum",
+      "lat": "53.347719",
+      "lng": "-6.245586",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Jervis Luas Station",
+      "lat": "53.347605",
+      "lng": "-6.266123",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Jervis Street Shopping Centre",
+      "lat": "53.3482472",
+      "lng": "-6.26560429999995",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Kilbarrack DART Station",
+      "lat": "53.387581",
+      "lng": "-6.160946",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Killester DART Station",
+      "lat": "53.372659",
+      "lng": "-6.205231",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Killiney DART Station",
+      "lat": "53.255439",
+      "lng": "-6.11303",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Kilmacud Luas Station",
+      "lat": "53.28301",
+      "lng": "-6.223991",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Kilmainham Gaol",
+      "lat": "53.342165",
+      "lng": "-6.309816",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Kilmainham Jail",
+      "lat": "53.342038",
+      "lng": "-6.309563",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Kilnamanagh Shopping Centre",
+      "lat": "53.29841",
+      "lng": "-6.360451",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Kingswood Luas Station",
+      "lat": "53.302467",
+      "lng": "-6.36868",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Kylemore Luas Station",
+      "lat": "53.326686",
+      "lng": "-6.343607",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Lambert Puppet Theatre",
+      "lat": "53.2945668505593",
+      "lng": "-6.15488138888554",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Lansdowne Road DART Station",
+      "lat": "53.334144",
+      "lng": "-6.229227",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Leopardstown Hospital",
+      "lat": "53.2707",
+      "lng": "-6.19891",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Liberty Hall Theatre",
+      "lat": "53.348417",
+      "lng": "6.25532",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Liberty Hall Theatre",
+      "lat": "53.3482533",
+      "lng": "-6.25552990000006",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Liffey Valley Shopping Centre",
+      "lat": "53.352374",
+      "lng": "-6.39186710000001",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Little Museum of Dublin",
+      "lat": "53.339497",
+      "lng": "-6.258455",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Loughlinstown Hospital (St. Columcilles)",
+      "lat": "53.243142",
+      "lng": "-6.131235",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Malahide",
+      "lat": "53.4508",
+      "lng": "-6.1544",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Malahide Castle",
+      "lat": "53.445736",
+      "lng": "-6.166993",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Malahide DART Station",
+      "lat": "53.450524",
+      "lng": "-6.156532",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Marino College",
+      "lat": "53.355125",
+      "lng": "6.245333",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Marlay Park",
+      "lat": "53.273052",
+      "lng": "-6.270468",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Marlay Park Rathfarnham",
+      "lat": "53.277726",
+      "lng": "-6.267601",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Mater Hospital",
+      "lat": "53.358907",
+      "lng": "-6.268265",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Mayor Square - NCI Luas Station",
+      "lat": "53.34928",
+      "lng": "-6.243403",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Merrion Square",
+      "lat": "53.34065",
+      "lng": "-6.25079549999998",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Mill Theatre",
+      "lat": "53.2883496514756",
+      "lng": "-6.24299607909848",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Milltown Luas Station",
+      "lat": "53.309852",
+      "lng": "-6.251757",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Morgan Hotel",
+      "lat": "53.345714",
+      "lng": "-6.260732",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Mount Carmel Hospital",
+      "lat": "53.304304",
+      "lng": "-6.264801",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Museum Luas Station",
+      "lat": "53.347868",
+      "lng": "-6.286776",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Museum of Literature Ireland (MoLI)",
+      "lat": "53.336943",
+      "lng": "-6.260136",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Museum of Modern Art",
+      "lat": "53.343411",
+      "lng": "-6.29719",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Nangor Road Business Centre",
+      "lat": "53.328332",
+      "lng": "-6.371297",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Aquatic Centre",
+      "lat": "53.3968255078639",
+      "lng": "-6.37035499465946",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "National Archives of Ireland Bishop Street",
+      "lat": "53.338362",
+      "lng": "-6.267706",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Basketball Arena",
+      "lat": "53.292221",
+      "lng": "-6.334443",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Botanic Gardens",
+      "lat": "53.3727937712107",
+      "lng": "-6.27301963599848",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "National College of Art and Design (NCAD)",
+      "lat": "53.342954",
+      "lng": "-6.278162",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "National College of Ireland (NCI)",
+      "lat": "53.34918",
+      "lng": "-6.24202",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "National Concert Hall",
+      "lat": "53.334608",
+      "lng": "-6.258587",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Gallery of Ireland",
+      "lat": "53.34089",
+      "lng": "-6.25099999999998",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National History Museum",
+      "lat": "53.3398339988245",
+      "lng": "-6.25330283809808",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Library of Ireland",
+      "lat": "53.3410984",
+      "lng": "-6.25448210000002",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Maritime Museum",
+      "lat": "53.2924",
+      "lng": "6.1322",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Museum of Ireland",
+      "lat": "53.3487803",
+      "lng": "-6.28736309999999",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "National Rehabilitation Hospital (Dun Laoghaire)",
+      "lat": "53.275553",
+      "lng": "-6.151067",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Sea Life Centre",
+      "lat": "53.2031657065741",
+      "lng": "-6.09814692831117",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "National Stadium",
+      "lat": "53.3309326",
+      "lng": "-6.2803897",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Newbridge House and Farm",
+      "lat": "53.4865287142947",
+      "lng": "-6.16810675850832",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Northern Cross Business Park",
+      "lat": "53.399999",
+      "lng": "-6.315695",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Northside Shopping Centre",
+      "lat": "53.394736",
+      "lng": "-6.212649",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "NUI Maynooth",
+      "lat": "53.3831",
+      "lng": "-6.59739",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Nutgrove Shopping Centre",
+      "lat": "53.2897265",
+      "lng": "-6.26746560000004",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Olympia Theatre",
+      "lat": "53.344334",
+      "lng": "-6.266114",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Omni Park Shopping Centre",
+      "lat": "53.39206",
+      "lng": "-6.246953",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Opium Rooms",
+      "lat": "53.3366737",
+      "lng": "-6.26573510000003",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "OReilly Theatre",
+      "lat": "53.3556157307761",
+      "lng": "-6.26158717050021",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Orthopaedic Hospital of Ireland",
+      "lat": "53.366979",
+      "lng": "-6.201468",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Our Ladys Hospice (Harolds Cross)",
+      "lat": "53.325566",
+      "lng": "-6.279434",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Our Ladys Hospital (Childrens Hospital Crumlin)",
+      "lat": "53.325337",
+      "lng": "-6.317782",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Park West Enterprise Centre",
+      "lat": "53.332694",
+      "lng": "-6.369129",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Pat Liddy Walking Tours",
+      "lat": "53.350528",
+      "lng": "-6.260759",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Pavilion Theatre",
+      "lat": "53.2939152095188",
+      "lng": "-6.13365767829589",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Peamount Hospital",
+      "lat": "53.318026",
+      "lng": "-6.482872",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Pearse Lyons Whiskey Distillery",
+      "lat": "53.343784",
+      "lng": "-6.289281",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Pearse Street DART Station",
+      "lat": "53.343534",
+      "lng": "-6.249232",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Phoenix Park",
+      "lat": "53.348418",
+      "lng": "-6.296899",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Portmarnock DART Station",
+      "lat": "53.417291",
+      "lng": "-6.151144",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Portobello College Dublin",
+      "lat": "53.330299",
+      "lng": "-6.26459",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Powerscourt Townhouse Centre",
+      "lat": "53.3422362",
+      "lng": "-6.26179439999999",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Project Arts Centre",
+      "lat": "53.3450204",
+      "lng": "-6.26622880000002",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Raheny DART Station",
+      "lat": "53.381502",
+      "lng": "-6.176369",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Ranelagh Arts Centre",
+      "lat": "53.3268011",
+      "lng": "-6.25711449999994",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Ranelagh Luas Station",
+      "lat": "53.326285",
+      "lng": "-6.256295",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Rathfarnham Castle Park",
+      "lat": "53.29856",
+      "lng": "-6.28345400000001",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "RDS Royal Dublin Society",
+      "lat": "53.3257042839709",
+      "lng": "-6.22960082009888",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Red Cow Luas Station",
+      "lat": "53.316973",
+      "lng": "-6.369431",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Rialto Luas Station",
+      "lat": "53.337869",
+      "lng": "-6.297569",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Richmond Park",
+      "lat": "53.3409207032973",
+      "lng": "-6.31672054365538",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Rotunda Hospital",
+      "lat": "53.352257",
+      "lng": "-6.263397",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Royal College of Surgeons",
+      "lat": "53.338934",
+      "lng": "-6.261749",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Royal Hospital (Donnybrook)",
+      "lat": "53.325778",
+      "lng": "-6.247366",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Royal Hospital Kilmainham",
+      "lat": "53.342102",
+      "lng": "-6.30328",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "RTE",
+      "lat": "53.3145",
+      "lng": "-6.22324",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Rush Harbour",
+      "lat": "53.5230218",
+      "lng": "-6.07934309999996",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Salthill and Monkstown DART Station",
+      "lat": "53.29536",
+      "lng": "-6.152544",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Sandycove and Glasthule DART Station",
+      "lat": "53.287065",
+      "lng": "-6.127623",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Sandyford Industrial Estate",
+      "lat": "53.2769",
+      "lng": "-6.215122",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Sandyford Luas Station",
+      "lat": "53.277596",
+      "lng": "-6.204679",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Sandymount DART Station",
+      "lat": "53.328243",
+      "lng": "-6.221566",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Seapoint DART Station",
+      "lat": "53.299142",
+      "lng": "-6.165047",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Seapoint Martello tower",
+      "lat": "53.2979",
+      "lng": "6.1598",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Shankill DART Station",
+      "lat": "53.236517",
+      "lng": "-6.11711",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Shanowen Industrial Estate",
+      "lat": "53.389526",
+      "lng": "-6.250979",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Shelbourne Hotel",
+      "lat": "53.339267",
+      "lng": "-6.25594",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Simpsons Hospital",
+      "lat": "53.286068",
+      "lng": "-6.247042",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Slane Castle",
+      "lat": "53.7086",
+      "lng": "6.5434",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Smithfield Luas Station",
+      "lat": "53.34717",
+      "lng": "-6.278375",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Smock Alley Theatre East Essex Street",
+      "lat": "53.345014",
+      "lng": "-6.268886",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "South City Business Park",
+      "lat": "53.277553",
+      "lng": "-6.37665",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Spencer Dock Luas Station",
+      "lat": "53.348844",
+      "lng": "-6.237564",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "St. Annes Park",
+      "lat": "53.3688585",
+      "lng": "-6.17779369999994",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Brendans Hospital (Grangegorman)",
+      "lat": "53.356312",
+      "lng": "-6.279587",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Bricins Hospital",
+      "lat": "53.35155",
+      "lng": "-6.291221",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Francis Hospice",
+      "lat": "53.384595",
+      "lng": "-6.175069",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Itas Hospital",
+      "lat": "53.487575",
+      "lng": "-6.111386",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Jamess Hospital",
+      "lat": "53.339878",
+      "lng": "-6.296305",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Jamess Hospital (Rialto Entrance)",
+      "lat": "53.338858",
+      "lng": "-6.29995",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. John of God Hospital (Stillorgan)",
+      "lat": "53.285963",
+      "lng": "-6.192529",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Josephs Hospital (Clonsilla)",
+      "lat": "53.387281",
+      "lng": "-6.431873",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Josephs Hospital (Raheny)",
+      "lat": "53.382404",
+      "lng": "-6.181131",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Lukes Hospital",
+      "lat": "53.310888",
+      "lng": "-6.267324",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Marys Hospital (Baldoyle)",
+      "lat": "53.398433",
+      "lng": "-6.127808",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Marys Hospital (Phoenix Park)",
+      "lat": "53.349582",
+      "lng": "-6.338477",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Michaels Hospital (Dun Laoghaire)",
+      "lat": "53.293743",
+      "lng": "-6.13876",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "St. Patrick’s Cathedral",
+      "lat": "53.339515",
+      "lng": "-6.271638",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "St. Patricks Cathedral",
+      "lat": "53.339441",
+      "lng": "-6.271059",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "St. Patricks College (Drumcondra)",
+      "lat": "53.3706",
+      "lng": "-6.255489",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Patricks Hospital (Jamess Street)",
+      "lat": "53.343553",
+      "lng": "-6.291695",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "St. Stephens Green",
+      "lat": "53.337892",
+      "lng": "-6.257018",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "St. Stephens Green Luas Station",
+      "lat": "53.339611",
+      "lng": "-6.26107",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "St. Stephens Green Shopping Centre",
+      "lat": "53.3399158486526",
+      "lng": "-6.2611036338684",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "St. Vincents Hospital",
+      "lat": "53.317475",
+      "lng": "-6.210144",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Stewarts Hospital",
+      "lat": "53.354295",
+      "lng": "-6.365121",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Stillorgan Luas Station",
+      "lat": "53.279347",
+      "lng": "-6.210151",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Stillorgan Shopping Centre",
+      "lat": "53.289874",
+      "lng": "-6.199496",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Stradbally Estate",
+      "lat": "53.012838",
+      "lng": "-7.158981",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Suir Road Luas Station",
+      "lat": "53.336678",
+      "lng": "-6.307311",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Sutton DART Station",
+      "lat": "53.391986",
+      "lng": "-6.115978",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Swords Business Park",
+      "lat": "53.46054",
+      "lng": "-6.211057",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "Swords Pavilions Shopping Centre",
+      "lat": "53.4543512785618",
+      "lng": "-6.21962606193233",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Sydney Parade DART Station",
+      "lat": "53.320624",
+      "lng": "-6.211302",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Tallaght Hospital",
+      "lat": "53.290564",
+      "lng": "-6.376069",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "Tallaght Luas Station",
+      "lat": "53.287731",
+      "lng": "-6.373605",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Tallaght Stadium",
+      "lat": "53.2835",
+      "lng": "6.3737",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Tallaght Village",
+      "lat": "53.2884974",
+      "lng": "-6.36328159999994",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Dart",
+      "address": "Tara Street DART Station",
+      "lat": "53.346985",
+      "lng": "-6.254111",
+      "category": "Dart",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Teeling Whiskey Distillery",
+      "lat": "53.337943",
+      "lng": "-6.276682",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Temple Bar",
+      "lat": "53.345749",
+      "lng": "-6.260149",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Hospital",
+      "address": "Temple Street Childrens Hospital",
+      "lat": "53.356804",
+      "lng": "-6.262037",
+      "category": "Hospital",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Abbey Theatre Lower Abbey Street",
+      "lat": "53.349651",
+      "lng": "-6.26",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "The Academy",
+      "lat": "53.34441",
+      "lng": "-6.250018",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Ambassador",
+      "lat": "53.352842",
+      "lng": "-6.26207",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Ark",
+      "lat": "53.344966",
+      "lng": "-6.26507",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Button Factory",
+      "lat": "53.3448131",
+      "lng": "-6.26470710000001",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "The Convention Centre",
+      "lat": "53.3474992",
+      "lng": "-6.23983840000005",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "The Dolls Store and Hospital, Museum",
+      "lat": "53.3422362",
+      "lng": "-6.26179439999999",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "The Four Courts Luas Station",
+      "lat": "53.346805",
+      "lng": "-6.272818",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Gaiety Theatre South King Street",
+      "lat": "53.340333",
+      "lng": "-6.261657",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Gate Theatre Cavendish Row",
+      "lat": "53.353093",
+      "lng": "-6.262039",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "The Grand Social",
+      "lat": "53.346994",
+      "lng": "6.263484",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "The Helix",
+      "lat": "53.3864434966889",
+      "lng": "-6.25924448777164",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Laughter Lounge",
+      "lat": "53.3479105307044",
+      "lng": "-6.2581635394256",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "The Mill Shopping Centre",
+      "lat": "53.324214",
+      "lng": "-6.39721",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The National Concert Hall Earlsfort Terrace",
+      "lat": "53.334608",
+      "lng": "-6.258587",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The National Leprechaun Museum",
+      "lat": "53.3476369",
+      "lng": "-6.26659740000002",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The National Transport Museum",
+      "lat": "53.3865119091921",
+      "lng": "-6.08162118530277",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The National Wax Museum Plus",
+      "lat": "53.3448265",
+      "lng": "-6.26131850000002",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Olympia Theatre Dame Street",
+      "lat": "53.344199",
+      "lng": "-6.266058",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Red Line",
+      "address": "The Point Luas Station",
+      "lat": "53.348314",
+      "lng": "-6.229229",
+      "category": "Luas Red Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "The Square Shopping Centre",
+      "lat": "53.2861615550445",
+      "lng": "-6.37145623133551",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Sugar Club",
+      "lat": "53.335558",
+      "lng": "-6.256503",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Shopping",
+      "address": "The Swan Centre",
+      "lat": "53.323047",
+      "lng": "-6.265524",
+      "category": "Shopping",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Tivoli Theatre",
+      "lat": "53.34240017542",
+      "lng": "-6.27576713491817",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Village",
+      "lat": "53.336689",
+      "lng": "-6.265714",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "The Village Wexford Street",
+      "lat": "53.336639",
+      "lng": "-6.265616",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Tolka Park (Shelbourne Football Club)",
+      "lat": "53.3678439794563",
+      "lng": "-6.25149010447694",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Tolka Valley Business Park",
+      "lat": "53.375183",
+      "lng": "-6.306074",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Trinity College",
+      "lat": "53.277435",
+      "lng": "-6.21656600000006",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "Trinity College",
+      "lat": "53.344479",
+      "lng": "-6.258181",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "College",
+      "address": "UCD Belfield",
+      "lat": "53.3053",
+      "lng": "6.2207",
+      "category": "College",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Vicar Street",
+      "lat": "53.34248",
+      "lng": "-6.277867",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Vicar Street",
+      "lat": "53.342636",
+      "lng": "-6.277957",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Industrial",
+      "address": "Western Industrial Estate",
+      "lat": "53.322763",
+      "lng": "-6.357885",
+      "category": "Industrial",
+      "is_venue": "False"
+    },
+    {
+      "name": "Other",
+      "address": "Whelans",
+      "lat": "53.336592",
+      "lng": "-6.265584",
+      "category": "Other",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Windmill Lane Recording Studios",
+      "lat": "53.34208",
+      "lng": "-6.234845",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Luas Green Line",
+      "address": "Windy Arbour Luas Station",
+      "lat": "53.301556",
+      "lng": "-6.250834",
+      "category": "Luas Green Line",
+      "is_venue": "False"
+    },
+    {
+      "name": "Attraction",
+      "address": "Workmans Club",
+      "lat": "53.3453465",
+      "lng": "-6.26640729999997",
+      "category": "Attraction",
+      "is_venue": "False"
+    },
+    {
+      "name": "Venue",
+      "address": "Jameson Distillery Bow St.",
+      "lat": "53.348893",
+      "lng": "-6.276327",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "3 Arena (Family & Attractions, Miscellaneous, Music)",
+      "lat": "53.347384",
+      "lng": "-6.228288",
+      "category": "Family & Attractions|Miscellaneous|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Abbey Theatre (Arts, Theatre & Comedy, Family & Attractions, Miscellaneous)",
+      "lat": "53.3486891651345",
+      "lng": "-6.25712836508183",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Andrews Lane Theatre (Arts, Theatre & Comedy, Miscellaneous)",
+      "lat": "53.3435495709633",
+      "lng": "-6.26239315001521",
+      "category": "Arts, Theatre & Comedy|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Applerock Studios (Arts, Theatre & Comedy, Exhibition, Miscellaneous)",
+      "lat": "53.346994",
+      "lng": "6.263484",
+      "category": "Arts, Theatre & Comedy|Exhibition|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Ardgillan Castle",
+      "lat": "53.6054586",
+      "lng": "-6.18304880000005",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Aviva Stadium (Exhibition, Music, Sport)",
+      "lat": "53.3348304",
+      "lng": "-6.22618239999997",
+      "category": "Exhibition|Music|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Axis-Ballymun (Arts, Theatre & Comedy)",
+      "lat": "53.395948810649",
+      "lng": "-6.26277416665653",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Bewley\\'s Caf&#233; Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.3416931",
+      "lng": "-6.26038159999996",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Blackrock Shopping Centre (Shopping)",
+      "lat": "53.3020818",
+      "lng": "-6.17995529999996",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Blanchardstown Centre (Shopping)",
+      "lat": "53.3934229",
+      "lng": "-6.38581420000003",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Bord G&#225;is Energy Theatre (Arts, Theatre & Comedy, Family & Attractions, Music)",
+      "lat": "53.3436381",
+      "lng": "-6.23996579999994",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Bray (Miscellaneous)",
+      "lat": "53.201",
+      "lng": "6.1114",
+      "category": "Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Cabinteely House",
+      "lat": "53.2599",
+      "lng": "6.1604",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Cabinteely Park  (Family & Attractions)",
+      "lat": "53.2655292",
+      "lng": "-6.15490190000003",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Charlestown Shopping Centre (Family & Attractions, Shopping)",
+      "lat": "42.3782065",
+      "lng": "-71.0602131",
+      "category": "Family & Attractions|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Christ Church Cathedral (Exhibition, Family & Attractions)",
+      "lat": "53.34343",
+      "lng": "-6.270964",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Civic Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.2886",
+      "lng": "-6.3572",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Corkagh Park Pet Farm (Family & Attractions)",
+      "lat": "53.34240017542",
+      "lng": "-6.27576713491817",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "County Hall D&#250;n Laoghaire",
+      "lat": "53.2944217",
+      "lng": "-6.13488610000002",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Croke Park (Family & Attractions, Music, Sport)",
+      "lat": "53.360712",
+      "lng": "-6.25120900000002",
+      "category": "Family & Attractions|Music|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dalkey Castle &amp; Heritage Centre  (Family & Attractions)",
+      "lat": "53.2779079711833",
+      "lng": "-6.1055835025162",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dalymount Park (Music, Sport)",
+      "lat": "53.361448",
+      "lng": "-6.275042",
+      "category": "Music|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "dlr LexIcon",
+      "lat": "53.2929145",
+      "lng": "-6.13189239999997",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Do Dublin (Family & Attractions, Miscellaneous)",
+      "lat": "53.3505211296813",
+      "lng": "-6.2607091625656",
+      "category": "Family & Attractions|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dra&#237;ocht (Arts, Theatre & Comedy)",
+      "lat": "53.3913168445647",
+      "lng": "-6.39197323497922",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dublin Zoo (Family & Attractions)",
+      "lat": "53.3561384364012",
+      "lng": "-6.30535155378425",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dublinia (Family & Attractions)",
+      "lat": "53.3431242",
+      "lng": "-6.27200229999994",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dun Laoghaire (Arts, Theatre & Comedy, Exhibition, Family & Attractions, Miscellaneous, Music)",
+      "lat": "53.2943958",
+      "lng": "-6.13386660000003",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|Miscellaneous|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dun Laoghaire Shopping Centre (Shopping)",
+      "lat": "53.2924659066576",
+      "lng": "-6.13528846137694",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Dundrum Town Centre (Shopping)",
+      "lat": "53.2869194011543",
+      "lng": "-6.24227724708248",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Energia Park (Sport)",
+      "lat": "53.321",
+      "lng": "6.2331",
+      "category": "Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "EPIC The Irish Emigration Museum (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.348083",
+      "lng": "-6.248325",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Farmleigh House (Exhibition, Family & Attractions)",
+      "lat": "53.3652",
+      "lng": "-6.3598",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "GAA Museum (Exhibition, Family & Attractions, Sport)",
+      "lat": "53.360712",
+      "lng": "-6.25120900000002",
+      "category": "Exhibition|Family & Attractions|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Gaiety Theatre",
+      "lat": "53.340333",
+      "lng": "-6.261657",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Gate Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.353056",
+      "lng": "-6.26194399999997",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Glasnevin Cemetery (Exhibition, Family & Attractions)",
+      "lat": "53.372705",
+      "lng": "-6.276739",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Guinness Storehouse (Family & Attractions)",
+      "lat": "53.341858",
+      "lng": "-6.286562",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Henry Street and surrounds (Family & Attractions, Miscellaneous, Shopping)",
+      "lat": "53.3494594641145",
+      "lng": "-6.26224089049072",
+      "category": "Family & Attractions|Miscellaneous|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Howth (Family & Attractions)",
+      "lat": "53.386",
+      "lng": "6.066",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Ilac Shopping Centre (Shopping)",
+      "lat": "53.3497558915557",
+      "lng": "-6.26466246748964",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Imaginosity (Family & Attractions)",
+      "lat": "53.277435",
+      "lng": "-6.21656600000006",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Irish Film Institute  (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.3446",
+      "lng": "6.2649",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Irish Museum of Modern Art (Exhibition, Family & Attractions, Music)",
+      "lat": "53.3429397",
+      "lng": "-6.30004239999994",
+      "category": "Exhibition|Family & Attractions|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Irish Whiskey Museum (Arts, Theatre & Comedy, Exhibition)",
+      "lat": "53.344185",
+      "lng": "-6.259343",
+      "category": "Arts, Theatre & Comedy|Exhibition|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Iveagh Gardens",
+      "lat": "53.3353119",
+      "lng": "-6.2608692",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "James Joyce Tower (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.288654",
+      "lng": "6.113623",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Jeanie Johnston Tallship and Famine Museum (Family & Attractions)",
+      "lat": "53.347719",
+      "lng": "-6.245586",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Jervis Street Shopping Centre (Shopping)",
+      "lat": "53.3482472",
+      "lng": "-6.26560429999995",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Kilmainham Gaol (Exhibition, Family & Attractions)",
+      "lat": "53.342165",
+      "lng": "-6.309816",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Lambert Puppet Theatre (Arts, Theatre & Comedy, Family & Attractions)",
+      "lat": "53.2945668505593",
+      "lng": "-6.15488138888554",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Liberty Hall Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.348417",
+      "lng": "6.25532",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Liffey Valley Shopping Centre (Family & Attractions, Miscellaneous, Shopping)",
+      "lat": "53.352374",
+      "lng": "-6.39186710000001",
+      "category": "Family & Attractions|Miscellaneous|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Little Museum of Dublin (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.339497",
+      "lng": "-6.258455",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Malahide (Family & Attractions)",
+      "lat": "53.4508",
+      "lng": "-6.1544",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Marino College (Arts, Theatre & Comedy)",
+      "lat": "53.355125",
+      "lng": "6.245333",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Marlay Park",
+      "lat": "53.273052",
+      "lng": "-6.270468",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Merrion Square",
+      "lat": "53.34065",
+      "lng": "-6.25079549999998",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Mill Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.2883496514756",
+      "lng": "-6.24299607909848",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Museum of Literature Ireland (MoLI) (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.336943",
+      "lng": "-6.260136",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Aquatic Centre (Family & Attractions, Sport)",
+      "lat": "53.3968255078639",
+      "lng": "-6.37035499465946",
+      "category": "Family & Attractions|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Botanic Gardens (Family & Attractions)",
+      "lat": "53.3727937712107",
+      "lng": "-6.27301963599848",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Concert Hall",
+      "lat": "53.334608",
+      "lng": "-6.258587",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Gallery of Ireland (Exhibition, Family & Attractions, Miscellaneous)",
+      "lat": "53.34089",
+      "lng": "-6.25099999999998",
+      "category": "Exhibition|Family & Attractions|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National History Museum (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.3398339988245",
+      "lng": "-6.25330283809808",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Library of Ireland (Exhibition, Family & Attractions)",
+      "lat": "53.3410984",
+      "lng": "-6.25448210000002",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Maritime Museum (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.2924",
+      "lng": "6.1322",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Museum of Ireland (Family & Attractions)",
+      "lat": "53.3487803",
+      "lng": "-6.28736309999999",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Sea Life Centre (Family & Attractions)",
+      "lat": "53.2031657065741",
+      "lng": "-6.09814692831117",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "National Stadium (Sport)",
+      "lat": "53.3309326",
+      "lng": "-6.2803897",
+      "category": "Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Newbridge House and Farm (Family & Attractions)",
+      "lat": "53.4865287142947",
+      "lng": "-6.16810675850832",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Nutgrove Shopping Centre (Family & Attractions, Shopping)",
+      "lat": "53.2897265",
+      "lng": "-6.26746560000004",
+      "category": "Family & Attractions|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Olympia Theatre (Arts, Theatre & Comedy, Music)",
+      "lat": "53.344334",
+      "lng": "-6.266114",
+      "category": "Arts, Theatre & Comedy|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Opium Rooms (Music)",
+      "lat": "53.3366737",
+      "lng": "-6.26573510000003",
+      "category": "Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "O\\'Reilly Theatre (Arts, Theatre & Comedy, Miscellaneous)",
+      "lat": "53.3556157307761",
+      "lng": "-6.26158717050021",
+      "category": "Arts, Theatre & Comedy|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Pat Liddy Walking Tours (Arts, Theatre & Comedy, Family & Attractions)",
+      "lat": "53.350528",
+      "lng": "-6.260759",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Pavilion Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.2939152095188",
+      "lng": "-6.13365767829589",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Pearse Lyons Whiskey Distillery (Arts, Theatre & Comedy, Miscellaneous)",
+      "lat": "53.343784",
+      "lng": "-6.289281",
+      "category": "Arts, Theatre & Comedy|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Phoenix Park (Music)",
+      "lat": "53.348418",
+      "lng": "-6.296899",
+      "category": "Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Powerscourt Townhouse Centre (Shopping)",
+      "lat": "53.3422362",
+      "lng": "-6.26179439999999",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Project Arts Centre (Arts, Theatre & Comedy)",
+      "lat": "53.3450204",
+      "lng": "-6.26622880000002",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Ranelagh Arts Centre (Arts, Theatre & Comedy, Exhibition, Music)",
+      "lat": "53.3268011",
+      "lng": "-6.25711449999994",
+      "category": "Arts, Theatre & Comedy|Exhibition|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Rathfarnham Castle Park (Family & Attractions)",
+      "lat": "53.29856",
+      "lng": "-6.28345400000001",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "RDS Royal Dublin Society (Exhibition, Exhibition, Family & Attractions, Music, Sport)",
+      "lat": "53.3257042839709",
+      "lng": "-6.22960082009888",
+      "category": "Exhibition|Exhibition|Family & Attractions|Music|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Richmond Park (Music, Sport)",
+      "lat": "53.3409207032973",
+      "lng": "-6.31672054365538",
+      "category": "Music|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Royal Hospital Kilmainham  (Music)",
+      "lat": "53.342102",
+      "lng": "-6.30328",
+      "category": "Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Rush Harbour",
+      "lat": "53.5230218",
+      "lng": "-6.07934309999996",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Seapoint Martello tower (Exhibition, Family & Attractions)",
+      "lat": "53.2979",
+      "lng": "6.1598",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Slane Castle (Music)",
+      "lat": "53.7086",
+      "lng": "6.5434",
+      "category": "Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "St. Annes Park (Family & Attractions)",
+      "lat": "53.3688585",
+      "lng": "-6.17779369999994",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "St. Patrick’s Cathedral (Exhibition, Family & Attractions)",
+      "lat": "53.339515",
+      "lng": "-6.271638",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "St. Stephen\\'s Green Shopping Centre  (Family & Attractions, Shopping)",
+      "lat": "53.3399158486526",
+      "lng": "-6.2611036338684",
+      "category": "Family & Attractions|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Stradbally Estate",
+      "lat": "53.012838",
+      "lng": "-7.158981",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Swords Pavilions Shopping Centre (Shopping)",
+      "lat": "53.4543512785618",
+      "lng": "-6.21962606193233",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Tallaght Stadium (Sport)",
+      "lat": "53.2835",
+      "lng": "6.3737",
+      "category": "Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Tallaght Village",
+      "lat": "53.2884974",
+      "lng": "-6.36328159999994",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Teeling Whiskey Distillery (Arts, Theatre & Comedy, Miscellaneous)",
+      "lat": "53.337943",
+      "lng": "-6.276682",
+      "category": "Arts, Theatre & Comedy|Miscellaneous|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Academy",
+      "lat": "53.34441",
+      "lng": "-6.250018",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Ambassador",
+      "lat": "53.352842",
+      "lng": "-6.26207",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Ark",
+      "lat": "53.344966",
+      "lng": "-6.26507",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Button Factory",
+      "lat": "53.3448131",
+      "lng": "-6.26470710000001",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Convention Centre  (Arts, Theatre & Comedy)",
+      "lat": "53.3474992",
+      "lng": "-6.23983840000005",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Dolls Store and Hospital, Museum (Shopping)",
+      "lat": "53.3422362",
+      "lng": "-6.26179439999999",
+      "category": "Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Grand Social (Arts, Theatre & Comedy, Exhibition, Miscellaneous, Music)",
+      "lat": "53.346994",
+      "lng": "6.263484",
+      "category": "Arts, Theatre & Comedy|Exhibition|Miscellaneous|Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Helix (Arts, Theatre & Comedy, Family & Attractions)",
+      "lat": "53.3864434966889",
+      "lng": "-6.25924448777164",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Laughter Lounge (Arts, Theatre & Comedy)",
+      "lat": "53.3479105307044",
+      "lng": "-6.2581635394256",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The National Leprechaun Museum (Family & Attractions)",
+      "lat": "53.3476369",
+      "lng": "-6.26659740000002",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The National Transport Museum (Family & Attractions)",
+      "lat": "53.3865119091921",
+      "lng": "-6.08162118530277",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The National Wax Museum Plus (Exhibition, Family & Attractions)",
+      "lat": "53.3448265",
+      "lng": "-6.26131850000002",
+      "category": "Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Square Shopping Centre (Family & Attractions, Shopping)",
+      "lat": "53.2861615550445",
+      "lng": "-6.37145623133551",
+      "category": "Family & Attractions|Shopping|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Sugar Club",
+      "lat": "53.335558",
+      "lng": "-6.256503",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Tivoli Theatre (Arts, Theatre & Comedy)",
+      "lat": "53.34240017542",
+      "lng": "-6.27576713491817",
+      "category": "Arts, Theatre & Comedy|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "The Village (Music)",
+      "lat": "53.336689",
+      "lng": "-6.265714",
+      "category": "Music|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Tolka Park (Shelbourne Football Club)",
+      "lat": "53.3678439794563",
+      "lng": "-6.25149010447694",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Trinity College (Family & Attractions)",
+      "lat": "53.277435",
+      "lng": "-6.21656600000006",
+      "category": "Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "UCD Belfield (Arts, Theatre & Comedy, Family & Attractions, Sport)",
+      "lat": "53.3053",
+      "lng": "6.2207",
+      "category": "Arts, Theatre & Comedy|Family & Attractions|Sport|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Vicar Street",
+      "lat": "53.34248",
+      "lng": "-6.277867",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Whelan\\'s",
+      "lat": "53.336592",
+      "lng": "-6.265584",
+      "category": "",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Windmill Lane Recording Studios (Arts, Theatre & Comedy, Exhibition, Family & Attractions)",
+      "lat": "53.34208",
+      "lng": "-6.234845",
+      "category": "Arts, Theatre & Comedy|Exhibition|Family & Attractions|",
+      "is_venue": "True"
+    },
+    {
+      "name": "Venue",
+      "address": "Workmans Club (Arts, Theatre & Comedy, Music)",
+      "lat": "53.3453465",
+      "lng": "-6.26640729999997",
+      "category": "Arts, Theatre & Comedy|Music|",
+      "is_venue": "True"
+    }
+  ]
+}

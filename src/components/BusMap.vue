@@ -43,7 +43,7 @@
             ></v-col
           >
           <v-col>
-            <v-btn aria-label="vuetify-button"
+            <v-btn
               @click="showRoute()"
               :disabled="!(time && origin && destination)"
             >
@@ -52,7 +52,7 @@
           </v-col>
         </v-row>
         <v-row align="center" v-if="directions" justify="space-around">
-          <v-btn aria-label="vuetify-button"
+          <v-btn
             id="fav"
             @click="addFavourite()"
             v-if="this.$store.getters.loggedIn"
@@ -93,7 +93,7 @@
             <i :class="network.icon"></i>
             <span>{{ network.name }}</span>
           </ShareNetwork>
-          <v-btn aria-label="vuetify-button" id="close" @click="closeDirections()">
+          <v-btn id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
         </div>
@@ -790,11 +790,7 @@ export default {
   // const stops = async () =>  await import("../assets/stops.json");
 
 
-fetch("../assets/stops.json")
-.then(res => res.json())
-.then(data => console.log(data))
-
-  fetch("../assets/stops.json").then(response => response.json()).then(stops => {
+  fetch("api/stops.json").then(response => response.json()).then(stops => {
     console.log(stops)
   for (var key of Object.keys(stops)) {
         console.log(key)
@@ -817,7 +813,7 @@ fetch("../assets/stops.json")
     });
   }
 });
-  fetch("../assets/landmarks.json").then(landmarks_data => {
+  fetch("api/landmarks.json").then(landmarks_data => {
   landmarkMarkers = [];
   // var new_infowindows = [];
   // var instances = [];
