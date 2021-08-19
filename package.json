@@ -38,6 +38,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "chai": "^4.1.2",
     "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
@@ -53,7 +54,12 @@
     ],
     "presets": [
       "@vue/app"
-    ]
+    ],
+    "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
   },
   "eslintConfig": {
     "root": true,

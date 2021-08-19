@@ -93,7 +93,7 @@
             <i :class="network.icon"></i>
             <span>{{ network.name }}</span>
           </ShareNetwork>
-          <v-btn id="close" @click="closeDirections()">
+          <v-btn aria-label="vuetify-button"id="close" @click="closeDirections()">
             Close Directions
           </v-btn>
         </div>

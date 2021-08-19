@@ -44,14 +44,14 @@
       </div>
     </v-expand-transition>
     <v-card-actions class="justify-center">
-      <!-- <v-btn aria-label="vuetify-button" :disabled="!model" color="yellow darken-3" @click="getStops">
+      <!-- <v-btn aria-label="vuetify-button":disabled="!model" color="yellow darken-3" @click="getStops">
         Schedule
         <v-icon right>
           mdi-clock
         </v-icon>
       </v-btn> -->
 
-      <v-btn aria-label="vuetify-button"
+      <v-btn
         :disabled="!model"
         color="green darken-3"
         style="color:white"
@@ -66,7 +66,7 @@
     </v-card-actions>
 
     <v-card-actions class="justify-center">
-      <v-btn aria-label="vuetify-button"
+      <v-btn
         style="color:white"
         :disabled="!model"
         color="blue darken-3"
@@ -78,7 +78,7 @@
         </v-icon>
       </v-btn>
 
-      <v-btn aria-label="vuetify-button"
+      <v-btn
         style="color:white"
         :disabled="!model"
         color="grey darken-3"

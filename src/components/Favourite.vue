@@ -25,15 +25,15 @@
             <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn aria-label="vuetify-button"-toggle dense>
-              <v-btn aria-label="vuetify-button" icon>
+            <v-btn-toggle dense>
+              <v-btn aria-label="vuetify-button"icon>
                 <v-icon
                   @click="getDirections(child.latitude, child.longitude)"
                   color="grey lighten-1"
                   >mdi-directions</v-icon
                 >
               </v-btn>
-              <v-btn aria-label="vuetify-button" icon>
+              <v-btn aria-label="vuetify-button"icon>
                 <v-icon
                   @click="deleteFavourite('stop', child.number)"
                   color="grey lighten-1"
@@ -64,11 +64,11 @@
             <v-list-item-title v-text="child.number"></v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn aria-label="vuetify-button"-toggle dense>
-              <v-btn aria-label="vuetify-button" icon @click="getRoute(child.number)">
+            <v-btn-toggle dense>
+              <v-btn aria-label="vuetify-button"icon @click="getRoute(child.number)">
                 <v-icon color="grey lighten-1">mdi-information</v-icon>
               </v-btn>
-              <v-btn aria-label="vuetify-button" icon>
+              <v-btn aria-label="vuetify-button"icon>
                 <v-icon
                   @click="deleteFavourite('route', child.number)"
                   color="grey lighten-1"
@@ -102,11 +102,11 @@
             ></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn aria-label="vuetify-button"-toggle dense>
-              <v-btn aria-label="vuetify-button" @click="goToURL(child.url)" icon>
+            <v-btn-toggle dense>
+              <v-btn aria-label="vuetify-button"@click="goToURL(child.url)" icon>
                 <v-icon color="grey lighten-1">mdi-directions</v-icon>
               </v-btn>
-              <v-btn aria-label="vuetify-button" icon>
+              <v-btn aria-label="vuetify-button"icon>
                 <v-icon
                   @click="deleteFavourite('directions', child.directions_id)"
                   color="grey lighten-1"

@@ -67,11 +67,11 @@
               @input="updateInput($event, 15)"
             ></v-rating> </v-card-actions
         ></v-card>
-        <v-btn aria-label="vuetify-button" color="primary" @click="e1 = 2">
+        <v-btn aria-label="vuetify-button"color="primary" @click="e1 = 2">
           Continue
         </v-btn>
 
-        <v-btn aria-label="vuetify-button" @click="$emit('close-sheet')" text>
+        <v-btn aria-label="vuetify-button"@click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
@@ -90,11 +90,11 @@
           </div>
         </v-card>
 
-        <v-btn aria-label="vuetify-button" color="primary" @click="e1 = 3">
+        <v-btn aria-label="vuetify-button"color="primary" @click="e1 = 3">
           Continue
         </v-btn>
 
-        <v-btn aria-label="vuetify-button" @click="$emit('close-sheet')" text>
+        <v-btn aria-label="vuetify-button"@click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
@@ -115,7 +115,7 @@
           ></v-autocomplete>
         </v-card>
 
-        <v-btn aria-label="vuetify-button"
+        <v-btn
           color="primary"
           @click="
             writeReview();
@@ -126,7 +126,7 @@
           Submit
         </v-btn>
 
-        <v-btn aria-label="vuetify-button" @click="$emit('close-sheet')" text>
+        <v-btn aria-label="vuetify-button"@click="$emit('close-sheet')" text>
           Cancel
         </v-btn>
       </v-stepper-content>
