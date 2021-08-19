@@ -904,21 +904,7 @@ function initMap() {
     panel: document.getElementById("card"),
   });
   directionsDisplay.setMap(map);
-  trackLocation({
-    onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-      let current_marker = new google.maps.Marker({
-        position: { lat: lat, lng: lng },
-        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-        map,
-      });
-      current_marker.setPosition({ lat, lng });
-      map.panTo({ lat, lng });
-      myLatLng = { lat: lat, lng: lng };
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+
 
   var icon = {
     url: require("@/assets/busstop.png"), // url
