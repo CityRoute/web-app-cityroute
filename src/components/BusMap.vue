@@ -167,7 +167,7 @@
         tile
         size="80"
         color="grey"
-      >                <v-img :src="require('@/assets/profile/brianmanning.png')"></v-img>
+      >                <v-img gradient :src="require('@/assets/profile/brianmanning.png')"></v-img>
 </v-list-item-avatar>
     </v-list-item>
 
@@ -176,9 +176,19 @@
         outlined
         rounded
         text
+        href="https://github.com/manningb" target="_blank"
       >
         GitHub
       </v-btn>
+            <v-btn
+        outlined
+        rounded
+        text
+        href="https://www.linkedin.com/in/brianmanningw/" target="_blank"
+      >
+        LinkedIn
+      </v-btn>
+
     </v-card-actions>
   </v-card>
         </v-col>
@@ -208,6 +218,7 @@
         outlined
         rounded
         text
+        href="" target="_blank"
       >
         GitHub
       </v-btn>
@@ -239,6 +250,7 @@
         outlined
         rounded
         text
+        href="" target="_blank"
       >
         GitHub
       </v-btn>
@@ -270,6 +282,7 @@
         outlined
         rounded
         text
+        href="" target="_blank"
       >
         GitHub
       </v-btn>
