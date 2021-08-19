@@ -102,6 +102,7 @@
     <v-card flat v-if="isRouteViewer">
       <RouteViewer></RouteViewer>
     </v-card>
+
     <v-card flat v-if="isStopFinder">
       <BusStopSearch></BusStopSearch>
     </v-card>
@@ -120,6 +121,165 @@
       </div>
     </v-card>
     <v-card flat v-if="isFavourite"><Favourite></Favourite> </v-card>
+      <v-card flat v-if="isAboutUs">
+          <v-card-title>
+      <v-icon
+        large
+        left
+      >
+        mdi-information
+      </v-icon>
+      <span class="text-h6 font-weight-light">About Us</span>
+    </v-card-title>
+        <v-card-text class="text-h7 font-italic">
+      CityRoute is Dublin's newest journey time prediction web app! Here you can get directions from one place to another, receive our predicted journey time based on our Machine Learning models and much much more!
+    </v-card-text>
+
+          <v-card-title>
+      <v-icon
+        large
+        left
+      >
+        mdi-account-group
+        
+      </v-icon>
+      <span class="text-h6 font-weight-light">Meet the Team</span>
+    </v-card-title>
+
+          <v-container>
+      <v-row dense>
+      
+        <v-col cols="12">
+  <v-card
+    class="mx-auto"
+    max-width="344"
+    outlined
+  >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Brian Manning
+        </v-list-item-title>
+        <v-list-item-subtitle>Frontend Developer</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      >                <v-img :src="require('@/assets/profile/brianmanning.png')"></v-img>
+</v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn
+        outlined
+        rounded
+        text
+      >
+        GitHub
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+        </v-col>
+        <v-col cols="12">
+  <v-card
+    class="mx-auto"
+    max-width="344"
+    outlined
+  >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Conor Kiy
+        </v-list-item-title>
+        <v-list-item-subtitle>Data Analyst</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      ><v-img :src="require('@/assets/profile/conor.png')"></v-img></v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn
+        outlined
+        rounded
+        text
+      >
+        GitHub
+      </v-btn>
+    </v-card-actions>
+  </v-card>        </v-col>
+                <v-col cols="12">
+  <v-card
+    class="mx-auto"
+    max-width="344"
+    outlined
+  >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Faye Arejola
+        </v-list-item-title>
+        <v-list-item-subtitle>Data Analyst</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      ><v-img :src="require('@/assets/profile/faye.png')"></v-img></v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn
+        outlined
+        rounded
+        text
+      >
+        GitHub
+      </v-btn>
+    </v-card-actions>
+  </v-card>        </v-col>
+                <v-col cols="12">
+  <v-card
+    class="mx-auto"
+    max-width="344"
+    outlined
+  >
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title class="text-h5 mb-1">
+          Stephanie O'Neill
+        </v-list-item-title>
+        <v-list-item-subtitle>Backend Developer</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-avatar
+        tile
+        size="80"
+        color="grey"
+      ><v-img :src="require('@/assets/profile/steph.png')"></v-img></v-list-item-avatar>
+    </v-list-item>
+
+    <v-card-actions>
+      <v-btn
+        outlined
+        rounded
+        text
+      >
+        GitHub
+      </v-btn>
+    </v-card-actions>
+  </v-card>        </v-col>
+      </v-row>
+    </v-container>
+
+    </v-card>
+
   </div>
 </template>
 
@@ -336,8 +496,13 @@ export default {
         this.$route.fullPath.includes("directions") || this.$route.path == "/"
       );
     },
+    
     isRouteViewer() {
       return this.$route.fullPath.includes("route-viewer");
+    },
+    isAboutUs() {
+      console.log("aboutus", this.$route.fullPath.includes("about"), this.$route.fullPath)
+      return this.$route.fullPath.includes("about");
     },
 
     isStopFinder() {

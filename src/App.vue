@@ -194,6 +194,13 @@ export default {
         link: "/myaccount",
         login: false,
       },
+            {
+        title: "About Us",
+        icon: "mdi-information",
+        link: "/about-us",
+        login: false,
+      },
+
     ],
   }),
 

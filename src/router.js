@@ -10,6 +10,11 @@ export default new Router({
       name: "home",
       component: () => import("@/components/BusMap.vue"),
       children: [
+                {
+          path: "about-us",
+          component: () => import("@/components/BusMap.vue"),
+        },
+
         {
           path: "directions",
           component: () => import("@/components/BusMap.vue"),
