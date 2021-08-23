@@ -14,12 +14,12 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-[![Contributors][contributors-shield]][contributors-url]
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 <!-- PROJECT LOGO -->
 <br />
@@ -74,7 +74,7 @@
 
 ## About The Project
 
-[![CityRoute Screen Shot][product-screenshot]](https://2img.net/h/i982.photobucket.com/albums/ae309/TransPNG/main/Bus/475.png)
+[![CityRoute Screen Shot][product-screenshot]](https://cityroute.ml)
 
 ### Built With
 
@@ -144,9 +144,47 @@ Now the frontend and backend will automatically refresh when changes are saved t
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+## Usage & Features
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Journey Planner
+Plan your journey and get your journey time estimation using our Machine Learning models. Share the journey with your friends using the buttons below or add it to your favourites to save for later!
+
+<p float="left">
+  <img src="readme/desktop1.png" height="400" />
+  <img src="readme/mobile1.png" height="400" /> 
+</p>
+
+### Stop Finder
+Find the stop you need and get the times buses will be arriving to it. Get directions to your stop and save it to your favourties!
+
+<p float="left">
+  <img src="readme/desktop2.png" height="400" />
+  <img src="readme/mobile2.png" height="400" /> 
+</p>
+
+### Favourites
+View your previously saved favourite journey, stops & routes and click on them to get directions!
+
+<p float="left">
+  <img src="readme/desktop3.png" height="400" />
+  <img src="readme/mobile3.png" height="400" /> 
+</p>
+
+### Review your Route!
+Leave a review for a route you recently travelled on so other passengers know what to expect!
+
+<p float="left">
+  <img src="readme/desktop4.png" height="400" />
+  <img src="readme/mobile4.png" height="400" /> 
+</p>
+
+### About Us
+Take a look at our about us page to see who we are!
+
+<p float="left">
+  <img src="readme/desktop5.png" height="400" />
+  <img src="readme/mobile5.png" height="400" /> 
+</p>
 
 <!-- ROADMAP -->
 
@@ -176,15 +214,19 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-- Brian Manning - brian.manning@ucdconnect.ie
+- Brian Manning [(manningb)](https://github.com/manningb) [brian.manning@ucdconnect.ie](mailto:brian.manning@ucdconnect.ie)
+- Stephanie O'Neill
+- Faye Arejola
+- Conor Kiy
+
 
 Project Link: [https://github.com/CityRoute/Web-App-CityRoute](https://github.com/CityRoute/Web-App-CityRoute)
 
 <!-- ACKNOWLEDGEMENTS -->
 
-## Acknowledgements
+<!-- ## Acknowledgements -->
 
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
+<!-- - [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 - [Img Shields](https://shields.io)
 - [Choose an Open Source License](https://choosealicense.com)
 - [GitHub Pages](https://pages.github.com)
@@ -194,7 +236,7 @@ Project Link: [https://github.com/CityRoute/Web-App-CityRoute](https://github.co
 - [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
 - [Sticky Kit](http://leafo.net/sticky-kit)
 - [JVectorMap](http://jvectormap.com)
-- [Font Awesome](https://fontawesome.com)
+- [Font Awesome](https://fontawesome.com) -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -211,4 +253,4 @@ Project Link: [https://github.com/CityRoute/Web-App-CityRoute](https://github.co
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: readme/video.gif
