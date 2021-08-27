@@ -150,40 +150,40 @@ Now the frontend and backend will automatically refresh when changes are saved t
 Plan your journey and get your journey time estimation using our Machine Learning models. Share the journey with your friends using the buttons below or add it to your favourites to save for later!
 
 <p float="left">
-  <img src="readme/desktop1.png" height="400" />
-  <img src="readme/mobile1.png" height="400" /> 
+  <img src="readme/desktop1.png" height="350" />
+  <img src="readme/mobile1.png" height="350" /> 
 </p>
 
 ### Stop Finder
 Find the stop you need and get the times buses will be arriving to it. Get directions to your stop and save it to your favourties!
 
 <p float="left">
-  <img src="readme/desktop2.png" height="400" />
-  <img src="readme/mobile2.png" height="400" /> 
+  <img src="readme/desktop2.png" height="350" />
+  <img src="readme/mobile2.png" height="350" /> 
 </p>
 
 ### Favourites
 View your previously saved favourite journey, stops & routes and click on them to get directions!
 
 <p float="left">
-  <img src="readme/desktop3.png" height="400" />
-  <img src="readme/mobile3.png" height="400" /> 
+  <img src="readme/desktop3.png" height="350" />
+  <img src="readme/mobile3.png" height="350" /> 
 </p>
 
 ### Review your Route!
 Leave a review for a route you recently travelled on so other passengers know what to expect!
 
 <p float="left">
-  <img src="readme/desktop4.png" height="400" />
-  <img src="readme/mobile4.png" height="400" /> 
+  <img src="readme/desktop4.png" height="350" />
+  <img src="readme/mobile4.png" height="350" /> 
 </p>
 
 ### About Us
 Take a look at our about us page to see who we are!
 
 <p float="left">
-  <img src="readme/desktop5.png" height="400" />
-  <img src="readme/mobile5.png" height="400" /> 
+  <img src="readme/desktop5.png" height="350" />
+  <img src="readme/mobile5.png" height="350" /> 
 </p>
 
 <!-- ROADMAP -->
